@@ -8,18 +8,25 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Enemy
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 660798f643d04044f9a3eaf6128237e8, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_4484CCF8:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_E02F538A:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -77,6 +84,16 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_1DDC36BE: 0.14
+    - Vector1_1E0F3749: 0.18
+    - Vector1_61f6fd9e39b34cb08682858b42338e6c: 0
+    - Vector1_89d8ed57d8ff4236af97565431036e97: 0
+    - Vector1_B3A17A08: 0.1
+    - Vector1_D0EDF97F: 0.66
+    - Vector1_D37CA8E7: 1
+    - Vector1_DF1FC23: 0.34
+    - Vector1_dcc4d0789fab4bbba08fe2dc3d501f93: 0
+    - Vector1_f8a6c574c8e14e4c94dbd5be5bb65788: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -104,6 +121,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_5B480F: {r: 0.94509804, g: 0.28575164, b: 0.18431371, a: 0}
+    - Color_A0596DDE: {r: 0.9529412, g: 0.25517896, b: 0.09411765, a: 0}
     - _BaseColor: {r: 0.8584906, g: 0.2713154, b: 0.2713154, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
