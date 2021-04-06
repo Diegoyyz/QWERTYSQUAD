@@ -8,13 +8,19 @@ public class CharacterController : MonoBehaviour
     GameObject _canvas;
     [SerializeField]
     protected CharacterState currentState;
-    public enum states : byte { Attack,Move, Idle};
-
-
-
+    Floor currentTile; 
+    public enum states : byte { Attack, Move, Idle };
     private void OnEnable()
     {
         _canvas.SetActive(false);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag =="Floor")
+        {
+            currentTile = collision.gameObject.GetComponent<Floor>();
+            currentTile.isCurrent();
+        }
     }
     private void Start()
     {
@@ -26,12 +32,11 @@ public class CharacterController : MonoBehaviour
     }
     private CharacterController OnMouseUp()
     {
-        _canvas.SetActive(true);       
+        _canvas.SetActive(true);
         return this;
     }
     public void changeState(int estado)
     {
-       
         switch (estado)
         {
             case 0:
@@ -43,7 +48,7 @@ public class CharacterController : MonoBehaviour
             case 2:
                 SetState(new CharacterStateIdle(this));
                 break;
-        }      
+        }
     }
     public void SetState(CharacterState state)
     {

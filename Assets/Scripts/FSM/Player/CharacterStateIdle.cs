@@ -9,6 +9,10 @@ public class CharacterStateIdle : CharacterState
     {
         actor = character;
     }
+    public override void OnStateEnter()
+    {
+        base.OnStateEnter();
+    }
     public override void Tick()
     {
         
