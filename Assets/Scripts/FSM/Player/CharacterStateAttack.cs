@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStateAttack : MonoBehaviour
+public class CharacterStateAttack : CharacterState
 {
-    // Start is called before the first frame update
-    void Start()
+    public CharacterStateAttack(CharacterController character)
     {
-        
+        actor = character;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Tick()
     {
-        
+
     }
 }

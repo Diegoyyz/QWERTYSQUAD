@@ -8,7 +8,7 @@ public class CharacterController : MonoBehaviour
     GameObject _canvas;
     [SerializeField]
     protected CharacterState currentState;
-    public enum states : byte { Idle, Attack, Move};
+    public enum states : byte { Attack,Move, Idle};
 
 
 
@@ -29,22 +29,21 @@ public class CharacterController : MonoBehaviour
         _canvas.SetActive(true);       
         return this;
     }
-    public void changeState(states estado)
+    public void changeState(int estado)
     {
+       
         switch (estado)
         {
-            case states.Idle:
+            case 0:
+                SetState(new CharacterStateAttack(this));
+                break;
+            case 1:
+                SetState(new CharacterStateMove(this));
+                break;
+            case 2:
                 SetState(new CharacterStateIdle(this));
                 break;
-            case states.Attack:
-                SetState(new CharacterStateIdle(this));
-                break;
-            case states.Move:
-                SetState(new CharacterStateIdle(this));
-                break;
-        }
-        
-                
+        }      
     }
     public void SetState(CharacterState state)
     {
@@ -53,7 +52,7 @@ public class CharacterController : MonoBehaviour
             currentState.OnStateExit();
         }
         currentState = state;
-        gameObject.name = "Character fsm" + state.GetType().Name;
+        gameObject.name = "PLAYER FMS " + state.GetType().Name;
         if (currentState != null)
         {
             currentState.OnStateEnter();

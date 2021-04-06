@@ -3,24 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Floor : MonoBehaviour
 { 
-    public MeshRenderer mat;
+    public MeshRenderer Indicator;
+    public Transform center;
+    [SerializeField]
+    private Floor[] neighbours;
+
     private void Awake()
     {
-        mat = GetComponent<MeshRenderer>();
-        mat.enabled = false;            
+        Indicator = GetComponentInChildren<MeshRenderer>();
+        Indicator.enabled = false;            
     }    
-    private void OnMouseDown()
+    private void Walkeable()
     {
-        mat.material.color = Color.green;
+        Indicator.material.color = Color.green;
     }
-    private void OnMouseExit()
+    private void unselected()
     {
-        mat.enabled = false;
-        mat.material.color = Color.white;
+        Indicator.enabled = false;
+        Indicator.material.color = Color.white;
     }
-    private void OnMouseEnter()
+    private void unavailable()
     {
-        mat.enabled = true;        
-        mat.material.color = Color.blue;
+        Indicator.material.color = Color.red;
+    }
+    private void selected()
+    {
+        Indicator.enabled = true;
+        Indicator.material.color = Color.blue;
     }
 }
