@@ -8,18 +8,48 @@ public class CharacterController : MonoBehaviour
     GameObject _canvas;
     [SerializeField]
     protected CharacterState currentState;
-    Floor currentTile; 
-    public enum states : byte { Attack, Move, Idle };
+    bool controllerActive;
+     Floor _currentTile;
+    [SerializeField]
+    private int _speed;
     private void OnEnable()
     {
-        _canvas.SetActive(false);
+        controllerActive = true;
+        toggleController();
+    }
+    public int Speed
+    {
+        get { return _speed; }
+        set
+        {
+            if (_speed != value)
+            {
+                _speed = value;
+            };
+        }
+    }
+    public Floor CurrentTile
+    {
+        get { return _currentTile; }
+        set
+        {
+            if (_currentTile != value)
+            {
+                _currentTile = value;
+            };
+        }
+    }
+    public void toggleController()
+    {
+        controllerActive = !controllerActive;
+        _canvas.SetActive(controllerActive);
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag =="Floor")
         {
-            currentTile = collision.gameObject.GetComponent<Floor>();
-            currentTile.isCurrent();
+            _currentTile = collision.gameObject.GetComponent<Floor>();
+            _currentTile.isCurrent();
         }
     }
     private void Start()
@@ -32,7 +62,7 @@ public class CharacterController : MonoBehaviour
     }
     private CharacterController OnMouseUp()
     {
-        _canvas.SetActive(true);
+        toggleController();
         return this;
     }
     public void changeState(int estado)

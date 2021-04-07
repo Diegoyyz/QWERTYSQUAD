@@ -7,17 +7,37 @@ public class Floor : MonoBehaviour
     public MeshRenderer Indicator;
     public BoxCollider center;
     [SerializeField]
-    private List<GameObject> neighboursFinal = new List<GameObject>();
+    private List<Floor> neighboursFinal = new List<Floor>();
     [SerializeField]
     private float distance;
-
+    private int cost;
     private void Awake()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, distance);
-        center = GetComponentInChildren<BoxCollider>();
-        neighboursFinal = hitColliders.Select(x => x.gameObject).Where(x => x.gameObject.tag.Equals("Floor")&& x.gameObject!= this.gameObject).ToList();
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.forward, out hit))
+        {
+          neighboursFinal.Add(hit.collider.GetComponent<Floor>());
+        }
+        if (Physics.Raycast(transform.position, Vector3.left, out hit))
+        {
+            neighboursFinal.Add(hit.collider.GetComponent<Floor>());
+        }
+        if (Physics.Raycast(transform.position, Vector3.right, out hit))
+        {
+            neighboursFinal.Add(hit.collider.GetComponent<Floor>());
+        }
+        if (Physics.Raycast(transform.position, Vector3.back, out hit))
+        {
+            neighboursFinal.Add(hit.collider.GetComponent<Floor>());
+        }
+
+        center = GetComponentInChildren<BoxCollider>();       
     }
-    private void Walkeable()
+    public List<Floor> getNeighbours()
+    {
+        return neighboursFinal;
+    }
+    public void Walkeable()
     {
         Indicator.material.color = Color.green;
     }
