@@ -14,12 +14,12 @@ namespace util
             List<Floor> toReturn = new List<Floor>();
             while (speedLeft >0)
             {
+                speedLeft--;
                 foreach (var item in start.getNeighbours())
                 {
-                    speedLeft--;
                     var vecinos = item.GetComponent<Floor>().Descendants(speedLeft);
                     item.GetComponent<Floor>().MakeFloorWalkeable();
-                    toReturn.Concat(vecinos);                   
+                    toReturn.Concat(vecinos);
                 }
             }
             return toReturn;

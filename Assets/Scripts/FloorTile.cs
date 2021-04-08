@@ -61,22 +61,7 @@ public class FloorTile : MonoBehaviour
                 _cost = value;
             };
         }
-    }  
-    private void OnMouseOver()
-    {
-        if (currentState == States.Walkeable)
-        {
-            selected();
-        }
-    }
-    private void OnMouseDown()
-    {
-        if (currentState == States.Selected)
-        {
-            ocupied();
-        }
-    }
-   
+    }     
     private void seetVisaul(States currentState)
     {
         switch (currentState)
