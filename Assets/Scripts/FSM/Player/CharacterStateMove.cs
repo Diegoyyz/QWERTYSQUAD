@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 public class CharacterStateMove : CharacterState
 {
+    List<Floor> WalkeableNodes;
     public CharacterStateMove(CharacterController character)
     {
         actor = character;        
@@ -12,15 +13,14 @@ public class CharacterStateMove : CharacterState
     public override void OnStateEnter()
     {        
         actor.toggleController();
-        var WalkeableNodes = actor.CurrentTile.Descendants(actor.Speed);
+        WalkeableNodes = actor.CurrentNode.Descendants(actor.Speed);
         foreach (var item in WalkeableNodes)
         {
-            item.Walkeable();
+            item.MakeFloorWalkeable();
         }
-    }
-    
+    }    
     public override void Tick()
     {
-
+      
     }
 }

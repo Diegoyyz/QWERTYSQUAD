@@ -9,12 +9,19 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     protected CharacterState currentState;
     bool controllerActive;
-     Floor _currentTile;
+    FloorTile _currentTile;
+    [SerializeField]
+    Floor _currentNode;
     [SerializeField]
     private int _speed;
     private void OnEnable()
     {
         controllerActive = true;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.forward, out hit))
+        {
+            _currentTile = hit.collider.GetComponent<FloorTile>();
+        }
         toggleController();
     }
     public int Speed
@@ -28,14 +35,14 @@ public class CharacterController : MonoBehaviour
             };
         }
     }
-    public Floor CurrentTile
+    public Floor CurrentNode
     {
-        get { return _currentTile; }
+        get { return _currentNode; }
         set
         {
-            if (_currentTile != value)
+            if (_currentNode != value)
             {
-                _currentTile = value;
+                _currentNode = value;
             };
         }
     }
@@ -48,8 +55,14 @@ public class CharacterController : MonoBehaviour
     {
         if (collision.gameObject.tag =="Floor")
         {
-            _currentTile = collision.gameObject.GetComponent<Floor>();
-            _currentTile.isCurrent();
+            _currentTile = collision.gameObject.GetComponent<FloorTile>();
+
+            if (_currentTile!=null)
+            {
+                CurrentNode = _currentTile._floorNode;
+                _currentTile.isCurrent();
+            }
+                                              
         }
     }
     private void Start()
