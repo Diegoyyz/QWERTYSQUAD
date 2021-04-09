@@ -17,8 +17,8 @@ namespace util
                 speedLeft--;
                 foreach (var item in start.getNeighbours())
                 {
-                    var vecinos = item.GetComponent<Floor>().Descendants(speedLeft);
-                    item.GetComponent<Floor>().MakeFloorWalkeable();
+                    var vecinos = item.Descendants(speedLeft);
+                    item.MakeFloorWalkeable();
                     toReturn.Concat(vecinos);
                 }
             }

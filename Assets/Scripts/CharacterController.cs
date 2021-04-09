@@ -13,15 +13,17 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     Floor _currentNode;
     [SerializeField]
+    Floor _targetNode;
+    [SerializeField]
     private int _speed;
     private void OnEnable()
     {
         controllerActive = true;
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.forward, out hit))
-        {
-            _currentTile = hit.collider.GetComponent<FloorTile>();
-        }
+        //RaycastHit hit;
+        //if (Physics.Raycast(transform.position, Vector3.down, out hit))
+        //{
+        //    _currentTile = hit.collider.GetComponent<FloorTile>();
+        //}
         toggleController();
     }
     public int Speed
@@ -34,6 +36,22 @@ public class CharacterController : MonoBehaviour
                 _speed = value;
             };
         }
+    }
+    public Floor TargetNode
+    {
+        get { return _targetNode; }
+        set
+        {
+            if (_targetNode != value)
+            {
+                _targetNode = value;
+            };
+        }
+    }
+    public void setTargetNode()
+    {
+        Debug.Log("busqueda");
+
     }
     public Floor CurrentNode
     {

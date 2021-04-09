@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using util;
+using UnityEngine.UI;
 using System.Linq;
 using UnityEngine;
 public class CharacterStateMove : CharacterState
@@ -16,19 +17,11 @@ public class CharacterStateMove : CharacterState
         WalkeableNodes = actor.CurrentNode.Descendants(actor.Speed);
         foreach (var item in WalkeableNodes)
         {
-            item.MakeFloorWalkeable();
+            item.MakeFloorWalkeable();  
         }
-    }    
+    }  
     public override void Tick()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-            if (hit)
-            {
-                Debug.Log(hit.collider.gameObject.name);
-            }
-        }
+        
     }
 }

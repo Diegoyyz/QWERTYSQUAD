@@ -16,19 +16,19 @@ public class Floor : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.forward, out hit))
         {
-          neighboursFinal.Add(hit.collider.GetComponent<Floor>());
+          neighboursFinal.Add(hit.collider.GetComponentInChildren<Floor>());
         }
         if (Physics.Raycast(transform.position, Vector3.left, out hit))
         {
-            neighboursFinal.Add(hit.collider.GetComponent<Floor>());
+            neighboursFinal.Add(hit.collider.GetComponentInChildren<Floor>());
         }
         if (Physics.Raycast(transform.position, Vector3.right, out hit))
         {
-            neighboursFinal.Add(hit.collider.GetComponent<Floor>());
+            neighboursFinal.Add(hit.collider.GetComponentInChildren<Floor>());
         }
         if (Physics.Raycast(transform.position, Vector3.back, out hit))
         {
-            neighboursFinal.Add(hit.collider.GetComponent<Floor>());
+            neighboursFinal.Add(hit.collider.GetComponentInChildren<Floor>());
         }
     }      
     public void MakeFloorWalkeable()
@@ -43,8 +43,12 @@ public class Floor : MonoBehaviour
     private void OnDrawGizmos()
     {
         foreach (var item in neighboursFinal)
-        {            
-            Gizmos.DrawLine(transform.position, item.transform.position);
+        {
+            if (item!= null)
+            {
+                Gizmos.DrawLine(transform.position, item.transform.position);
+
+            }
         }
     }  
 }

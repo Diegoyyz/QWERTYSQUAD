@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class FloorTile : MonoBehaviour
@@ -7,9 +8,11 @@ public class FloorTile : MonoBehaviour
     public BoxCollider center;
     [SerializeField]
     private int _cost;
+    [SerializeField]
     private States currentState;
     public Floor _floorNode;
-    MeshRenderer Indicator;
+    public Button Indicator;
+   
     enum States
     {
         Current,
@@ -30,9 +33,12 @@ public class FloorTile : MonoBehaviour
     {
         center = GetComponentInChildren<BoxCollider>();
         _floorNode = GetComponentInChildren<Floor>();
-        Indicator = GetComponent<MeshRenderer>();
+        Indicator = GetComponentInChildren<Button>();
     }
+    public void addCallbackToButton(CharacterController actor)
+    {
 
+    }
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -82,31 +88,27 @@ public class FloorTile : MonoBehaviour
     }
     public void Walkeable()
     {
-        Indicator.material.color = Color.green;
+        Indicator.image.color = Color.green;
         currentState = States.Walkeable;
     }
     public void isCurrent()
     {
-        Indicator.material.color = Color.yellow;
+        Indicator.image.color = Color.yellow;
         currentState = States.Current;
-
     }
     private void unselected()
     {
-        Indicator.material.color = Color.white;
+        Indicator.image.color = Color.white;
         currentState = States.UnSelected;
-
     }
     private void ocupied()
     {
-        Indicator.material.color = Color.red;
+        Indicator.image.color = Color.red;
         currentState = States.Ocupied;
-
     }
     private void selected()
     {
-        Indicator.material.color = Color.blue;
+        Indicator.image.color = Color.blue;
         currentState = States.Selected;
-
     }   
 }
