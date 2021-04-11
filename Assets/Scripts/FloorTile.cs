@@ -24,10 +24,12 @@ public class FloorTile : MonoBehaviour
     private void OnEnable()
     {
         _floorNode.OnMakeWalkeable += Walkeable;
+        _floorNode.OnMakePath += selected;
     }
     private void OnDisable()
     {
         _floorNode.OnMakeWalkeable -= Walkeable;
+        _floorNode.OnMakePath -= selected;
     }
     void Awake()
     {
