@@ -50,7 +50,6 @@ public class CharacterController : MonoBehaviour
     }
     public void setTargetNode()
     {
-        Debug.Log("busqueda");
 
     }
     public Floor CurrentNode

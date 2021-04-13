@@ -50,11 +50,11 @@ public class Floor : MonoBehaviour
     public void MakeFloorWalkeable()
     {
         OnMakeWalkeable();
+        walkable = true;
     }
     public void MakeFloorPath()
     {
         OnMakePath();
-        Debug.Log("path");
     }
     public List<Floor> getNeighbours()
     {
