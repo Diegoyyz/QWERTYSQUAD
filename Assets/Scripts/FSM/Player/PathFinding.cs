@@ -22,7 +22,7 @@ public class PathFinding : MonoBehaviour
           Floor currentNode = endNode;
         while (currentNode != startNode)
         {
-            path.Add(currentNode);
+			rPath.Add(currentNode);
             currentNode = currentNode.parent;
             currentNode.MakeFloorWalkeable();
         }

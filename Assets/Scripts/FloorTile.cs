@@ -18,18 +18,24 @@ public class FloorTile : MonoBehaviour
         Current,
         Walkeable,
         Selected,
+        Goal,
+        Idle,
         UnSelected,
         Ocupied
     }
     private void OnEnable()
     {
         _floorNode.OnMakeWalkeable += Walkeable;
+        _floorNode.OnResetFloor += unselected;
         _floorNode.OnMakePath += selected;
+        _floorNode.OnMakeGoal += goal;
     }
     private void OnDisable()
     {
         _floorNode.OnMakeWalkeable -= Walkeable;
+        _floorNode.OnResetFloor -= unselected;
         _floorNode.OnMakePath -= selected;
+        _floorNode.OnMakeGoal -= goal;
     }
     void Awake()
     {
@@ -81,10 +87,16 @@ public class FloorTile : MonoBehaviour
                 Walkeable();
                 break;
             case States.Ocupied:
+                goal();
+                break;
+            case States.Goal:
                 ocupied();
                 break;
             case States.Selected:
                 selected();
+                break;
+            case States.Idle:
+                Idle();
                 break;
         }
     }
@@ -98,19 +110,29 @@ public class FloorTile : MonoBehaviour
         Indicator.image.color = Color.yellow;
         currentState = States.Current;
     }
-    private void unselected()
+    public void unselected()
     {
-        Indicator.image.color = Color.white;
+        Indicator.image.color = Color.blue;
         currentState = States.UnSelected;
     }
-    private void ocupied()
+    public void ocupied()
+    {
+        Indicator.image.color = Color.cyan;
+        currentState = States.Ocupied;
+    }
+    public void goal()
     {
         Indicator.image.color = Color.red;
         currentState = States.Ocupied;
     }
-    private void selected()
+    public void selected()
     {
         Indicator.image.color = Color.blue;
         currentState = States.Selected;
-    }   
+    }
+    public void Idle()
+    {
+        Indicator.image.color = Color.white;
+        currentState = States.Selected;
+    }
 }

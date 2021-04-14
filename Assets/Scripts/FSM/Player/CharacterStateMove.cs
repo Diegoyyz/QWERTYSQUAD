@@ -10,7 +10,6 @@ public class CharacterStateMove : CharacterState
 {
     List<Floor> WalkeableNodes;
     List<Floor> path;
-
     Floor target;
     public CharacterStateMove(CharacterController character)
     {
@@ -23,46 +22,50 @@ public class CharacterStateMove : CharacterState
         foreach (var item in WalkeableNodes)
         {
             item.MakeFloorWalkeable();
-
         }
     }  
     public override void Tick()
     {
         if (actor.CurrentNode != actor.TargetNode)
         {
-            FindPath(actor.CurrentNode, WalkeableNodes, actor.TargetNode);
+            FindPath(actor.CurrentNode,actor.TargetNode);
+        }      
+    }
+    public void resetPath() {
+        foreach (var item in path)
+        {
+            item.GetComponentInChildren<FloorTile>().unselected();
         }
+    }
+    private void RetracePath(Floor startNode, Floor endNode)
+    {
+        List<Floor> rPath = new List<Floor>();
+        Floor currentNode = endNode;
         if (path != null)
         {
-            Debug.Log("found");
-            if (path.Contains(actor.TargetNode))
+            foreach (var item in path)
             {
-                foreach (var item in path)
-                {
-                    item.MakeFloorPath();
-                }
-            }           
+                item.ResetFloor();
+            }
         }
-    }
-    private  void RetracePath(Floor startNode, Floor endNode)
-    {
-        Floor currentNode = endNode;
-
         while (currentNode != startNode)
         {
-            path.Add(currentNode);
+            rPath.Add(currentNode);
             currentNode = currentNode.parent;
+            currentNode.MakeFloorWalkeable();
         }
-        path.Reverse();       
+        endNode.MakeFloorGoal();
+        rPath.Reverse();       
+        path = rPath;
+
     }
-    private void FindPath(Floor StartNode, List<Floor> Nodes, Floor targetNodes)
+    void FindPath(Floor start, Floor target)
     {
-        Floor startNode = StartNode;
-        Floor targetNode = targetNodes;
+        Floor startNode = start;
+        Floor targetNode = target;
         List<Floor> openSet = new List<Floor>();
         HashSet<Floor> closedSet = new HashSet<Floor>();
         openSet.Add(startNode);
-
         while (openSet.Count > 0)
         {
             Floor node = openSet[0];
@@ -81,44 +84,43 @@ public class CharacterStateMove : CharacterState
                 RetracePath(startNode, targetNode);
                 return;
             }
-
-            foreach (Floor neighbour in Nodes)
+            foreach (Floor item in node.getNeighbours())
             {
-                if (!neighbour.walkable || closedSet.Contains(neighbour))
+                if (!item.walkable || closedSet.Contains(item))
                 {
                     continue;
                 }
-
-                int newCostToNeighbour = node.gCost + GetDistance(node, neighbour);
-                if (newCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
+                int newCostToNeighbour = node.gCost + GetDistance(node, item);
+                if (newCostToNeighbour < item.gCost || !openSet.Contains(item))
                 {
-                    neighbour.gCost = newCostToNeighbour;
-                    neighbour.hCost = GetDistance(neighbour, targetNode);
-                    neighbour.parent = node;
-                    if (!openSet.Contains(neighbour))
-                    {
-                        openSet.Add(neighbour);
-                        neighbour.MakeFloorPath();
-                    }
+                    item.gCost = newCostToNeighbour;
+                    item.hCost = GetDistance(item, targetNode);
+                    item.parent = node;
+                    if (!openSet.Contains(item))
+                        openSet.Add(item);
                 }
             }
         }
     }
-
     static int GetDistance(Floor nodeA, Floor nodeB)
     {
+        if (nodeA!= null && nodeB != null)
+        {       
         int dstX = (int)Mathf.Abs(nodeA.transform.position.x - nodeB.transform.position.x);
         int dstY = (int)Mathf.Abs(nodeA.transform.position.x - nodeA.transform.position.y);
         if (dstX > dstY)
             return 14 * dstY + 10 * (dstX - dstY);
         return 14 * dstX + 10 * (dstY - dstX);
+        }
+        return 0;
     }
     void GetTargetNode(Floor target)
     {
+
         actor.TargetNode = target;
     }
     void GetTemporalTargetNode(Floor target)
     {
-        actor.TargetNode = target;
+       
     }
 }

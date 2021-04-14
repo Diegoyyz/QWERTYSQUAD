@@ -13,12 +13,14 @@ public class Floor : MonoBehaviour
     private float distance;
     public delegate void makeWalkeable();
     public event makeWalkeable OnMakeWalkeable;
+    public delegate void resetFloor();
+    public event makeGoal OnMakeGoal;
+    public delegate void makeGoal();
+    public event resetFloor OnResetFloor;
     public delegate void makePAth();
     public event makeWalkeable OnMakePath;
     public bool walkable;
     public Floor parent;
-
-
     public int fCost
     {
         get
@@ -26,7 +28,6 @@ public class Floor : MonoBehaviour
             return gCost + hCost;
         }
     }
-
     private void Awake()
     {
         RaycastHit hit;
@@ -46,7 +47,16 @@ public class Floor : MonoBehaviour
         {
             neighboursFinal.Add(hit.collider.GetComponentInChildren<Floor>());
         }
-    }      
+    }
+    public void ResetFloor()
+    {
+        OnResetFloor();
+    }
+    public void MakeFloorGoal()
+    {
+        OnMakeGoal();
+        walkable = true;
+    }
     public void MakeFloorWalkeable()
     {
         OnMakeWalkeable();
@@ -68,7 +78,6 @@ public class Floor : MonoBehaviour
             if (item!= null)
             {
                 Gizmos.DrawLine(transform.position, item.transform.position);
-
             }
         }
     }  
