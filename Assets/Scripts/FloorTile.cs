@@ -12,7 +12,8 @@ public class FloorTile : MonoBehaviour
     private States currentState;
     public Floor _floorNode;
     public Button Indicator;
-   
+    [SerializeField]
+    private Button okButton;
     enum States
     {
         Current,
@@ -43,10 +44,7 @@ public class FloorTile : MonoBehaviour
         _floorNode = GetComponentInChildren<Floor>();
         Indicator = GetComponentInChildren<Button>();
     }
-    public void addCallbackToButton(CharacterController actor)
-    {
-
-    }
+  
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.tag == "Player")

@@ -29,6 +29,10 @@ public class CharacterStateMove : CharacterState
         if (actor.CurrentNode != actor.TargetNode)
         {
             FindPath(actor.CurrentNode,actor.TargetNode);
+            //if (actor.okMove)
+            //{
+            //   actor.MoveToTarget(actor.TargetNode.transform);
+            //}
         }      
     }
     public void resetPath() {
@@ -55,9 +59,8 @@ public class CharacterStateMove : CharacterState
             currentNode.MakeFloorWalkeable();
         }
         endNode.MakeFloorGoal();
-        rPath.Reverse();       
+        rPath.Reverse();        
         path = rPath;
-
     }
     void FindPath(Floor start, Floor target)
     {
@@ -116,7 +119,6 @@ public class CharacterStateMove : CharacterState
     }
     void GetTargetNode(Floor target)
     {
-
         actor.TargetNode = target;
     }
     void GetTemporalTargetNode(Floor target)

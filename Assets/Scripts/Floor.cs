@@ -6,7 +6,7 @@ using UnityEngine;
 public class Floor : MonoBehaviour
 {
     [SerializeField]
-    private List<Floor> neighboursFinal = new List<Floor>();
+    private List<Floor> neighbours=new List<Floor>();
     public int gCost = 1;
     public int hCost;
     [SerializeField]
@@ -21,6 +21,7 @@ public class Floor : MonoBehaviour
     public event makeWalkeable OnMakePath;
     public bool walkable;
     public Floor parent;
+
     public int fCost
     {
         get
@@ -33,19 +34,19 @@ public class Floor : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.forward, out hit))
         {
-          neighboursFinal.Add(hit.collider.GetComponentInChildren<Floor>());
+          neighbours.Add(hit.collider.GetComponentInChildren<Floor>());
         }
         if (Physics.Raycast(transform.position, Vector3.left, out hit))
         {
-            neighboursFinal.Add(hit.collider.GetComponentInChildren<Floor>());
+            neighbours.Add(hit.collider.GetComponentInChildren<Floor>());
         }
         if (Physics.Raycast(transform.position, Vector3.right, out hit))
         {
-            neighboursFinal.Add(hit.collider.GetComponentInChildren<Floor>());
+            neighbours.Add(hit.collider.GetComponentInChildren<Floor>());
         }
         if (Physics.Raycast(transform.position, Vector3.back, out hit))
         {
-            neighboursFinal.Add(hit.collider.GetComponentInChildren<Floor>());
+            neighbours.Add(hit.collider.GetComponentInChildren<Floor>());
         }
     }
     public void ResetFloor()
@@ -68,12 +69,11 @@ public class Floor : MonoBehaviour
     }
     public List<Floor> getNeighbours()
     {
-        return neighboursFinal;
-    }
-   
+        return neighbours;
+    }   
     private void OnDrawGizmos()
     {
-        foreach (var item in neighboursFinal)
+        foreach (var item in neighbours)
         {
             if (item!= null)
             {

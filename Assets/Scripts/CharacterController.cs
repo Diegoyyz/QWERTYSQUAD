@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.UI;
 using System.Collections.Generic;
 public class CharacterController : MonoBehaviour
 {
@@ -16,14 +17,17 @@ public class CharacterController : MonoBehaviour
     Floor _targetNode;
     [SerializeField]
     private int _speed;
+    public Button okMove;
+
+
+    public void MoveToTarget(Transform moveTo)
+    {
+        transform.position = new Vector3(moveTo.position.x, transform.position.y, moveTo.position.z);
+    }
     private void OnEnable()
     {
         controllerActive = true;
-        //RaycastHit hit;
-        //if (Physics.Raycast(transform.position, Vector3.down, out hit))
-        //{
-        //    _currentTile = hit.collider.GetComponent<FloorTile>();
-        //}
+        okMove.gameObject.SetActive(false);
         toggleController();
     }
     public int Speed
