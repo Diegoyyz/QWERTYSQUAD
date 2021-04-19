@@ -30,6 +30,8 @@ public class FloorTile : MonoBehaviour
         _floorNode.OnResetFloor += unselected;
         _floorNode.OnMakePath += selected;
         _floorNode.OnMakeGoal += goal;
+        _floorNode.OnResetFloor += unselected;
+
     }
     private void OnDisable()
     {
@@ -37,6 +39,8 @@ public class FloorTile : MonoBehaviour
         _floorNode.OnResetFloor -= unselected;
         _floorNode.OnMakePath -= selected;
         _floorNode.OnMakeGoal -= goal;
+        _floorNode.OnResetFloor -= unselected;
+
     }
     void Awake()
     {
@@ -110,7 +114,7 @@ public class FloorTile : MonoBehaviour
     }
     public void unselected()
     {
-        Indicator.image.color = Color.blue;
+        Indicator.image.color = Color.white;
         currentState = States.UnSelected;
     }
     public void ocupied()

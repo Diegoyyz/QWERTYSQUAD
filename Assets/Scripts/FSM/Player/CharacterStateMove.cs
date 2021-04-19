@@ -9,6 +9,8 @@ using UnityEngine;
 public class CharacterStateMove : CharacterState
 {
     List<Floor> WalkeableNodes;
+    List<Floor> WalkeableNodesAux;
+
     List<Floor> path;
     Floor target;
     public CharacterStateMove(CharacterController character)
@@ -18,29 +20,31 @@ public class CharacterStateMove : CharacterState
     public override void OnStateEnter()
     {        
         actor.toggleController();
-        WalkeableNodes = actor.CurrentNode.Descendants(actor.Speed, GetTargetNode, GetTemporalTargetNode);
+        WalkeableNodes = actor.CurrentNode.Descendants(actor.SpeedLeft, GetTargetNode, GetTemporalTargetNode);
+        WalkeableNodesAux = WalkeableNodes;
+        Debug.Log(WalkeableNodesAux.Count());
+        Debug.Log(WalkeableNodes.Count());
+
         foreach (var item in WalkeableNodes)
         {
             item.MakeFloorWalkeable();
         }
-    }  
+    }
+    public override void OnStateExit()
+    {
+        foreach (var item in WalkeableNodesAux)
+        {
+            item.ResetFloor();
+            Debug.Log("resetear los nodos");
+        }
+    }
     public override void Tick()
     {
         if (actor.CurrentNode != actor.TargetNode)
         {
-            FindPath(actor.CurrentNode,actor.TargetNode);
-            //if (actor.okMove)
-            //{
-            //   actor.MoveToTarget(actor.TargetNode.transform);
-            //}
+            FindPath(actor.CurrentNode,actor.TargetNode);  
         }      
-    }
-    public void resetPath() {
-        foreach (var item in path)
-        {
-            item.GetComponentInChildren<FloorTile>().unselected();
-        }
-    }
+    }   
     private void RetracePath(Floor startNode, Floor endNode)
     {
         List<Floor> rPath = new List<Floor>();
@@ -59,8 +63,12 @@ public class CharacterStateMove : CharacterState
             currentNode.MakeFloorWalkeable();
         }
         endNode.MakeFloorGoal();
-        rPath.Reverse();        
+        actor.okMove.transform.position = new Vector3(endNode.transform.position.x, actor.okMove.transform.position.y, endNode.transform.position.z);
+        actor.okMove.gameObject.SetActive(true);
+        rPath.Reverse();
+        actor.SpeedLeft -= rPath.Count();
         path = rPath;
+
     }
     void FindPath(Floor start, Floor target)
     {

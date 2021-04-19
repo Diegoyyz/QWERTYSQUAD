@@ -9,35 +9,41 @@ public class CharacterController : MonoBehaviour
     GameObject _canvas;
     [SerializeField]
     protected CharacterState currentState;
-    bool controllerActive;
+    bool controllerActive = true;
     FloorTile _currentTile;
     [SerializeField]
     Floor _currentNode;
     [SerializeField]
     Floor _targetNode;
     [SerializeField]
-    private int _speed;
+    private int _maxSpeed;
+    private int _speedLeft;
     public Button okMove;
-
-
-    public void MoveToTarget(Transform moveTo)
+    bool okMoveActive= true;
+    public void MoveToTarget()
     {
-        transform.position = new Vector3(moveTo.position.x, transform.position.y, moveTo.position.z);
+        transform.position = new Vector3(_targetNode.transform.position.x, transform.position.y,_targetNode.transform.position.z);       
+    }
+    public void ResetStats()
+    {
+        _speedLeft = _maxSpeed;
+
     }
     private void OnEnable()
     {
-        controllerActive = true;
-        okMove.gameObject.SetActive(false);
+        ResetStats();
+        toggleOkMove();
         toggleController();
+        SetState(new CharacterStateIdle(this));
     }
-    public int Speed
+    public int SpeedLeft
     {
-        get { return _speed; }
+        get { return _speedLeft; }
         set
         {
-            if (_speed != value)
+            if (_speedLeft != value)
             {
-                _speed = value;
+                _speedLeft = value;
             };
         }
     }
@@ -72,31 +78,30 @@ public class CharacterController : MonoBehaviour
         controllerActive = !controllerActive;
         _canvas.SetActive(controllerActive);
     }
+    public void toggleOkMove()
+    {
+        okMoveActive = !okMoveActive;
+        okMove.gameObject.SetActive(okMoveActive);
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag =="Floor")
         {
             _currentTile = collision.gameObject.GetComponent<FloorTile>();
-
             if (_currentTile!=null)
             {
                 CurrentNode = _currentTile._floorNode;
                 _currentTile.isCurrent();
-            }
-                                              
+            }                                           
         }
-    }
-    private void Start()
-    {
-        SetState(new CharacterStateIdle(this));
-    }
+    }   
     private void Update()
     {
         currentState.Tick();
     }
     private CharacterController OnMouseUp()
     {
-        toggleController();
+        SetState(new CharacterStateSelected(this));
         return this;
     }
     public void changeState(int estado)
@@ -111,6 +116,9 @@ public class CharacterController : MonoBehaviour
                 break;
             case 2:
                 SetState(new CharacterStateIdle(this));
+                break;
+            case 3:
+                SetState(new CharacterStateSelected(this));
                 break;
         }
     }
