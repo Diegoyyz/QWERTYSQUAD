@@ -8,8 +8,6 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 public class CharacterStateMove : CharacterState
 {
-    List<Floor> WalkeableNodes;
-    List<Floor> WalkeableNodesAux;
 
     List<Floor> path;
     Floor target;
@@ -20,23 +18,11 @@ public class CharacterStateMove : CharacterState
     public override void OnStateEnter()
     {        
         actor.toggleController();
-        WalkeableNodes = actor.CurrentNode.Descendants(actor.SpeedLeft, GetTargetNode, GetTemporalTargetNode);
-        WalkeableNodesAux = WalkeableNodes;
-        Debug.Log(WalkeableNodesAux.Count());
-        Debug.Log(WalkeableNodes.Count());
-
-        foreach (var item in WalkeableNodes)
-        {
-            item.MakeFloorWalkeable();
-        }
+        actor.CurrentNode.Descendants(actor.SpeedLeft, GetTargetNode);       
     }
     public override void OnStateExit()
     {
-        foreach (var item in WalkeableNodesAux)
-        {
-            item.ResetFloor();
-            Debug.Log("resetear los nodos");
-        }
+      
     }
     public override void Tick()
     {
