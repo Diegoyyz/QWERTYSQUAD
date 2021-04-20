@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine.UI;
 using System.Collections.Generic;
 public class CharacterController : MonoBehaviour
@@ -21,14 +22,36 @@ public class CharacterController : MonoBehaviour
     private int _speedLeft;
     public Button okMove;
     bool okMoveActive= true;
-    public void MoveToTarget()
+    public void MoveToTarget(List<Floor> path)
     {
-        transform.position = new Vector3(_targetNode.transform.position.x, transform.position.y,_targetNode.transform.position.z);       
+        //transform.position = new Vector3(_targetNode.transform.position.x, transform.position.y,_targetNode.transform.position.z);
+        StartCoroutine(moveTo(transform, path));
+    }
+    private IEnumerator moveTo(Transform transform, List<Floor> vectors)
+    {
+        if (vectors.Count == 0)
+            yield break;
+        Vector3 start = new Vector3(vectors[0].transform.position.x,
+                                    transform.position.y,
+                                    vectors[0].transform.position.z);
+        for (int i = 1; i < vectors.Count; i++)
+        {
+            Vector3 end = new Vector3(vectors[i].transform.position.x,
+                                    transform.position.y,
+                                    vectors[i].transform.position.z);
+            float t = 0f;
+            while (t < 1f)
+            {
+                t += Time.deltaTime;
+                transform.position = Vector3.Lerp(start, end, Mathf.SmoothStep(0, 1, t));
+                yield return null;
+            }
+            start = end;
+        }
     }
     public void ResetStats()
     {
         _speedLeft = _maxSpeed;
-
     }
     private void OnEnable()
     {

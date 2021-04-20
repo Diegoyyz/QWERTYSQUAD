@@ -25,14 +25,17 @@ public class CharacterStateMove : CharacterState
     }
     public override void OnStateExit()
     {
+
         if (path != null)
         {
             actor.SpeedLeft -= path.Count();
+            actor.MoveToTarget(path);
         }
         foreach (var item in WalkeableNodes)
         {
             item.ResetFloor();
         }
+
     }
     public override void Tick()
     {       
