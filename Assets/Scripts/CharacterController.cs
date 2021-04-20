@@ -17,6 +17,7 @@ public class CharacterController : MonoBehaviour
     Floor _targetNode;
     [SerializeField]
     private int _maxSpeed;
+    [SerializeField]
     private int _speedLeft;
     public Button okMove;
     bool okMoveActive= true;

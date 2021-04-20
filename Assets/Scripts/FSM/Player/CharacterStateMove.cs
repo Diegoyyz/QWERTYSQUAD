@@ -1,15 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using util;
-using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine;
 public class CharacterStateMove : CharacterState
 {
-
     List<Floor> path;
+    List<Floor> WalkeableNodes = new List<Floor>();
+    bool speedRested;
     Floor target;
     public CharacterStateMove(CharacterController character)
     {
@@ -18,14 +19,23 @@ public class CharacterStateMove : CharacterState
     public override void OnStateEnter()
     {        
         actor.toggleController();
-        actor.CurrentNode.Descendants(actor.SpeedLeft, GetTargetNode);       
+        speedRested = false;
+        actor.ResetStats();
+        Descendants(actor.CurrentNode,actor.SpeedLeft, GetTargetNode);       
     }
     public override void OnStateExit()
     {
-      
+        if (path != null)
+        {
+            actor.SpeedLeft -= path.Count();
+        }
+        foreach (var item in WalkeableNodes)
+        {
+            item.ResetFloor();
+        }
     }
     public override void Tick()
-    {
+    {       
         if (actor.CurrentNode != actor.TargetNode)
         {
             FindPath(actor.CurrentNode,actor.TargetNode);  
@@ -39,7 +49,7 @@ public class CharacterStateMove : CharacterState
         {
             foreach (var item in path)
             {
-                item.ResetFloor();
+                item.MakeFloorPath();               
             }
         }
         while (currentNode != startNode)
@@ -51,10 +61,8 @@ public class CharacterStateMove : CharacterState
         endNode.MakeFloorGoal();
         actor.okMove.transform.position = new Vector3(endNode.transform.position.x, actor.okMove.transform.position.y, endNode.transform.position.z);
         actor.okMove.gameObject.SetActive(true);
-        rPath.Reverse();
-        actor.SpeedLeft -= rPath.Count();
+        rPath.Reverse();       
         path = rPath;
-
     }
     void FindPath(Floor start, Floor target)
     {
@@ -79,6 +87,7 @@ public class CharacterStateMove : CharacterState
             if (node == targetNode)
             {
                 RetracePath(startNode, targetNode);
+               
                 return;
             }
             foreach (Floor item in node.getNeighbours())
@@ -96,6 +105,27 @@ public class CharacterStateMove : CharacterState
                     if (!openSet.Contains(item))
                         openSet.Add(item);
                 }
+            }
+        }
+    }
+    public void Descendants(Floor root, int Speed, Action<Floor> getTargetCallback)
+    {
+        WalkeableNodes.Add(root);
+        var start = root;
+        int speedLeft = Speed;
+        while (speedLeft > 0)
+        {
+            speedLeft--;
+            foreach (var item in start.getNeighbours())
+            {
+                Descendants(item,speedLeft, getTargetCallback);
+                item.MakeFloorPath();
+                //start pathfinding on button sellect
+                EventTrigger.Entry entry = new EventTrigger.Entry();
+                entry.eventID = EventTriggerType.PointerEnter;
+                item.GetComponent<EventTrigger>().triggers.Add(entry);
+                //add callback to selection
+                item.GetComponent<Button>().onClick.AddListener(delegate { getTargetCallback(item); });
             }
         }
     }

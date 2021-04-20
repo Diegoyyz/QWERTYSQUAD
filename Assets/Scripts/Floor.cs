@@ -60,7 +60,7 @@ public class Floor : MonoBehaviour
     }
     public void MakeFloorWalkeable()
     {
-        OnMakeWalkeable();
+        OnMakeWalkeable();       
         walkable = true;
     }
     public void MakeFloorPath()
