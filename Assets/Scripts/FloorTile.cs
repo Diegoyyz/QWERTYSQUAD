@@ -14,6 +14,7 @@ public class FloorTile : MonoBehaviour
     public Button Indicator;
     [SerializeField]
     private Button okButton;
+    private 
     enum States
     {
         Current,
@@ -31,7 +32,7 @@ public class FloorTile : MonoBehaviour
         _floorNode.OnMakePath += selected;
         _floorNode.OnMakeGoal += goal;
         _floorNode.OnResetFloor += unselected;
-
+        _floorNode.onMakeAttackable += ocupied;
     }
     private void OnDisable()
     {
@@ -40,15 +41,14 @@ public class FloorTile : MonoBehaviour
         _floorNode.OnMakePath -= selected;
         _floorNode.OnMakeGoal -= goal;
         _floorNode.OnResetFloor -= unselected;
-
+        _floorNode.onMakeAttackable -= ocupied;
     }
     void Awake()
     {
         center = GetComponentInChildren<BoxCollider>();
         _floorNode = GetComponentInChildren<Floor>();
         Indicator = GetComponentInChildren<Button>();
-    }
-  
+    }  
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -119,12 +119,12 @@ public class FloorTile : MonoBehaviour
     }
     public void ocupied()
     {
-        Indicator.image.color = Color.cyan;
+        Indicator.image.color = Color.red;
         currentState = States.Ocupied;
     }
     public void goal()
     {
-        Indicator.image.color = Color.red;
+        Indicator.image.color = Color.magenta;
         currentState = States.Ocupied;
     }
     public void selected()

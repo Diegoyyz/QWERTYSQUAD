@@ -61,6 +61,7 @@ public class CharacterStateMove : CharacterState
             currentNode = currentNode.parent;
             currentNode.MakeFloorWalkeable();
         }
+        rPath.Add(actor.CurrentNode);
         endNode.MakeFloorGoal();
         actor.okMove.transform.position = new Vector3(endNode.transform.position.x, actor.okMove.transform.position.y, endNode.transform.position.z);
         actor.okMove.gameObject.SetActive(true);
@@ -89,8 +90,7 @@ public class CharacterStateMove : CharacterState
             closedSet.Add(node);
             if (node == targetNode)
             {
-                RetracePath(startNode, targetNode);
-               
+                RetracePath(startNode, targetNode);               
                 return;
             }
             foreach (Floor item in node.getNeighbours())

@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class CharacterStateSelected : CharacterState
 {
+
     public CharacterStateSelected(CharacterController character)
     {
         actor = character;
@@ -19,6 +20,7 @@ public class CharacterStateSelected : CharacterState
     }
     public override void OnStateExit()
     {
+
 
     }
     public override void OnStateEnter()

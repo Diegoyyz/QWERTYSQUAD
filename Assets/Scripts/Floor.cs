@@ -19,9 +19,10 @@ public class Floor : MonoBehaviour
     public event resetFloor OnResetFloor;
     public delegate void makePAth();
     public event makeWalkeable OnMakePath;
+    public delegate void makeAttackable();
+    public event makeAttackable onMakeAttackable;
     public bool walkable;
     public Floor parent;
-
     public int fCost
     {
         get
@@ -29,6 +30,7 @@ public class Floor : MonoBehaviour
             return gCost + hCost;
         }
     }
+  
     private void Awake()
     {
         RaycastHit hit;
@@ -48,6 +50,10 @@ public class Floor : MonoBehaviour
         {
             neighbours.Add(hit.collider.GetComponentInChildren<Floor>());
         }
+    }
+    public void MakeAttackable()
+    {
+        onMakeAttackable();
     }
     public void ResetFloor()
     {
