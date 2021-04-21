@@ -18,10 +18,26 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected int _maxSpeed;
     [SerializeField]
+    protected int _attackRange;
+    [SerializeField]
     protected int _speedLeft;
     public Button okMove;
     protected bool okMoveActive = true;
-  
+    public Animator anim;
+    public GameObject body;
+
+
+    public int AttackRange
+    {
+        get { return _attackRange; }
+        set
+        {
+            if (_attackRange != value)
+            {
+                _attackRange = value;
+            };
+        }
+    }
     public int SpeedLeft
     {
         get { return _speedLeft; }
@@ -36,6 +52,7 @@ public class Entity : MonoBehaviour
     public void MoveToTarget(List<Floor> path)
     {
         toggleController();
+        anim.SetBool("Walk Forward", true);
         StartCoroutine(moveTo(transform, path));
     }
     private void OnCollisionEnter(Collision collision)
@@ -120,6 +137,9 @@ public class Entity : MonoBehaviour
                                     transform.position.y,
                                     vectors[i].transform.position.z);
             float t = 0f;
+            body.transform.LookAt(new Vector3(vectors[i].transform.position.x,
+                                    transform.position.y,
+                                    vectors[i].transform.position.z));
             while (t < 1f)
             {
                 t += Time.deltaTime;
@@ -128,5 +148,6 @@ public class Entity : MonoBehaviour
             }
             start = end;
         }
+        anim.SetBool("Walk Forward", false);
     }
 }

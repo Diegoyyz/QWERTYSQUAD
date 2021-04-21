@@ -25,7 +25,6 @@ public class CharacterStateMove : CharacterState
     }
     public override void OnStateExit()
     {
-
         if (path != null)
         {
             actor.SpeedLeft -= path.Count();
@@ -35,7 +34,6 @@ public class CharacterStateMove : CharacterState
         {
             item.ResetFloor();
         }
-
     }
     public override void Tick()
     {       

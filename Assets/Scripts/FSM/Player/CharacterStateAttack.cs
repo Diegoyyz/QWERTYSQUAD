@@ -15,13 +15,23 @@ public class CharacterStateAttack : CharacterState
     }
     public override void OnStateEnter()
     {
-        neighbours = actor.CurrentNode.getNeighbours();
-        foreach (var item in neighbours)
-        {            
-                item.MakeAttackable();            
-        }
+        GetAttackableNodes(actor.CurrentNode, actor.AttackRange);
     }
     public override void OnStateExit()
     {
+    }
+    public static void GetAttackableNodes(Floor root, int Speed)
+    {
+        var start = root;
+        int speedLeft = Speed;
+        while (speedLeft > 0)
+        {
+            speedLeft--;
+            foreach (var item in start.getNeighbours())
+            {
+                GetAttackableNodes(item,speedLeft);
+                item.MakeAttackable();
+            }
+        }
     }
 }
