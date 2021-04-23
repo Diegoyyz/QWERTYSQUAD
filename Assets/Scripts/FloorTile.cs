@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
-
 public class FloorTile : MonoBehaviour
 {
     public BoxCollider center;
@@ -14,7 +13,23 @@ public class FloorTile : MonoBehaviour
     public Button Indicator;
     [SerializeField]
     private Button okButton;
-    private 
+    Entity _ocupant;
+
+    void deselect()
+    {
+        _ocupant = null;
+    }
+    public Entity Ocupant
+    {
+        get { return _ocupant; }
+        set
+        {
+            if (_ocupant != value)
+            {
+                _ocupant = value;
+            };
+        }
+    }
     enum States
     {
         Current,
@@ -24,7 +39,7 @@ public class FloorTile : MonoBehaviour
         Idle,
         UnSelected,
         Ocupied
-    }
+    }   
     private void OnEnable()
     {
         _floorNode.OnMakeWalkeable += Walkeable;
@@ -42,6 +57,7 @@ public class FloorTile : MonoBehaviour
         _floorNode.OnMakeGoal -= goal;
         _floorNode.OnResetFloor -= unselected;
         _floorNode.onMakeAttackable -= ocupied;
+
     }
     void Awake()
     {
@@ -49,12 +65,19 @@ public class FloorTile : MonoBehaviour
         _floorNode = GetComponentInChildren<Floor>();
         Indicator = GetComponentInChildren<Button>();
     }  
+     private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Entity")
+        {
+            Ocupant = collision.collider.GetComponent<Entity>(); 
+        }
+    }
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Entity")
         {
-            unselected();
-        }
+            unselected();     
+        }        
     }
     public Floor FloorNode
     {

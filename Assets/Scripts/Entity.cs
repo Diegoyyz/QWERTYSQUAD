@@ -25,7 +25,10 @@ public class Entity : MonoBehaviour
     protected bool okMoveActive = true;
     public Animator anim;
     public GameObject body;
-
+    [SerializeField]
+    protected int _currentHP;
+    [SerializeField]
+    protected int _MaxtHP;
 
     public int AttackRange
     {
@@ -37,6 +40,11 @@ public class Entity : MonoBehaviour
                 _attackRange = value;
             };
         }
+    }
+    public void TakeDmg(int dmg)
+    {
+        _currentHP -=dmg;
+        anim.SetBool("Walk Forward", true);
     }
     public int SpeedLeft
     {
@@ -60,6 +68,7 @@ public class Entity : MonoBehaviour
         if (collision.gameObject.tag == "Floor")
         {
             _currentTile = collision.gameObject.GetComponent<FloorTile>();
+            _currentNode = collision.gameObject.GetComponent<Floor>();
             if (_currentTile != null)
             {
                 CurrentNode = _currentTile._floorNode;
@@ -73,7 +82,10 @@ public class Entity : MonoBehaviour
     }
     private void Update()
     {
-        currentState.Tick();
+        if (currentState !=null)
+        {
+            currentState.Tick();
+        }
     }
     public void SetState(CharacterState state)
     {
@@ -90,13 +102,19 @@ public class Entity : MonoBehaviour
     }
     public void toggleController()
     {
-        controllerActive = !controllerActive;
-        _canvas.SetActive(controllerActive);
+        if (_canvas!=null)
+        {
+            controllerActive = !controllerActive;
+            _canvas.SetActive(controllerActive);
+        }       
     }
     public void toggleOkMove()
     {
-        okMoveActive = !okMoveActive;
+        if (okMove != null)
+        {
+            okMoveActive = !okMoveActive;
         okMove.gameObject.SetActive(okMoveActive);
+        }
     }
     public Floor TargetNode
     {
@@ -108,10 +126,6 @@ public class Entity : MonoBehaviour
                 _targetNode = value;
             };
         }
-    }
-    public void setTargetNode()
-    {
-
     }
     public Floor CurrentNode
     {

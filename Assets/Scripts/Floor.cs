@@ -6,7 +6,7 @@ using UnityEngine;
 public class Floor : MonoBehaviour
 {
     [SerializeField]
-    private List<Floor> neighbours=new List<Floor>();
+    private List<Floor> neighbours = new List<Floor>();
     public int gCost = 1;
     public int hCost;
     [SerializeField]
@@ -21,22 +21,26 @@ public class Floor : MonoBehaviour
     public event makeWalkeable OnMakePath;
     public delegate void makeAttackable();
     public event makeAttackable onMakeAttackable;
+    public delegate void nullSelection();
+    public event nullSelection onDeselect;
     public bool walkable;
     public Floor parent;
+    [SerializeField]
+    public FloorTile tile;
     public int fCost
     {
         get
         {
             return gCost + hCost;
         }
-    }
-  
+    }    
+   
     private void Awake()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.forward, out hit))
         {
-          neighbours.Add(hit.collider.GetComponentInChildren<Floor>());
+            neighbours.Add(hit.collider.GetComponentInChildren<Floor>());
         }
         if (Physics.Raycast(transform.position, Vector3.left, out hit))
         {
@@ -66,7 +70,7 @@ public class Floor : MonoBehaviour
     }
     public void MakeFloorWalkeable()
     {
-        OnMakeWalkeable();       
+        OnMakeWalkeable();
         walkable = true;
     }
     public void MakeFloorPath()
@@ -76,15 +80,15 @@ public class Floor : MonoBehaviour
     public List<Floor> getNeighbours()
     {
         return neighbours;
-    }   
+    }
     private void OnDrawGizmos()
     {
         foreach (var item in neighbours)
         {
-            if (item!= null)
+            if (item != null)
             {
                 Gizmos.DrawLine(transform.position, item.transform.position);
             }
         }
-    }  
+    }
 }

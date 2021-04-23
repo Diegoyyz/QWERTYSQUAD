@@ -28,9 +28,13 @@ public class CharacterStateAttack : CharacterState
         {
             speedLeft--;
             foreach (var item in start.getNeighbours())
-            {
-                GetAttackableNodes(item,speedLeft);
-                item.MakeAttackable();
+            {                
+                if (item.tile.Ocupant!= null)
+                {
+                    item.MakeAttackable();
+                    GetAttackableNodes(item, speedLeft);
+                }
+               
             }
         }
     }

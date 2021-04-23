@@ -392,6 +392,7 @@ MonoBehaviour:
   distance: 0
   walkable: 1
   parent: {fileID: 0}
+  tile: {fileID: 9062659447285618904}
 --- !u!114 &1481712839
 MonoBehaviour:
   m_ObjectHideFlags: 0
