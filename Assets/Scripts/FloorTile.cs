@@ -13,8 +13,8 @@ public class FloorTile : MonoBehaviour
     public Button Indicator;
     [SerializeField]
     private Button okButton;
+    [SerializeField]
     Entity _ocupant;
-
     void deselect()
     {
         _ocupant = null;
@@ -57,7 +57,6 @@ public class FloorTile : MonoBehaviour
         _floorNode.OnMakeGoal -= goal;
         _floorNode.OnResetFloor -= unselected;
         _floorNode.onMakeAttackable -= ocupied;
-
     }
     void Awake()
     {
@@ -76,7 +75,8 @@ public class FloorTile : MonoBehaviour
     {
         if (collision.gameObject.tag == "Entity")
         {
-            unselected();     
+            unselected();
+            deselect();
         }        
     }
     public Floor FloorNode

@@ -33,8 +33,7 @@ public class Floor : MonoBehaviour
         {
             return gCost + hCost;
         }
-    }    
-   
+    }       
     private void Awake()
     {
         RaycastHit hit;
