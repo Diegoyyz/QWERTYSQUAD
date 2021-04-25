@@ -20,15 +20,21 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected int _attackRange;
     [SerializeField]
+    public int attackDmg;
+    [SerializeField]
     protected int _speedLeft;
     public Button okMove;
     protected bool okMoveActive = true;
+    public Button okAttack;
+    protected bool okAttackActive = true;
+    protected bool _isAttackable = false;
     public Animator anim;
     public GameObject body;
     [SerializeField]
     protected int _currentHP;
     [SerializeField]
     protected int _MaxtHP;
+    public int team;
 
     public int AttackRange
     {
@@ -38,6 +44,17 @@ public class Entity : MonoBehaviour
             if (_attackRange != value)
             {
                 _attackRange = value;
+            };
+        }
+    }
+    public bool IsAttackable
+    {
+        get { return _isAttackable; }
+        set
+        {
+            if (_isAttackable != value)
+            {
+                _isAttackable = value;
             };
         }
     }
@@ -62,6 +79,10 @@ public class Entity : MonoBehaviour
         toggleController();
         anim.SetBool("Walk Forward", true);
         StartCoroutine(moveTo(transform, path));
+    }
+    public void Attack()
+    {
+        anim.SetTrigger("PunchTrigger");
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -114,6 +135,14 @@ public class Entity : MonoBehaviour
         {
             okMoveActive = !okMoveActive;
         okMove.gameObject.SetActive(okMoveActive);
+        }
+    }
+    public void toggleOkAttack()
+    {
+        if (okAttack != null)
+        {
+            okAttackActive = !okAttackActive;
+            okAttack.gameObject.SetActive(okAttackActive);
         }
     }
     public Floor TargetNode
