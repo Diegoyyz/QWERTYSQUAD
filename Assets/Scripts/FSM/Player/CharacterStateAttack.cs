@@ -22,7 +22,9 @@ public class CharacterStateAttack : CharacterState
                     Target = hit.collider.GetComponent<Entity>();
                     actor.okAttack.transform.position = new Vector3(hit.collider.GetComponent<Entity>().transform.position.x, actor.okMove.transform.position.y, hit.collider.GetComponent<Entity>().transform.position.z);
                     actor.body.transform.LookAt(hit.collider.GetComponent<Entity>().transform);
-                 actor.toggleOkAttack();
+                    actor.attackTarget = hit.collider.GetComponent<Entity>();
+
+
                 }
             }
             actor.SetState(new CharacterStateIdle(actor));

@@ -10,6 +10,7 @@ public class CharacterController : Entity
     {
         ResetStats();
         toggleOkMove();
+        toggleOkAttack();
         toggleController();
         SetState(new CharacterStateIdle(this));
     }

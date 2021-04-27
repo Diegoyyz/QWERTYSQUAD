@@ -35,6 +35,7 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected int _MaxtHP;
     public int team;
+    public Entity attackTarget;
 
     public int AttackRange
     {
@@ -61,7 +62,7 @@ public class Entity : MonoBehaviour
     public void TakeDmg(int dmg)
     {
         _currentHP -=dmg;
-        anim.SetBool("Walk Forward", true);
+        anim.SetTrigger("GetHitTrigger");
     }
     public int SpeedLeft
     {
@@ -82,7 +83,12 @@ public class Entity : MonoBehaviour
     }
     public void Attack()
     {
-        anim.SetTrigger("PunchTrigger");
+        if (attackTarget!=null)
+        {
+            anim.SetTrigger("PunchTrigger");
+            attackTarget.TakeDmg(attackDmg);
+        }
+      
     }
     private void OnCollisionEnter(Collision collision)
     {
