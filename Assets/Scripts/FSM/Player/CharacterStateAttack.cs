@@ -20,7 +20,7 @@ public class CharacterStateAttack : CharacterState
                 if (hit.collider.gameObject.tag=="Entity"&&hit.collider.GetComponent<Entity>().team != actor.team)
                 {
                     Target = hit.collider.GetComponent<Entity>();
-                    actor.okAttack.transform.position = new Vector3(hit.collider.GetComponent<Entity>().transform.position.x, actor.okMove.transform.position.y, hit.collider.GetComponent<Entity>().transform.position.z);
+                    actor.okAttack.transform.position = new Vector3(hit.collider.GetComponent<Entity>().transform.position.x-1, actor.okMove.transform.position.y+1, hit.collider.GetComponent<Entity>().transform.position.z-1);
                     actor.body.transform.LookAt(hit.collider.GetComponent<Entity>().transform);
                     actor.toggleOkAttack();
                     actor.attackTarget = hit.collider.GetComponent<Entity>();
