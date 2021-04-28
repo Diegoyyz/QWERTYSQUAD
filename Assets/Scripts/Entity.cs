@@ -38,7 +38,6 @@ public class Entity : MonoBehaviour
     private Image HealtBar;
     public int team;
     public Entity attackTarget;
-
     public int AttackRange
     {
         get { return _attackRange; }
@@ -93,8 +92,7 @@ public class Entity : MonoBehaviour
         {
             anim.SetTrigger("PunchTrigger");
             attackTarget.TakeDmg(attackDmg);
-        }
-      
+        }      
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -107,6 +105,14 @@ public class Entity : MonoBehaviour
                 CurrentNode = _currentTile._floorNode;
                 _currentTile.isCurrent();
             }
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Floor")
+        {                     
+            _currentTile.unselected();
+            _currentTile.IsOcupied = false;
         }
     }
     public void ResetStats()
@@ -124,7 +130,6 @@ public class Entity : MonoBehaviour
         {
             HealtBar.fillAmount = HealtPorcentage();
         }
-
     }
     public float HealtPorcentage()
     {

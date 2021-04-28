@@ -23,6 +23,8 @@ public class Floor : MonoBehaviour
     public event makeAttackable onMakeAttackable;
     public delegate void nullSelection();
     public event nullSelection onDeselect;
+    public delegate void isOcupied();
+    public event isOcupied onIsOcupied;
     public bool walkable;
     public Floor parent;
     [SerializeField]
@@ -61,6 +63,10 @@ public class Floor : MonoBehaviour
     public void ResetFloor()
     {
         OnResetFloor();
+    }
+    public void ResetOcupied()
+    {
+        onIsOcupied();
     }
     public void MakeFloorGoal()
     {

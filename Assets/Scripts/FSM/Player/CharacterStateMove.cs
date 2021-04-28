@@ -32,7 +32,10 @@ public class CharacterStateMove : CharacterState
         }
         foreach (var item in WalkeableNodes)
         {
-            item.ResetFloor();
+            if (!item.tile.IsOcupied)
+            {
+                item.ResetFloor();
+            }
         }
     }
     public override void Tick()
@@ -50,7 +53,10 @@ public class CharacterStateMove : CharacterState
         {
             foreach (var item in path)
             {
-                item.MakeFloorPath();               
+                if (!item.tile.IsOcupied)
+                {
+                    item.MakeFloorPath();
+                }
             }
         }
         while (currentNode != startNode)
@@ -124,7 +130,10 @@ public class CharacterStateMove : CharacterState
             foreach (var item in start.getNeighbours())
             {
                 Descendants(item,speedLeft, getTargetCallback);
-                item.MakeFloorPath();
+                if (!item.tile.IsOcupied)
+                {
+                    item.MakeFloorPath();
+                }
                 //start pathfinding on button sellect
                 EventTrigger.Entry entry = new EventTrigger.Entry();
                 entry.eventID = EventTriggerType.PointerEnter;

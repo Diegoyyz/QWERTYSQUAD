@@ -15,7 +15,7 @@ public class FloorTile : MonoBehaviour
     private Button okButton;
     [SerializeField]
     Entity _ocupant;
-    bool _ocupied;
+    public bool _ocupied;
     void deselect()
     {
         _ocupant = null;
@@ -60,6 +60,7 @@ public class FloorTile : MonoBehaviour
         _floorNode.OnMakePath += selected;
         _floorNode.OnMakeGoal += goal;
         _floorNode.onMakeAttackable += ocupied;
+        _floorNode.onIsOcupied += isCurrent;
     }
     private void OnDisable()
     {
@@ -68,6 +69,8 @@ public class FloorTile : MonoBehaviour
         _floorNode.OnMakePath -= selected;
         _floorNode.OnMakeGoal -= goal;
         _floorNode.onMakeAttackable -= ocupied;
+        _floorNode.onIsOcupied -= isCurrent;
+
     }
     void Awake()
     {

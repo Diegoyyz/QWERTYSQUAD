@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CharacterStateAttack : CharacterState
 {
-    List<Floor> neighbours;
+    List<Floor> neighbours= new List<Floor>();
     Entity Target;
     public CharacterStateAttack(CharacterController character)
     {
@@ -35,9 +35,19 @@ public class CharacterStateAttack : CharacterState
     }
     public override void OnStateExit()
     {
-
+        foreach (var item in neighbours)
+        {
+            if (!item.tile.IsOcupied)
+            {
+                item.ResetFloor();
+            }
+            if (item.tile.IsOcupied)
+            {
+                item.ResetOcupied();
+            }
+        }
     }
-    public static void GetAttackableNodes(Floor root, int Speed)
+    public void GetAttackableNodes(Floor root, int Speed)
     {
         var start = root;
         int speedLeft = Speed;
@@ -48,8 +58,8 @@ public class CharacterStateAttack : CharacterState
             {                
                 if (item.tile.Ocupant!= null)
                 {
-                    item.MakeAttackable();     
-                    
+                    item.MakeAttackable();
+                    neighbours.Add(item);
                     GetAttackableNodes(item, speedLeft);
                 }
                
