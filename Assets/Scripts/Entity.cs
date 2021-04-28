@@ -31,9 +31,11 @@ public class Entity : MonoBehaviour
     public Animator anim;
     public GameObject body;
     [SerializeField]
-    protected int _currentHP;
+    protected float  _currentHP;
     [SerializeField]
-    protected int _MaxtHP;
+    protected float _maxtHP;
+    [SerializeField]
+    private Image HealtBar;
     public int team;
     public Entity attackTarget;
 
@@ -47,6 +49,10 @@ public class Entity : MonoBehaviour
                 _attackRange = value;
             };
         }
+    }
+    private void Start()
+    {
+        ResetStats();
     }
     public bool IsAttackable
     {
@@ -106,6 +112,7 @@ public class Entity : MonoBehaviour
     public void ResetStats()
     {
         _speedLeft = _maxSpeed;
+        _currentHP = _maxtHP;
     }
     private void Update()
     {
@@ -113,6 +120,16 @@ public class Entity : MonoBehaviour
         {
             currentState.Tick();
         }
+        if (HealtBar != null)
+        {
+            HealtBar.fillAmount = HealtPorcentage();
+        }
+
+    }
+    public float HealtPorcentage()
+    {
+        return _currentHP /_maxtHP;
+
     }
     public void SetState(CharacterState state)
     {

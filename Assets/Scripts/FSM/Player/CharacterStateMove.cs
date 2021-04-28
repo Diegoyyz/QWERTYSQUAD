@@ -57,7 +57,10 @@ public class CharacterStateMove : CharacterState
         {
             rPath.Add(currentNode);
             currentNode = currentNode.parent;
-            currentNode.MakeFloorWalkeable();
+            if (!currentNode.tile.IsOcupied)
+            {
+                currentNode.MakeFloorWalkeable();
+            }
         }
         rPath.Add(actor.CurrentNode);
         endNode.MakeFloorGoal();
@@ -103,9 +106,10 @@ public class CharacterStateMove : CharacterState
                     item.gCost = newCostToNeighbour;
                     item.hCost = GetDistance(item, targetNode);
                     item.parent = node;
-                    if (!openSet.Contains(item))
+                    if (!openSet.Contains(item)&& !item.tile.IsOcupied)
                         openSet.Add(item);
                 }
+               
             }
         }
     }
