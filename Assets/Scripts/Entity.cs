@@ -86,14 +86,16 @@ public class Entity : MonoBehaviour
         anim.SetBool("Walk Forward", true);
         StartCoroutine(moveTo(transform, path));
     }
+   
     public void Attack()
     {
         if (attackTarget!=null)
         {
             anim.SetTrigger("PunchTrigger");
             attackTarget.TakeDmg(attackDmg);
-        }      
-    }
+        }
+
+    }   
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Floor")
