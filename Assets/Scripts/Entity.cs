@@ -31,7 +31,7 @@ public class Entity : MonoBehaviour
     public Animator anim;
     public GameObject body;
     [SerializeField]
-    protected float  _currentHP;
+    public float  _currentHP;
     [SerializeField]
     protected float _maxtHP;
     [SerializeField]
@@ -66,7 +66,7 @@ public class Entity : MonoBehaviour
     }
     public void TakeDmg(int dmg)
     {
-        _currentHP -=dmg;
+        _currentHP= _currentHP- dmg;
         anim.SetTrigger("GetHitTrigger");
     }
     public int SpeedLeft
@@ -85,17 +85,20 @@ public class Entity : MonoBehaviour
         toggleController();
         anim.SetBool("Walk Forward", true);
         StartCoroutine(moveTo(transform, path));
-    }
-   
+    }   
     public void Attack()
     {
         if (attackTarget!=null)
         {
             anim.SetTrigger("PunchTrigger");
-            attackTarget.TakeDmg(attackDmg);
+            StartCoroutine("DelayAttackFeedback");
         }
-
-    }   
+    }
+    IEnumerator DelayAttackFeedback()
+    {
+        yield return new WaitForSecondsRealtime(.5f);
+        attackTarget.TakeDmg(attackDmg);
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Floor")

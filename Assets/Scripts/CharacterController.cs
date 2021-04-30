@@ -19,7 +19,6 @@ public class CharacterController : Entity
         SetState(new CharacterStateSelected(this));
         return this;
     }
-
     public void changeState(int estado)
     {
         switch (estado)
