@@ -16,13 +16,13 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected Floor _targetNode;
     [SerializeField]
-    protected int _maxSpeed;
+    protected int _actionsLeft;
+    [SerializeField]
+    protected int _maxActions;
     [SerializeField]
     protected int _attackRange;
     [SerializeField]
     public int attackDmg;
-    [SerializeField]
-    protected int _speedLeft;
     public Button okMove;
     protected bool okMoveActive = true;
     public Button okAttack;
@@ -31,13 +31,13 @@ public class Entity : MonoBehaviour
     public Animator anim;
     public GameObject body;
     [SerializeField]
-    public float  _currentHP;
+    protected float  _currentHP;
     [SerializeField]
-    protected float _maxtHP;
+    protected float _maxHP;
     [SerializeField]
-    private Image HealtBar;
+    protected Image HealtBar;
     public int team;
-    public Entity attackTarget;
+    protected Entity attackTarget;
     public int AttackRange
     {
         get { return _attackRange; }
@@ -49,9 +49,21 @@ public class Entity : MonoBehaviour
             };
         }
     }
+    public Entity AttackTarget
+    {
+        get { return attackTarget; }
+        set
+        {
+            if (attackTarget != value)
+            {
+                attackTarget = value;
+            };
+        }
+    }
     private void Start()
     {
         ResetStats();
+        _currentHP = _maxHP;
     }
     public bool IsAttackable
     {
@@ -63,20 +75,15 @@ public class Entity : MonoBehaviour
                 _isAttackable = value;
             };
         }
-    }
-    public void TakeDmg(int dmg)
-    {
-        _currentHP= _currentHP- dmg;
-        anim.SetTrigger("GetHitTrigger");
-    }
+    }   
     public int SpeedLeft
     {
-        get { return _speedLeft; }
+        get { return _actionsLeft; }
         set
         {
-            if (_speedLeft != value)
+            if (_actionsLeft != value)
             {
-                _speedLeft = value;
+                _actionsLeft = value;
             };
         }
     }
@@ -91,13 +98,29 @@ public class Entity : MonoBehaviour
         if (attackTarget!=null)
         {
             anim.SetTrigger("PunchTrigger");
-            StartCoroutine("DelayAttackFeedback");
+            attackTarget.TakeDmg(50);
+        }
+        _actionsLeft--;
+    }
+    public void TakeDmg(int dmg)
+    {
+        StartCoroutine("DelayAttackFeedback");
+        _currentHP -= dmg;
+        
+        if (HealtBar != null)
+        {
+            HealtBar.fillAmount = HealtPorcentage();
+        }
+        if (_currentHP<=0)
+        {
+            anim.SetBool("isDead", true);
+
         }
     }
     IEnumerator DelayAttackFeedback()
     {
         yield return new WaitForSecondsRealtime(.5f);
-        attackTarget.TakeDmg(attackDmg);
+        anim.SetTrigger("GetHitTrigger");
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -122,24 +145,18 @@ public class Entity : MonoBehaviour
     }
     public void ResetStats()
     {
-        _speedLeft = _maxSpeed;
-        _currentHP = _maxtHP;
+        _actionsLeft = _maxActions;
     }
     private void Update()
     {
         if (currentState !=null)
         {
             currentState.Tick();
-        }
-        if (HealtBar != null)
-        {
-            HealtBar.fillAmount = HealtPorcentage();
-        }
+        }       
     }
     public float HealtPorcentage()
     {
-        return _currentHP /_maxtHP;
-
+        return _currentHP /_maxHP;
     }
     public void SetState(CharacterState state)
     {

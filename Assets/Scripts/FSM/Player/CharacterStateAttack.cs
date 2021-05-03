@@ -23,7 +23,7 @@ public class CharacterStateAttack : CharacterState
                     actor.okAttack.transform.position = new Vector3(hit.collider.GetComponent<Entity>().transform.position.x-1, actor.okMove.transform.position.y+1, hit.collider.GetComponent<Entity>().transform.position.z-1);
                     actor.body.transform.LookAt(hit.collider.GetComponent<Entity>().transform);
                     actor.toggleOkAttack();
-                    actor.attackTarget = hit.collider.GetComponent<Entity>();
+                    actor.AttackTarget = hit.collider.GetComponent<Entity>();
                 }
             }
             actor.SetState(new CharacterStateIdle(actor));
@@ -32,6 +32,7 @@ public class CharacterStateAttack : CharacterState
     public override void OnStateEnter()
     {
         GetAttackableNodes(actor.CurrentNode, actor.AttackRange);
+        actor.toggleController();
     }
     public override void OnStateExit()
     {
@@ -47,20 +48,20 @@ public class CharacterStateAttack : CharacterState
             }
         }
     }
-    public void GetAttackableNodes(Floor root, int Speed)
+    public void GetAttackableNodes(Floor root, int Range)
     {
         var start = root;
-        int speedLeft = Speed;
-        while (speedLeft > 0)
+        int AttackRange = Range;
+        while (AttackRange > 0)
         {
-            speedLeft--;
+            AttackRange--;
             foreach (var item in start.getNeighbours())
             {                
                 if (item.tile.Ocupant!= null)
                 {
                     item.MakeAttackable();
                     neighbours.Add(item);
-                    GetAttackableNodes(item, speedLeft);
+                    GetAttackableNodes(item, AttackRange);
                 }
                
             }
