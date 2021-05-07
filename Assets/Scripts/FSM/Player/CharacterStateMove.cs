@@ -21,13 +21,13 @@ public class CharacterStateMove : CharacterState
         actor.toggleController();
         speedRested = false;
         actor.ResetStats();
-        Descendants(actor.CurrentNode,actor.SpeedLeft, GetTargetNode);       
+        Descendants(actor.CurrentNode,actor.ActionsLeft, GetTargetNode);       
     }
     public override void OnStateExit()
     {
         if (path != null)
         {
-            actor.SpeedLeft -= path.Count();
+            actor.ActionsLeft -= path.Count();
             actor.MoveToTarget(path);
         }
         foreach (var item in WalkeableNodes)
@@ -119,11 +119,11 @@ public class CharacterStateMove : CharacterState
             }
         }
     }
-    public void Descendants(Floor root, int Speed, Action<Floor> getTargetCallback)
+    public void Descendants(Floor root, int Actions, Action<Floor> getTargetCallback)
     {
         WalkeableNodes.Add(root);
         var start = root;
-        int speedLeft = Speed;
+        int speedLeft = Actions;
         while (speedLeft > 0)
         {
             speedLeft--;
@@ -158,9 +158,5 @@ public class CharacterStateMove : CharacterState
     void GetTargetNode(Floor target)
     {
         actor.TargetNode = target;
-    }
-    void GetTemporalTargetNode(Floor target)
-    {
-       
-    }
+    }   
 }

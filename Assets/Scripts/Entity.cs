@@ -5,6 +5,21 @@ using System.Linq;
 using UnityEngine.UI;
 public class Entity : MonoBehaviour
 {
+    //stats
+    [SerializeField]
+    protected int _speed;   
+    [SerializeField]
+    public int attackDmg;
+    [SerializeField]
+    protected float _currentHP;
+    [SerializeField]
+    protected float _maxHP;
+    [SerializeField]
+    protected int _maxActions;
+  
+    [SerializeField]
+    protected int _actionsLeft;
+
     [SerializeField]
     protected GameObject _canvas;
     [SerializeField]
@@ -15,14 +30,11 @@ public class Entity : MonoBehaviour
     protected Floor _currentNode;
     [SerializeField]
     protected Floor _targetNode;
-    [SerializeField]
-    protected int _actionsLeft;
-    [SerializeField]
-    protected int _maxActions;
+ 
+ 
     [SerializeField]
     protected int _attackRange;
-    [SerializeField]
-    public int attackDmg;
+
     public Button okMove;
     protected bool okMoveActive = true;
     public Button okAttack;
@@ -30,13 +42,11 @@ public class Entity : MonoBehaviour
     protected bool _isAttackable = false;
     public Animator anim;
     public GameObject body;
-    [SerializeField]
-    protected float  _currentHP;
-    [SerializeField]
-    protected float _maxHP;
+ 
     [SerializeField]
     protected Image HealtBar;
-    public int team;
+    public enum Teams { Red, Blue };
+    public Teams team;
     protected Entity attackTarget;
     public int AttackRange
     {
@@ -46,6 +56,17 @@ public class Entity : MonoBehaviour
             if (_attackRange != value)
             {
                 _attackRange = value;
+            };
+        }
+    }
+    public int Speed
+    {
+        get { return _speed; }
+        set
+        {
+            if (_speed != value)
+            {
+                _speed = value;
             };
         }
     }
@@ -76,7 +97,7 @@ public class Entity : MonoBehaviour
             };
         }
     }   
-    public int SpeedLeft
+    public int ActionsLeft
     {
         get { return _actionsLeft; }
         set
@@ -90,6 +111,7 @@ public class Entity : MonoBehaviour
     public void MoveToTarget(List<Floor> path)
     {
         toggleController();
+        _actionsLeft -= path.Count();
         anim.SetBool("Walk Forward", true);
         StartCoroutine(moveTo(transform, path));
     }   
