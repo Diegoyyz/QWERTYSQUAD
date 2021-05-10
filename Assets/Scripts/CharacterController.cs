@@ -14,11 +14,11 @@ public class CharacterController : Entity
         toggleController();
         SetState(new CharacterStateIdle(this));
     }
-    private CharacterController OnMouseUp()
-    {
-        SetState(new CharacterStateSelected(this));
-        return this;
-    }
+    //private CharacterController OnMouseUp()
+    //{
+    //    SetState(new CharacterStateSelected(this));
+    //    return this;
+    //}
     public void changeState(int estado)
     {
         switch (estado)

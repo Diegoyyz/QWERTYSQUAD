@@ -16,8 +16,6 @@ public class Entity : MonoBehaviour
     protected float _maxHP;
     [SerializeField]
     protected int _maxActions;
-  
-    [SerializeField]
     protected int _actionsLeft;
 
     [SerializeField]
@@ -30,11 +28,8 @@ public class Entity : MonoBehaviour
     protected Floor _currentNode;
     [SerializeField]
     protected Floor _targetNode;
- 
- 
     [SerializeField]
     protected int _attackRange;
-
     public Button okMove;
     protected bool okMoveActive = true;
     public Button okAttack;
@@ -42,7 +37,6 @@ public class Entity : MonoBehaviour
     protected bool _isAttackable = false;
     public Animator anim;
     public GameObject body;
- 
     [SerializeField]
     protected Image HealtBar;
     public enum Teams { Red, Blue };
@@ -83,8 +77,6 @@ public class Entity : MonoBehaviour
     }
     private void Start()
     {
-        ResetStats();
-        _currentHP = _maxHP;
     }
     public bool IsAttackable
     {
@@ -111,7 +103,6 @@ public class Entity : MonoBehaviour
     public void MoveToTarget(List<Floor> path)
     {
         toggleController();
-        _actionsLeft -= path.Count();
         anim.SetBool("Walk Forward", true);
         StartCoroutine(moveTo(transform, path));
     }   
@@ -122,13 +113,12 @@ public class Entity : MonoBehaviour
             anim.SetTrigger("PunchTrigger");
             attackTarget.TakeDmg(50);
         }
-        _actionsLeft--;
+        ActionsLeft--;
     }
     public void TakeDmg(int dmg)
     {
         StartCoroutine("DelayAttackFeedback");
-        _currentHP -= dmg;
-        
+        _currentHP-=dmg;        
         if (HealtBar != null)
         {
             HealtBar.fillAmount = HealtPorcentage();
@@ -136,7 +126,6 @@ public class Entity : MonoBehaviour
         if (_currentHP<=0)
         {
             anim.SetBool("isDead", true);
-
         }
     }
     IEnumerator DelayAttackFeedback()
@@ -167,7 +156,9 @@ public class Entity : MonoBehaviour
     }
     public void ResetStats()
     {
-        _actionsLeft = _maxActions;
+       _actionsLeft = _maxActions;
+        _currentHP = _maxHP;
+
     }
     private void Update()
     {
@@ -206,7 +197,7 @@ public class Entity : MonoBehaviour
         if (okMove != null)
         {
             okMoveActive = !okMoveActive;
-        okMove.gameObject.SetActive(okMoveActive);
+            okMove.gameObject.SetActive(okMoveActive);
         }
     }
     public void toggleOkAttack()
@@ -261,6 +252,7 @@ public class Entity : MonoBehaviour
                 transform.position = Vector3.Lerp(start, end, Mathf.SmoothStep(0, 1, t));
                 yield return null;
             }
+            ActionsLeft--;
             start = end;
         }
         anim.SetBool("Walk Forward", false);

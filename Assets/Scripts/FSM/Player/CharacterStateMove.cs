@@ -20,14 +20,13 @@ public class CharacterStateMove : CharacterState
     {        
         actor.toggleController();
         speedRested = false;
-        actor.ResetStats();
         Descendants(actor.CurrentNode,actor.ActionsLeft, GetTargetNode);       
     }
     public override void OnStateExit()
     {
         if (path != null)
         {
-            actor.ActionsLeft -= path.Count();
+           // actor.ActionsLeft -= path.Count()-1;
             actor.MoveToTarget(path);
         }
         foreach (var item in WalkeableNodes)

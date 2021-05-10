@@ -111,21 +111,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01246ace8156ec146908888543a0779f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 5
+  attackDmg: 0
+  _currentHP: 100
+  _maxHP: 100
+  _maxActions: 0
   _canvas: {fileID: 0}
   _currentNode: {fileID: 0}
   _targetNode: {fileID: 0}
-  _actionsLeft: 0
-  _maxActions: 0
   _attackRange: 0
-  attackDmg: 0
   okMove: {fileID: 0}
   okAttack: {fileID: 0}
   anim: {fileID: 5178825893900242939}
   body: {fileID: 5178825893900242928}
-  _currentHP: 100
-  _maxHP: 100
   HealtBar: {fileID: 2855296104175259809}
-  team: 2
+  team: 1
 --- !u!54 &57634382
 Rigidbody:
   m_ObjectHideFlags: 0

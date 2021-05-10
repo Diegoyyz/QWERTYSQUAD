@@ -16,17 +16,12 @@ public class CharacterStateSelected : CharacterState
     // Start is called before the first frame update
     public override void Tick()
     {
-
     }
     public override void OnStateExit()
     {
-
-
     }
     public override void OnStateEnter()
     {
         actor.toggleController();
-        actor.ResetStats();
-
     }
 }
