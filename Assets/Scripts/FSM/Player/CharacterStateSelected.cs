@@ -9,9 +9,10 @@ using UnityEngine;
 public class CharacterStateSelected : CharacterState
 {
 
-    public CharacterStateSelected(CharacterController character)
+    public CharacterStateSelected(Entity character)
     {
         actor = character;
+        actor.ResetStats();
     }
     // Start is called before the first frame update
     public override void Tick()
@@ -19,9 +20,13 @@ public class CharacterStateSelected : CharacterState
     }
     public override void OnStateExit()
     {
+
     }
     public override void OnStateEnter()
     {
-        actor.toggleController();
+        if (actor.ActionsLeft>0)
+        {
+            actor.controllerOn();
+        }
     }
 }

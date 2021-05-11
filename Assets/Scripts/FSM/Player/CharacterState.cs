@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class CharacterState  
 {
-    protected CharacterController actor;
+    protected Entity actor;
 
     public abstract void Tick();
     public virtual void OnStateEnter() { }

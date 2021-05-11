@@ -17,12 +17,12 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected int _maxActions;
     protected int _actionsLeft;
-
     [SerializeField]
     protected GameObject _canvas;
     [SerializeField]
     protected CharacterState currentState;
     protected bool controllerActive = true;
+    public bool isDead = false;
     FloorTile _currentTile;
     [SerializeField]
     protected Floor _currentNode;
@@ -39,9 +39,35 @@ public class Entity : MonoBehaviour
     public GameObject body;
     [SerializeField]
     protected Image HealtBar;
-    public enum Teams { Red, Blue };
+    public enum Teams {Red,Blue,green};
     public Teams team;
     protected Entity attackTarget;
+    private void OnEnable()
+    {
+        ResetStats();
+        toggleOkMove();
+        toggleOkAttack();
+        controllerOff();
+        SetState(new CharacterStateIdle(this));
+    }
+    public void changeState(int estado)
+    {
+        switch (estado)
+        {
+            case 0:
+                 SetState(new CharacterStateAttack(this));
+                break;
+            case 1:
+                SetState(new CharacterStateMove(this));
+                break;
+            case 2:
+                SetState(new CharacterStateIdle(this));
+                break;
+            case 3:
+                SetState(new CharacterStateSelected(this));
+                break;
+        }
+    }
     public int AttackRange
     {
         get { return _attackRange; }
@@ -73,11 +99,8 @@ public class Entity : MonoBehaviour
             {
                 attackTarget = value;
             };
-        }
-    }
-    private void Start()
-    {
-    }
+        } 
+    }   
     public bool IsAttackable
     {
         get { return _isAttackable; }
@@ -102,7 +125,6 @@ public class Entity : MonoBehaviour
     }
     public void MoveToTarget(List<Floor> path)
     {
-        toggleController();
         anim.SetBool("Walk Forward", true);
         StartCoroutine(moveTo(transform, path));
     }   
@@ -126,6 +148,7 @@ public class Entity : MonoBehaviour
         if (_currentHP<=0)
         {
             anim.SetBool("isDead", true);
+            isDead = true;
         }
     }
     IEnumerator DelayAttackFeedback()
@@ -184,13 +207,21 @@ public class Entity : MonoBehaviour
             currentState.OnStateEnter();
         }
     }
-    public void toggleController()
+    public void controllerOn()
     {
         if (_canvas!=null)
         {
-            controllerActive = !controllerActive;
-            _canvas.SetActive(controllerActive);
+            controllerActive = true;
+            _canvas.SetActive(true);
         }       
+    }
+    public void controllerOff()
+    {
+        if (_canvas != null)
+        {
+            controllerActive = false;
+            _canvas.SetActive(false);
+        }
     }
     public void toggleOkMove()
     {
@@ -256,5 +287,9 @@ public class Entity : MonoBehaviour
             start = end;
         }
         anim.SetBool("Walk Forward", false);
+        if (ActionsLeft > 0)
+        {
+            controllerOn();
+        }
     }
 }

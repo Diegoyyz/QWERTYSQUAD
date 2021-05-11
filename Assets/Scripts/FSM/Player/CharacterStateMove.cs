@@ -12,13 +12,13 @@ public class CharacterStateMove : CharacterState
     List<Floor> WalkeableNodes = new List<Floor>();
     bool speedRested;
     Floor target;
-    public CharacterStateMove(CharacterController character)
+    public CharacterStateMove(Entity character)
     {
         actor = character;        
     }
     public override void OnStateEnter()
     {        
-        actor.toggleController();
+        actor.controllerOff();
         speedRested = false;
         Descendants(actor.CurrentNode,actor.ActionsLeft, GetTargetNode);       
     }
@@ -26,7 +26,6 @@ public class CharacterStateMove : CharacterState
     {
         if (path != null)
         {
-           // actor.ActionsLeft -= path.Count()-1;
             actor.MoveToTarget(path);
         }
         foreach (var item in WalkeableNodes)

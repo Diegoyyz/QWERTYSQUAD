@@ -19,8 +19,12 @@ public class GameManager : MonoBehaviour
     {
         TurnIndex = 0;
         Units = FindObjectsOfType<Entity>().ToList();
-        orderedUnits = arrangeUnitsBySpeed();
+        orderedUnits = arrangeUnitsBySpeed();        
         TurnBegin();        
+    }
+    public void RemoveFromList()
+    {
+
     }
     List<Entity> arrangeUnitsBySpeed()
     {
@@ -47,13 +51,25 @@ public class GameManager : MonoBehaviour
 
         }
     }
+    void selecUnit()
+    {
+        while (orderedUnits[TurnIndex].isDead)
+        {
+            TurnIndex++;
+        }
+        current = orderedUnits[TurnIndex];
+    }
     public void TurnEnd()
     {
-        TurnIndex++;
+         TurnIndex++;
+        current.controllerOff();
+        current.SetState(new CharacterStateIdle(current.GetComponent<CharacterController>()));       
+        orderedUnits = arrangeUnitsBySpeed();
         if (TurnIndex >orderedUnits.Count()-1)
         {
             TurnIndex = 0;
         }
+        selecUnit();
         TurnBegin();
     }
 }

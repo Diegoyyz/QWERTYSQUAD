@@ -5,7 +5,7 @@ public class CharacterStateAttack : CharacterState
 {
     List<Floor> neighbours= new List<Floor>();
     Entity Target;
-    public CharacterStateAttack(CharacterController character)
+    public CharacterStateAttack(Entity character)
     {
         actor = character;
     }
@@ -32,7 +32,7 @@ public class CharacterStateAttack : CharacterState
     public override void OnStateEnter()
     {
         GetAttackableNodes(actor.CurrentNode, actor.AttackRange);
-        actor.toggleController();
+        actor.controllerOff();
     }
     public override void OnStateExit()
     {
