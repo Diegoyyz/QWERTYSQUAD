@@ -31,7 +31,7 @@ public class CharacterStateAttack : CharacterState
     }
     public override void OnStateEnter()
     {
-        GetAttackableNodes(actor.CurrentNode, actor.AttackRange);
+        actor.GetAttackableNodes(actor.CurrentNode, actor.AttackRange);
         actor.controllerOff();
     }
     public override void OnStateExit()
@@ -47,24 +47,5 @@ public class CharacterStateAttack : CharacterState
                 item.ResetOcupied();
             }
         }
-    }
-    public void GetAttackableNodes(Floor root, int Range)
-    {
-        var start = root;
-        int AttackRange = Range;
-        while (AttackRange > 0)
-        {
-            AttackRange--;
-            foreach (var item in start.getNeighbours())
-            {                
-                if (item.tile.Ocupant!= null)
-                {
-                    item.MakeAttackable();
-                    neighbours.Add(item);
-                    GetAttackableNodes(item, AttackRange);
-                }
-               
-            }
-        }
-    }
+    }   
 }

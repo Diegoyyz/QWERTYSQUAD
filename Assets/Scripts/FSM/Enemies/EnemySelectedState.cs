@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStateIdle : CharacterState
+public class EnemySelectedState : CharacterState
 {
-
-    public CharacterStateIdle(Entity character)
+    public EnemySelectedState(Entity character)
     {
         actor = character;
     }
@@ -15,6 +14,5 @@ public class CharacterStateIdle : CharacterState
     }
     public override void Tick()
     {
-        actor.ResetStats();
-    } 
+    }
 }

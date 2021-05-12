@@ -1,48 +1,36 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
+using System;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine;
-public class CharacterStateMove : CharacterState
+public class EnemyMoveState : CharacterState
 {
     List<Floor> path;
     List<Floor> WalkeableNodes = new List<Floor>();
     bool speedRested;
     Floor target;
-    public CharacterStateMove(Entity character)
+    public EnemyMoveState(Entity character)
     {
-        actor = character;        
+        actor = character;
+    }
+    public override void Tick()
+    {
+        throw new System.NotImplementedException();
     }
     public override void OnStateEnter()
-    {        
-        actor.controllerOff();
-        speedRested = false;
-        Descendants(actor.CurrentNode,actor.ActionsLeft, GetTargetNode);       
+    {
+        var tiles = GameObject.FindObjectsOfType<Floor>();
+        Descendants(actor.CurrentNode, actor.ActionsLeft, GetTargetNode);
+        FindPath(actor.CurrentNode, target);
+        var partialpath = path.Intersect(WalkeableNodes);
     }
     public override void OnStateExit()
     {
-        if (path != null)
-        {
-            actor.MoveToTarget(path);
-        }
-        foreach (var item in WalkeableNodes)
-        {
-            if (!item.tile.IsOcupied)
-            {
-                item.ResetFloor();
-            }
-        }
+        //ejecutar corrutina para mover enemigo 
     }
-    public override void Tick()
-    {       
-        if (actor.CurrentNode != actor.TargetNode)
-        {
-            FindPath(actor.CurrentNode,actor.TargetNode);  
-        }      
-    }   
     private void RetracePath(Floor startNode, Floor endNode)
     {
         List<Floor> rPath = new List<Floor>();
@@ -70,7 +58,7 @@ public class CharacterStateMove : CharacterState
         endNode.MakeFloorGoal();
         actor.okMove.transform.position = new Vector3(endNode.transform.position.x, actor.okMove.transform.position.y, endNode.transform.position.z);
         actor.okMove.gameObject.SetActive(true);
-        rPath.Reverse();       
+        rPath.Reverse();
         path = rPath;
     }
     void FindPath(Floor start, Floor target)
@@ -88,14 +76,14 @@ public class CharacterStateMove : CharacterState
                 if (openSet[i].fCost < node.fCost || openSet[i].fCost == node.fCost)
                 {
                     if (openSet[i].hCost < node.hCost)
-                        node = openSet[i]; 
+                        node = openSet[i];
                 }
             }
             openSet.Remove(node);
             closedSet.Add(node);
             if (node == targetNode)
             {
-                RetracePath(startNode, targetNode);               
+                RetracePath(startNode, targetNode);
                 return;
             }
             foreach (Floor item in node.getNeighbours())
@@ -110,10 +98,10 @@ public class CharacterStateMove : CharacterState
                     item.gCost = newCostToNeighbour;
                     item.hCost = GetDistance(item, targetNode);
                     item.parent = node;
-                    if (!openSet.Contains(item)&& !item.tile.IsOcupied)
+                    if (!openSet.Contains(item) && !item.tile.IsOcupied)
                         openSet.Add(item);
                 }
-               
+
             }
         }
     }
@@ -127,34 +115,24 @@ public class CharacterStateMove : CharacterState
             speedLeft--;
             foreach (var item in start.getNeighbours())
             {
-                Descendants(item,speedLeft, getTargetCallback);
-                if (!item.tile.IsOcupied)
-                {
-                    item.MakeFloorPath();
-                }
-                //start pathfinding on button sellect
-                EventTrigger.Entry entry = new EventTrigger.Entry();
-                entry.eventID = EventTriggerType.PointerEnter;
-                item.GetComponent<EventTrigger>().triggers.Add(entry);
-                //add callback to selection
-                item.GetComponent<Button>().onClick.AddListener(delegate { getTargetCallback(item); });
+                Descendants(item, speedLeft, getTargetCallback);
             }
         }
     }
     static int GetDistance(Floor nodeA, Floor nodeB)
     {
-        if (nodeA!= null && nodeB != null)
-        {       
-        int dstX = (int)Mathf.Abs(nodeA.transform.position.x - nodeB.transform.position.x);
-        int dstY = (int)Mathf.Abs(nodeA.transform.position.x - nodeA.transform.position.y);
-        if (dstX > dstY)
-            return 14 * dstY + 10 * (dstX - dstY);
-        return 14 * dstX + 10 * (dstY - dstX);
+        if (nodeA != null && nodeB != null)
+        {
+            int dstX = (int)Mathf.Abs(nodeA.transform.position.x - nodeB.transform.position.x);
+            int dstY = (int)Mathf.Abs(nodeA.transform.position.x - nodeA.transform.position.y);
+            if (dstX > dstY)
+                return 14 * dstY + 10 * (dstX - dstY);
+            return 14 * dstX + 10 * (dstY - dstX);
         }
         return 0;
     }
     void GetTargetNode(Floor target)
     {
         actor.TargetNode = target;
-    }   
+    }
 }

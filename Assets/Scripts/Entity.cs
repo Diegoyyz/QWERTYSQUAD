@@ -50,6 +50,27 @@ public class Entity : MonoBehaviour
         controllerOff();
         SetState(new CharacterStateIdle(this));
     }
+    public List<Floor> GetAttackableNodes(Floor root, int Range)
+    {
+        List<Floor> neighbours = new List<Floor>();
+        var start = root;
+        int AttackRange = Range;
+        while (AttackRange > 0)
+        {
+            AttackRange--;
+            foreach (var item in start.getNeighbours())
+            {
+                if (item.tile.Ocupant != null)
+                {
+                    item.MakeAttackable();
+                    neighbours.Add(item);
+                    GetAttackableNodes(item, AttackRange);
+                }
+
+            }
+        }
+        return neighbours;
+    }
     public void changeState(int estado)
     {
         switch (estado)
@@ -239,6 +260,7 @@ public class Entity : MonoBehaviour
             okAttack.gameObject.SetActive(okAttackActive);
         }
     }
+   
     public Floor TargetNode
     {
         get { return _targetNode; }
