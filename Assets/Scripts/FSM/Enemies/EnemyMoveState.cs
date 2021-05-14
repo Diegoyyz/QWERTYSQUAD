@@ -8,7 +8,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 public class EnemyMoveState : CharacterState
 {
+    
     List<Floor> path;
+    List<Floor> partialpath;
+
     List<Floor> WalkeableNodes = new List<Floor>();
     bool speedRested;
     Floor target;
@@ -18,18 +21,21 @@ public class EnemyMoveState : CharacterState
     }
     public override void Tick()
     {
-        throw new System.NotImplementedException();
+
     }
     public override void OnStateEnter()
     {
         var tiles = GameObject.FindObjectsOfType<Floor>();
         Descendants(actor.CurrentNode, actor.ActionsLeft, GetTargetNode);
-        FindPath(actor.CurrentNode, target);
-        var partialpath = path.Intersect(WalkeableNodes);
+        var ocupiedTiles = tiles.OrderBy(x => GetDistance(actor.CurrentNode, x)).Where(x => x.tile.IsOcupied && x.tile.Ocupant.team !=actor.team).ToList();
+        actor.TargetNode = ocupiedTiles[0];           
+        FindPath(actor.CurrentNode, actor.TargetNode);
+        actor.MoveToTarget(path);        
+        actor.changeState(2);
     }
     public override void OnStateExit()
     {
-        //ejecutar corrutina para mover enemigo 
+
     }
     private void RetracePath(Floor startNode, Floor endNode)
     {
@@ -60,6 +66,8 @@ public class EnemyMoveState : CharacterState
         actor.okMove.gameObject.SetActive(true);
         rPath.Reverse();
         path = rPath;
+        Debug.Log(path.Count());
+
     }
     void FindPath(Floor start, Floor target)
     {
@@ -101,7 +109,6 @@ public class EnemyMoveState : CharacterState
                     if (!openSet.Contains(item) && !item.tile.IsOcupied)
                         openSet.Add(item);
                 }
-
             }
         }
     }

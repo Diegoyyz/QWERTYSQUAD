@@ -87,6 +87,10 @@ public class Entity : MonoBehaviour
             case 3:
                 SetState(new CharacterStateSelected(this));
                 break;
+            case 4:
+                SetState(new EnemyMoveState(this));
+                break;
+                
         }
     }
     public int AttackRange
