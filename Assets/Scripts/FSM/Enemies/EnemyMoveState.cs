@@ -32,11 +32,10 @@ public class EnemyMoveState : CharacterState
     public override void OnStateEnter()
     {
         var tiles = GameObject.FindObjectsOfType<Floor>().ToList();
-       var closestOcupied = tiles.First(x=>x.tile.IsOcupied);
+        var closestOcupied = tiles.OrderBy(x=>GetDistance(actor.CurrentNode,x)).First(x=>x.tile.IsOcupied&&x.tile.Ocupant != actor);
         FindPath(actor.CurrentNode, closestOcupied);
         path.Remove(path.Last());       
         actor.MoveToTarget(path);
-
     }
     private void RetracePath(Floor startNode, Floor endNode)
     {
