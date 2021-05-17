@@ -11,7 +11,6 @@ public class CharacterStateMove : CharacterState
     List<Floor> path;
     List<Floor> WalkeableNodes = new List<Floor>();
     bool speedRested;
-    Floor target;
     public CharacterStateMove(Entity character)
     {
         actor = character;        

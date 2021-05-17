@@ -7,11 +7,9 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 public class EnemyMoveState : CharacterState
-{
-    
-    List<Floor> path;
+{    
+    List<Floor> path= new List<Floor>();
     List<Floor> partialpath;
-
     List<Floor> WalkeableNodes = new List<Floor>();
     bool speedRested;
     Floor target;
@@ -21,20 +19,23 @@ public class EnemyMoveState : CharacterState
     }
     public override void Tick()
     {
+        if (actor.CurrentNode != actor.TargetNode)
+        {
+            
+        }
+        else if(actor.CurrentNode == actor.TargetNode)
+        {
+            actor.changeState(2);
+        }
 
     }
     public override void OnStateEnter()
     {
-        var tiles = GameObject.FindObjectsOfType<Floor>();
-        Descendants(actor.CurrentNode, actor.ActionsLeft, GetTargetNode);
-        var ocupiedTiles = tiles.OrderBy(x => GetDistance(actor.CurrentNode, x)).Where(x => x.tile.IsOcupied && x.tile.Ocupant.team !=actor.team).ToList();
-        actor.TargetNode = ocupiedTiles[0];           
-        FindPath(actor.CurrentNode, actor.TargetNode);
-        actor.MoveToTarget(path);        
-        actor.changeState(2);
-    }
-    public override void OnStateExit()
-    {
+        var tiles = GameObject.FindObjectsOfType<Floor>().ToList();
+       var closestOcupied = tiles.First(x=>x.tile.IsOcupied);
+        FindPath(actor.CurrentNode, closestOcupied);
+        path.Remove(path.Last());       
+        actor.MoveToTarget(path);
 
     }
     private void RetracePath(Floor startNode, Floor endNode)
@@ -45,20 +46,16 @@ public class EnemyMoveState : CharacterState
         {
             foreach (var item in path)
             {
-                if (!item.tile.IsOcupied)
-                {
+                
                     item.MakeFloorPath();
-                }
+                
             }
         }
         while (currentNode != startNode)
         {
             rPath.Add(currentNode);
             currentNode = currentNode.parent;
-            if (!currentNode.tile.IsOcupied)
-            {
                 currentNode.MakeFloorWalkeable();
-            }
         }
         rPath.Add(actor.CurrentNode);
         endNode.MakeFloorGoal();
@@ -66,8 +63,6 @@ public class EnemyMoveState : CharacterState
         actor.okMove.gameObject.SetActive(true);
         rPath.Reverse();
         path = rPath;
-        Debug.Log(path.Count());
-
     }
     void FindPath(Floor start, Floor target)
     {
@@ -106,12 +101,16 @@ public class EnemyMoveState : CharacterState
                     item.gCost = newCostToNeighbour;
                     item.hCost = GetDistance(item, targetNode);
                     item.parent = node;
-                    if (!openSet.Contains(item) && !item.tile.IsOcupied)
+                    if (!openSet.Contains(item))
                         openSet.Add(item);
                 }
             }
         }
     }
+    public override void OnStateExit()
+    {
+
+    }   
     public void Descendants(Floor root, int Actions, Action<Floor> getTargetCallback)
     {
         WalkeableNodes.Add(root);
