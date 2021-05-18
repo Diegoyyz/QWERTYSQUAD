@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class EnemyAttackState : CharacterState
 {
+    public EnemyAttackState(Entity character)
+    {
+        actor = character;
+    }
     public override void Tick()
     {
         throw new System.NotImplementedException();
@@ -15,11 +19,11 @@ public class EnemyAttackState : CharacterState
         if (nodes.Count>0)
         {
             actor.AttackTarget = nodes.First().tile.Ocupant;
+            actor.body.transform.LookAt(actor.AttackTarget.transform);
             actor.Attack();
         }
-        actor.SetState(new EnemySelectedState(actor));
-
-    }
+        actor.changeState(2);
+    }  
     public override void OnStateExit()
     {
 

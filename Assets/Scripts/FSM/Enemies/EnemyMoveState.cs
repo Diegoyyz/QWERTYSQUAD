@@ -19,22 +19,29 @@ public class EnemyMoveState : CharacterState
     }
     public override void Tick()
     {
-        if (actor.CurrentNode != actor.TargetNode)
+        var toattackNodes = actor.CurrentNode.getNeighbours().
+                            Where(x => x.tile.IsOcupied).OrderBy(x=> x.tile.Ocupant.HealtPorcentage());
+        if (toattackNodes.Count()>=1 && actor.ActionsLeft>0)
         {
-            
+            actor.AttackTarget = toattackNodes.First().tile.Ocupant;
+            actor.changeState(5);
         }
-        else if(actor.CurrentNode == actor.TargetNode)
+        if (actor.CurrentNode == actor.TargetNode)
         {
-            actor.changeState(2);
-        }
-
+            actor.changeState(2);            
+        }       
     }
     public override void OnStateEnter()
     {
         var tiles = GameObject.FindObjectsOfType<Floor>().ToList();
-        var closestOcupied = tiles.OrderBy(x=>GetDistance(actor.CurrentNode,x)).First(x=>x.tile.IsOcupied&&x.tile.Ocupant != actor);
-        FindPath(actor.CurrentNode, closestOcupied);
-        path.Remove(path.Last());       
+        target = tiles.OrderBy(x=>GetDistance(actor.CurrentNode,x)).First(x=>x.tile.IsOcupied&&x.tile.Ocupant != actor);
+        FindPath(actor.CurrentNode, target);
+        var toSkip = actor.ActionsLeft - path.Count();
+        path.Remove(path.Last());
+        foreach (var item in path)
+        {
+            item.ResetFloor();
+        }
         actor.MoveToTarget(path);
     }
     private void RetracePath(Floor startNode, Floor endNode)
@@ -46,8 +53,7 @@ public class EnemyMoveState : CharacterState
             foreach (var item in path)
             {
                 
-                    item.MakeFloorPath();
-                
+                    item.MakeFloorPath();                
             }
         }
         while (currentNode != startNode)
@@ -108,7 +114,7 @@ public class EnemyMoveState : CharacterState
     }
     public override void OnStateExit()
     {
-
+       
     }   
     public void Descendants(Floor root, int Actions, Action<Floor> getTargetCallback)
     {

@@ -39,6 +39,7 @@ public class Entity : MonoBehaviour
     public GameObject body;
     [SerializeField]
     protected Image HealtBar;
+    public bool onTheMoove;
     public enum Teams {Red,Blue,green};
     public Teams team;
     protected Entity attackTarget;
@@ -90,7 +91,10 @@ public class Entity : MonoBehaviour
             case 4:
                 SetState(new EnemyMoveState(this));
                 break;
-                
+            case 5:
+                SetState(new EnemyAttackState(this));
+                break;
+
         }
     }
     public int AttackRange
@@ -289,13 +293,15 @@ public class Entity : MonoBehaviour
     }
     private IEnumerator moveTo(Transform transform, List<Floor> vectors)
     {
-        if (vectors.Count == 0)
+        if (vectors.Count == 0 )
             yield break;
         Vector3 start = new Vector3(vectors[0].transform.position.x,
                                     transform.position.y,
                                     vectors[0].transform.position.z);
         for (int i = 1; i < vectors.Count; i++)
         {
+            if (ActionsLeft>0)
+            {           
             Vector3 end = new Vector3(vectors[i].transform.position.x,
                                     transform.position.y,
                                     vectors[i].transform.position.z);
@@ -311,6 +317,7 @@ public class Entity : MonoBehaviour
             }
             ActionsLeft--;
             start = end;
+            }
         }
         anim.SetBool("Walk Forward", false);
         if (ActionsLeft > 0)
