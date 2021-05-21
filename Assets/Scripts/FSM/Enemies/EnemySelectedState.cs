@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySelectedState : CharacterState
+public class EnemySelectedState : EnemyState
 {
-    public EnemySelectedState(Entity character)
+    public EnemySelectedState(EnemyController character)
     {
         actor = character;
     }

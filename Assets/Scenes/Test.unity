@@ -3150,14 +3150,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 24169770}
-    - target: {fileID: 645803955, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
-      propertyPath: team
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 645803955, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
-      propertyPath: _speed
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -5889,7 +5881,7 @@ PrefabInstance:
       objectReference: {fileID: 24169770}
     - target: {fileID: 645803955, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
       propertyPath: team
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 645803955, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
       propertyPath: _speed
@@ -6391,71 +6383,79 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9062659447285618907, guid: 678b5ecad37aa9f469ccd349675730fe, type: 3}
   m_PrefabInstance: {fileID: 171576301}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &3636339403155209656
+--- !u!1001 &2196621861061197987
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 282798867, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 370853639882656293, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4c25f465056fded4c897257a71cbb3b0, type: 2}
+    - target: {fileID: 902029353441135383, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4c25f465056fded4c897257a71cbb3b0, type: 2}
+    - target: {fileID: 3174237954547668488, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 24169770}
-    - target: {fileID: 1809763050, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 4
+    - target: {fileID: 3174237954923385512, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
+      propertyPath: team
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 3310908378329918264, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 3310908378329918264, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.03
       objectReference: {fileID: 0}
-    - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 3310908378329918264, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.51
       objectReference: {fileID: 0}
-    - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 3310908378329918264, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_LocalPosition.z
       value: -11.66
       objectReference: {fileID: 0}
-    - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 3310908378329918264, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 3310908378329918264, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 3310908378329918264, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 3310908378329918264, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 3310908378329918264, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 3310908378329918264, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 144006589014300195, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 3310908378329918264, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6978938174181990040, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+    - target: {fileID: 5536898463532098435, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e40bac4e26ddb924494bb13d4321b55f, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 79b6870e873b7664f8e83b7a46984cae, type: 3}
 --- !u!1001 &9062659447872942074
 PrefabInstance:
   m_ObjectHideFlags: 0

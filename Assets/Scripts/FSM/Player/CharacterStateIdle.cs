@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterStateIdle : CharacterState
 {
 
-    public CharacterStateIdle(Entity character)
+    public CharacterStateIdle(CharacterController character)
     {
         actor = character;
     }

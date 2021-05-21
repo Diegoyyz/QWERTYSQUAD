@@ -6,14 +6,14 @@ using UnityEngine.Events;
 using System;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-public class EnemyMoveState : CharacterState
+public class EnemyMoveState : EnemyState
 {    
     List<Floor> path= new List<Floor>();
     List<Floor> partialpath;
     List<Floor> WalkeableNodes = new List<Floor>();
     bool speedRested;
     Floor target;
-    public EnemyMoveState(Entity character)
+    public EnemyMoveState(EnemyController character)
     {
         actor = character;
     }
@@ -63,9 +63,7 @@ public class EnemyMoveState : CharacterState
                 currentNode.MakeFloorWalkeable();
         }
         rPath.Add(actor.CurrentNode);
-        endNode.MakeFloorGoal();
-        actor.okMove.transform.position = new Vector3(endNode.transform.position.x, actor.okMove.transform.position.y, endNode.transform.position.z);
-        actor.okMove.gameObject.SetActive(true);
+        endNode.MakeFloorGoal();       
         rPath.Reverse();
         path = rPath;
     }

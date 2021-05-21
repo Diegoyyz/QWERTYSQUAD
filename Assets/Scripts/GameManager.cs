@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviour
         else
         {
             actionsLeftTxt.color = Color.green;
-
         }
     }
     void selecUnit()

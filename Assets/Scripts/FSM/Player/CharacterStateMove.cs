@@ -10,8 +10,9 @@ public class CharacterStateMove : CharacterState
 {
     List<Floor> path;
     List<Floor> WalkeableNodes = new List<Floor>();
+    
     bool speedRested;
-    public CharacterStateMove(Entity character)
+    public CharacterStateMove( CharacterController character)
     {
         actor = character;        
     }

@@ -5,7 +5,7 @@ public class CharacterStateAttack : CharacterState
 {
     List<Floor> neighbours= new List<Floor>();
     Entity Target;
-    public CharacterStateAttack(Entity character)
+    public CharacterStateAttack(CharacterController character)
     {
         actor = character;
     }

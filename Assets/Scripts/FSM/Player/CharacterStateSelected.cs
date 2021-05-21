@@ -9,7 +9,7 @@ using UnityEngine;
 public class CharacterStateSelected : CharacterState
 {
 
-    public CharacterStateSelected(Entity character)
+    public CharacterStateSelected(CharacterController character)
     {
         actor = character;
         actor.ResetStats();

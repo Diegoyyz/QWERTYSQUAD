@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01246ace8156ec146908888543a0779f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
+  _speed: 5
   attackDmg: 25
   _currentHP: 100
   _maxHP: 0
@@ -145,6 +145,7 @@ MonoBehaviour:
   anim: {fileID: 2965798413987695102}
   body: {fileID: 2965798413997063058}
   HealtBar: {fileID: 3010434458859401998}
+  onTheMoove: 0
   team: 0
 --- !u!1001 &2065913489891065753
 PrefabInstance:

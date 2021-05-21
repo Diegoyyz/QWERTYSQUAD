@@ -17,10 +17,9 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected int _maxActions;
     protected int _actionsLeft;
+  
     [SerializeField]
-    protected GameObject _canvas;
-    [SerializeField]
-    protected CharacterState currentState;
+    protected FSMState currentState;
     protected bool controllerActive = true;
     public bool isDead = false;
     FloorTile _currentTile;
@@ -29,11 +28,7 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected Floor _targetNode;
     [SerializeField]
-    protected int _attackRange;
-    public Button okMove;
-    protected bool okMoveActive = true;
-    public Button okAttack;
-    protected bool okAttackActive = true;
+    protected int _attackRange;  
     protected bool _isAttackable = false;
     public Animator anim;
     public GameObject body;
@@ -43,13 +38,9 @@ public class Entity : MonoBehaviour
     public enum Teams {Red,Blue,green};
     public Teams team;
     protected Entity attackTarget;
-    private void OnEnable()
+   protected virtual void OnEnable()
     {
-        ResetStats();
-        toggleOkMove();
-        toggleOkAttack();
-        controllerOff();
-        SetState(new CharacterStateIdle(this));
+        ResetStats();       
     }
     public List<Floor> GetAttackableNodes(Floor root, int Range)
     {
@@ -72,31 +63,7 @@ public class Entity : MonoBehaviour
         }
         return neighbours;
     }
-    public void changeState(int estado)
-    {
-        switch (estado)
-        {
-            case 0:
-                 SetState(new CharacterStateAttack(this));
-                break;
-            case 1:
-                SetState(new CharacterStateMove(this));
-                break;
-            case 2:
-                SetState(new CharacterStateIdle(this));
-                break;
-            case 3:
-                SetState(new CharacterStateSelected(this));
-                break;
-            case 4:
-                SetState(new EnemyMoveState(this));
-                break;
-            case 5:
-                SetState(new EnemyAttackState(this));
-                break;
-
-        }
-    }
+    
     public int AttackRange
     {
         get { return _attackRange; }
@@ -210,7 +177,6 @@ public class Entity : MonoBehaviour
     {
        _actionsLeft = _maxActions;
         _currentHP = _maxHP;
-
     }
     private void Update()
     {
@@ -223,7 +189,19 @@ public class Entity : MonoBehaviour
     {
         return _currentHP /_maxHP;
     }
-    public void SetState(CharacterState state)
+    
+    public Floor TargetNode
+    {
+        get { return _targetNode; }
+        set
+        {
+            if (_targetNode != value)
+            {
+                _targetNode = value;
+            };
+        }
+    }
+    public virtual void SetState(CharacterState state)
     {
         if (currentState != null)
         {
@@ -234,50 +212,6 @@ public class Entity : MonoBehaviour
         if (currentState != null)
         {
             currentState.OnStateEnter();
-        }
-    }
-    public void controllerOn()
-    {
-        if (_canvas!=null)
-        {
-            controllerActive = true;
-            _canvas.SetActive(true);
-        }       
-    }
-    public void controllerOff()
-    {
-        if (_canvas != null)
-        {
-            controllerActive = false;
-            _canvas.SetActive(false);
-        }
-    }
-    public void toggleOkMove()
-    {
-        if (okMove != null)
-        {
-            okMoveActive = !okMoveActive;
-            okMove.gameObject.SetActive(okMoveActive);
-        }
-    }
-    public void toggleOkAttack()
-    {
-        if (okAttack != null)
-        {
-            okAttackActive = !okAttackActive;
-            okAttack.gameObject.SetActive(okAttackActive);
-        }
-    }
-   
-    public Floor TargetNode
-    {
-        get { return _targetNode; }
-        set
-        {
-            if (_targetNode != value)
-            {
-                _targetNode = value;
-            };
         }
     }
     public Floor CurrentNode
@@ -319,10 +253,6 @@ public class Entity : MonoBehaviour
             start = end;
             }
         }
-        anim.SetBool("Walk Forward", false);
-        if (ActionsLeft > 0)
-        {
-            controllerOn();
-        }
+        anim.SetBool("Walk Forward", false);    
     }
 }

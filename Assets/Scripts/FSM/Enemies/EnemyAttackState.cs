@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemyAttackState : CharacterState
+public class EnemyAttackState : EnemyState
 {
-    public EnemyAttackState(Entity character)
+    public EnemyAttackState(EnemyController character)
     {
         actor = character;
     }
