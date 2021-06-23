@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     public void TurnBegin()
     {
         current = orderedUnits[TurnIndex];
-        current.SetState(new CharacterStateSelected(current.GetComponent<CharacterController>()));
+        current.turnStart();
     }
     private void Update()
     {
@@ -61,8 +61,7 @@ public class GameManager : MonoBehaviour
     public void TurnEnd()
     {
          TurnIndex++;
-        current.controllerOff();
-        current.SetState(new CharacterStateIdle(current.GetComponent<CharacterController>()));       
+        current.turnEnd();   
         orderedUnits = arrangeUnitsBySpeed();
         if (TurnIndex >orderedUnits.Count()-1)
         {

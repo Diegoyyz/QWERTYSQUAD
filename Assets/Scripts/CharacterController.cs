@@ -12,13 +12,22 @@ public class CharacterController : Entity
     protected bool okMoveActive = true;
     public Button okAttack;
     protected bool okAttackActive = true;
-    protected override void OnEnable()
+     void OnEnable()
     {
-        base.OnEnable();
         toggleOkMove();
         toggleOkAttack();
         controllerOff();
         SetState(new CharacterStateIdle(this));
+    }
+    public override void turnEnd()
+    {
+        controllerOff();
+       SetState(new CharacterStateIdle(this));
+    }
+    public override void turnStart()
+    {
+        controllerOn();
+        SetState(new CharacterStateSelected(this));
     }
     public override void SetState(CharacterState state)
     {
@@ -32,7 +41,7 @@ public class CharacterController : Entity
         {
             currentState.OnStateEnter();
         }
-    }
+    }    
     public void changeState(int estado)
     {
         switch (estado)

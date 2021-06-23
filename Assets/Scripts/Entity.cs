@@ -16,8 +16,8 @@ public class Entity : MonoBehaviour
     protected float _maxHP;
     [SerializeField]
     protected int _maxActions;
-    protected int _actionsLeft;
-  
+    [SerializeField]
+    protected int _actionsLeft;  
     [SerializeField]
     protected FSMState currentState;
     protected bool controllerActive = true;
@@ -38,9 +38,13 @@ public class Entity : MonoBehaviour
     public enum Teams {Red,Blue,green};
     public Teams team;
     protected Entity attackTarget;
-   protected virtual void OnEnable()
+    public virtual void turnEnd()
     {
-        ResetStats();       
+
+    }
+    public virtual void turnStart()
+    {
+
     }
     public List<Floor> GetAttackableNodes(Floor root, int Range)
     {

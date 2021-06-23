@@ -14,5 +14,9 @@ public class EnemySelectedState : EnemyState
     }
     public override void Tick()
     {
+        if (true)
+        {
+            actor.changeState(0);
+        }
     }
 }
