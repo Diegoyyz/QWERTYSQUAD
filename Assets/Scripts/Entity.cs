@@ -127,6 +127,7 @@ public class Entity : MonoBehaviour
     {
         anim.SetBool("Walk Forward", true);
         StartCoroutine(moveTo(transform, path));
+        
     }   
     public void Attack()
     {
@@ -149,6 +150,8 @@ public class Entity : MonoBehaviour
         {
             anim.SetBool("isDead", true);
             isDead = true;
+            CurrentNode.ResetFloor();
+            Destroy(this.gameObject, 2);
         }
     }
     IEnumerator DelayAttackFeedback()

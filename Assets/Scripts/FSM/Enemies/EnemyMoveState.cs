@@ -19,17 +19,11 @@ public class EnemyMoveState : EnemyState
     }
     public override void Tick()
     {
-        var toattackNodes = actor.CurrentNode.getNeighbours().
-                            Where(x => x.tile.IsOcupied).OrderBy(x=> x.tile.Ocupant.HealtPorcentage());
-        if (toattackNodes.Count()>=1 && actor.ActionsLeft>0)
+
+        if (actor.GetAttackableNodes(actor.CurrentNode,actor.AttackRange).Count>0&& actor.ActionsLeft>0)
         {
-            actor.AttackTarget = toattackNodes.First().tile.Ocupant;
-            actor.changeState(5);
+            actor.changeState(1);
         }
-        if (actor.CurrentNode == actor.TargetNode)
-        {
-            actor.changeState(2);            
-        }       
     }
     public override void OnStateEnter()
     {

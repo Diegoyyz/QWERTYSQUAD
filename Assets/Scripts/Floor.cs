@@ -63,6 +63,7 @@ public class Floor : MonoBehaviour
     public void ResetFloor()
     {
         OnResetFloor();
+        tile.IsOcupied = false;
     }
     public void ResetOcupied()
     {
