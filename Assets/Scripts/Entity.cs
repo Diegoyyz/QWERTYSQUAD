@@ -123,7 +123,7 @@ public class Entity : MonoBehaviour
             };
         }
     }
-    public void MoveToTarget(List<Floor> path)
+    public virtual void MoveToTarget(List<Floor> path)
     {
         anim.SetBool("Walk Forward", true);
         StartCoroutine(moveTo(transform, path));
@@ -234,6 +234,7 @@ public class Entity : MonoBehaviour
     }
     private IEnumerator moveTo(Transform transform, List<Floor> vectors)
     {
+        onTheMoove = true;
         if (vectors.Count == 0 )
             yield break;
         Vector3 start = new Vector3(vectors[0].transform.position.x,
@@ -260,6 +261,8 @@ public class Entity : MonoBehaviour
             start = end;
             }
         }
-        anim.SetBool("Walk Forward", false);    
+        anim.SetBool("Walk Forward", false);
+        onTheMoove = false;
+
     }
 }

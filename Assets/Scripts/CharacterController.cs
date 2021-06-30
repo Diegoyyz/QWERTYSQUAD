@@ -60,6 +60,10 @@ public class CharacterController : Entity
                 break;  
         }
     }
+    public override void MoveToTarget(List<Floor> path)
+    {
+        base.MoveToTarget(path);      
+    }
     public void controllerOn()
     {
         if (_canvas != null)

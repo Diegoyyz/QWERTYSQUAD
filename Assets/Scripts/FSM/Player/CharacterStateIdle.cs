@@ -12,9 +12,9 @@ public class CharacterStateIdle : CharacterState
     public override void OnStateEnter()
     {
         base.OnStateEnter();
+        actor.ResetStats();
     }
     public override void Tick()
     {
-        actor.ResetStats();
     } 
 }
