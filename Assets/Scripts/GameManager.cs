@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
@@ -19,8 +20,13 @@ public class GameManager : MonoBehaviour
     {
         TurnIndex = 0;
         Units = FindObjectsOfType<Entity>().ToList();
-        orderedUnits = arrangeUnitsBySpeed();        
-        TurnBegin();        
+        foreach (var item in Units)
+        {
+            item.onTurnEndsEvent += TurnEnd;
+            item.onTurnStartsEvent += TurnStart;
+        }
+        orderedUnits = arrangeUnitsBySpeed();     
+        TurnStart();        
     }
     public void RemoveFromList()
     {
@@ -30,7 +36,7 @@ public class GameManager : MonoBehaviour
     {
         return Units.OrderByDescending(x => x.Speed).ToList();
     }
-    public void TurnBegin()
+    public void TurnStart()
     {
         current = orderedUnits[TurnIndex];
         current.turnStart();
@@ -56,7 +62,7 @@ public class GameManager : MonoBehaviour
         {
             TurnIndex++;
         }
-        current = orderedUnits[TurnIndex];
+        current = orderedUnits[TurnIndex];        
     }
     public void TurnEnd()
     {
@@ -68,6 +74,6 @@ public class GameManager : MonoBehaviour
             TurnIndex = 0;
         }
         selecUnit();
-        TurnBegin();
+        TurnStart();
     }
 }

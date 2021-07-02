@@ -112,8 +112,7 @@ public class CharacterStateMove : CharacterState
                     item.parent = node;
                     if (!openSet.Contains(item)&& !item.tile.IsOcupied)
                         openSet.Add(item);
-                }
-               
+                }               
             }
         }
     }

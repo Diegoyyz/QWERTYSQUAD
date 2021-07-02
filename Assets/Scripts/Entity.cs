@@ -38,14 +38,27 @@ public class Entity : MonoBehaviour
     public enum Teams {Red,Blue,green};
     public Teams team;
     protected Entity attackTarget;
-    public virtual void turnEnd()
-    {
 
+    public delegate void onTurnEnds();
+    public event onTurnEnds onTurnEndsEvent;
+    public delegate void onTurnStarts();
+    public event onTurnStarts onTurnStartsEvent;
+
+    public virtual void turnEnd()
+    {         
+    }
+    public void OnturnEnds()
+    {
+        onTurnEndsEvent();
     }
     public virtual void turnStart()
     {
-
+        onTurnStartsEvent();
     }
+    public void OnTurnEnds() { }
+    public void OnTurnStarts() { }
+
+
     public List<Floor> GetAttackableNodes(Floor root, int Range)
     {
         List<Floor> neighbours = new List<Floor>();

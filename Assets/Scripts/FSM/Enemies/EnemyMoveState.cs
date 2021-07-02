@@ -19,11 +19,11 @@ public class EnemyMoveState : EnemyState
     }
     public override void Tick()
     {
-
-        if (actor.GetAttackableNodes(actor.CurrentNode,actor.AttackRange).Count>0&& actor.ActionsLeft>0)
+        if (actor.GetAttackableNodes(actor.CurrentNode, actor.AttackRange).Count > 0 && actor.ActionsLeft > 0)
         {
             actor.changeState(1);
         }
+        else if (actor.ActionsLeft == 0) actor.OnTurnEnds();
     }
     public override void OnStateEnter()
     {
