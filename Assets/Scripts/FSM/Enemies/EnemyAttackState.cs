@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
 public class EnemyAttackState : EnemyState
 {
     public EnemyAttackState(EnemyController character)
@@ -11,7 +10,7 @@ public class EnemyAttackState : EnemyState
     }
     public override void Tick()
     {
-        
+       
     }
     public override void OnStateEnter()
     {
@@ -20,15 +19,12 @@ public class EnemyAttackState : EnemyState
         {
             actor.AttackTarget = nodes.First().tile.Ocupant;
             actor.body.transform.LookAt(actor.AttackTarget.transform);
-            actor.Attack();
-        }
-        else
-        {
-            actor.changeState(2);
-        }
+            actor.Attack();           
+        }       
     }  
     public override void OnStateExit()
     {
 
     }
+    
 }

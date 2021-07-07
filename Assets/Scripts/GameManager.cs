@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     int TurnIndex;
     [SerializeField]
     Text actionsLeftTxt;
+    bool Waiting;
 
     private void Start()
     {
@@ -25,8 +26,15 @@ public class GameManager : MonoBehaviour
             item.onTurnEndsEvent += TurnEnd;
             item.onTurnStartsEvent += TurnStart;
         }
-        orderedUnits = arrangeUnitsBySpeed();     
-        TurnStart();        
+        orderedUnits = arrangeUnitsBySpeed();
+        Waiting = true;
+        StartCoroutine(DelayCorroutine());
+    }
+    IEnumerator DelayCorroutine()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        Waiting = false;
+        TurnStart();
     }
     public void RemoveFromList()
     {
@@ -43,6 +51,8 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+        if (!Waiting)
+        {        
         if (actionsLeftTxt != null)
         {
             actionsLeftTxt.text = "Actions Left: "+current.ActionsLeft ;
@@ -54,6 +64,7 @@ public class GameManager : MonoBehaviour
         else
         {
             actionsLeftTxt.color = Color.green;
+        }
         }
     }
     void selecUnit()

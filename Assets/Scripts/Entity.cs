@@ -139,21 +139,15 @@ public class Entity : MonoBehaviour
     public virtual void MoveToTarget(List<Floor> path)
     {
         anim.SetBool("Walk Forward", true);
-        StartCoroutine(moveTo(transform, path));
-        
+        StartCoroutine(moveTo(transform, path));        
     }   
     public void Attack()
     {
-        if (attackTarget!=null)
-        {
-            anim.SetTrigger("PunchTrigger");
-            attackTarget.TakeDmg(50);
-        }
-        ActionsLeft--;
+        StartCoroutine("DelayAttackFeedback");       
     }
     public void TakeDmg(int dmg)
     {
-        StartCoroutine("DelayAttackFeedback");
+        StartCoroutine("DelayGetAttackedFeedback");
         _currentHP-=dmg;        
         if (HealtBar != null)
         {
@@ -168,6 +162,17 @@ public class Entity : MonoBehaviour
         }
     }
     IEnumerator DelayAttackFeedback()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        if (attackTarget != null)
+        {
+            anim.SetTrigger("PunchTrigger");
+            attackTarget.TakeDmg(50);
+        }
+        ActionsLeft--;
+    }
+
+    IEnumerator DelayGetAttackedFeedback()
     {
         yield return new WaitForSecondsRealtime(.5f);
         anim.SetTrigger("GetHitTrigger");
