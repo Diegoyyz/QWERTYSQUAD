@@ -10,6 +10,12 @@ public class GameManager : MonoBehaviour
     List<Entity>  Units;
     [SerializeField]
     List<Entity> orderedUnits;
+    [SerializeField]
+    List<Entity> playerUnits= new List<Entity>();
+    [SerializeField]
+    List<Entity> iAUnits = new List<Entity>();
+
+
     Entity current;
     [SerializeField]
     int TurnIndex;
@@ -17,14 +23,23 @@ public class GameManager : MonoBehaviour
     Text actionsLeftTxt;
     bool Waiting;
 
+
     private void Start()
     {
         TurnIndex = 0;
-        Units = FindObjectsOfType<Entity>().ToList();
+        Units = FindObjectsOfType<Entity>().ToList();        
         foreach (var item in Units)
         {
+            if (item.team == Entity.Teams.Blue)
+            {
+                playerUnits.Add(item);
+            }
+            else
+            {
+                iAUnits.Add(item);
+            }
             item.onTurnEndsEvent += TurnEnd;
-            item.onTurnStartsEvent += TurnStart;
+            item.onTurnStartsEvent += TurnStart;         
         }
         orderedUnits = arrangeUnitsBySpeed();
         Waiting = true;

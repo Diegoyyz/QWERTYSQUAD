@@ -4,10 +4,13 @@ using System.Collections;
 using System.Linq;
 using UnityEngine.UI;
 using System.Collections.Generic;
+
+
 public class CharacterController : Entity
 {
     [SerializeField]
     protected GameObject _canvas;
+   
     public Button okMove;
     protected bool okMoveActive = true;
     public Button okAttack;
@@ -17,11 +20,13 @@ public class CharacterController : Entity
         toggleOkMove();
         toggleOkAttack();
         controllerOff();
+        
         SetState(new CharacterStateIdle(this));
     }
     public override void turnEnd()
     {
         controllerOff();
+        
        SetState(new CharacterStateIdle(this));
     }
     public override void turnStart()
