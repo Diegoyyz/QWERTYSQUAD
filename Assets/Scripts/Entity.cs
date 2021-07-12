@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using System.Linq;
 using UnityEngine.UI;
 public class Entity : MonoBehaviour
@@ -37,12 +38,15 @@ public class Entity : MonoBehaviour
     public bool onTheMoove;
     public enum Teams {Red,Blue,green};
     public Teams team;
+    [SerializeField]
     protected Entity attackTarget;
 
     public delegate void onTurnEnds();
     public event onTurnEnds onTurnEndsEvent;
     public delegate void onTurnStarts();
     public event onTurnStarts onTurnStartsEvent;
+    public delegate void OnDeath(Entity body);
+    public event OnDeath onDeathEvent;
 
     public virtual void turnEnd()
     {         
@@ -158,6 +162,7 @@ public class Entity : MonoBehaviour
             anim.SetBool("isDead", true);
             isDead = true;
             CurrentNode.ResetFloor();
+            onDeathEvent(this);
             Destroy(this.gameObject, 2);
         }
     }
@@ -167,7 +172,7 @@ public class Entity : MonoBehaviour
         if (attackTarget != null)
         {
             anim.SetTrigger("PunchTrigger");
-            attackTarget.TakeDmg(50);
+            attackTarget.TakeDmg(attackDmg);
         }
         ActionsLeft--;
     }

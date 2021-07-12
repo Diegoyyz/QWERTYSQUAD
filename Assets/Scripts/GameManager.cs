@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,13 +24,34 @@ public class GameManager : MonoBehaviour
     Text actionsLeftTxt;
     bool Waiting;
 
-
+    public void deleteEntity(Entity toDelete)
+    {
+        orderedUnits.Remove(toDelete);
+        Units.Remove(toDelete);
+        if (playerUnits.Contains(toDelete))
+        {
+            playerUnits.Remove(toDelete);
+        }
+        else if (iAUnits.Contains(toDelete))
+        {
+            iAUnits.Remove(toDelete);
+        }
+    }
+    private void OnDestroy()
+    {
+        foreach (var item in Units)
+        {
+            item.onDeathEvent -= deleteEntity;
+        }
+    }
     private void Start()
     {
         TurnIndex = 0;
-        Units = FindObjectsOfType<Entity>().ToList();        
+        Units = FindObjectsOfType<Entity>().ToList();      
+        
         foreach (var item in Units)
         {
+            item.onDeathEvent += deleteEntity;
             if (item.team == Entity.Teams.Blue)
             {
                 playerUnits.Add(item);
@@ -80,6 +102,14 @@ public class GameManager : MonoBehaviour
         {
             actionsLeftTxt.color = Color.green;
         }
+        }
+        if (iAUnits.Count <=0)
+        {
+            Debug.Log("Ganaste fierita");
+        }
+        else if (playerUnits.Count <= 0)
+        {
+            Debug.Log("Perdiste Reynolds");
         }
     }
     void selecUnit()

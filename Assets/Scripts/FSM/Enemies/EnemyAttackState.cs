@@ -24,7 +24,7 @@ public class EnemyAttackState : EnemyState
     }  
     public override void OnStateExit()
     {
-
+        actor.AttackTarget = null;
     }
-    
+
 }

@@ -29,7 +29,10 @@ public class EnemyMoveState : EnemyState
     {
         var tiles = GameObject.FindObjectsOfType<Floor>().ToList();
         target = tiles.OrderBy(x=>GetDistance(actor.CurrentNode,x)).First(x=>x.tile.IsOcupied&&x.tile.Ocupant != actor);
-        FindPath(actor.CurrentNode, target);
+        if (target!=null)
+        {
+            FindPath(actor.CurrentNode, target);
+        }
         var toSkip = actor.ActionsLeft - path.Count();
         path.Remove(path.Last());
         foreach (var item in path)
@@ -57,7 +60,6 @@ public class EnemyMoveState : EnemyState
                 currentNode.MakeFloorWalkeable();
         }
         rPath.Add(actor.CurrentNode);
-        endNode.MakeFloorGoal();       
         rPath.Reverse();
         path = rPath;
     }
