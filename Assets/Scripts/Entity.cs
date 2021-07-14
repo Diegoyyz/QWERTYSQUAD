@@ -42,31 +42,23 @@ public class Entity : MonoBehaviour
     public Teams team;
     [SerializeField]
     protected Entity attackTarget;
-    public bool isAttacking;
-
-
-    public delegate void onTurnEnds();
-    public event onTurnEnds onTurnEndsEvent;
-    public delegate void onTurnStarts();
-    public event onTurnStarts onTurnStartsEvent;
+    public bool isAttacking;    
     public delegate void OnDeath(Entity body);
     public event OnDeath onDeathEvent;
+    public delegate void OnTurnEnds();
+    public event OnTurnEnds onTurnEndsEvent;
+    public delegate void OnTurnStarts();
+    public event OnTurnStarts onTurnStartsEvent;
 
-    public virtual void turnEnd()
-    {         
-    }
-    public void OnturnEnds()
+
+    public virtual void turnEnds()
     {
         onTurnEndsEvent();
     }
-    public virtual void turnStart()
+    public virtual void turnStarts()
     {
         onTurnStartsEvent();
     }
-    public void OnTurnEnds() { }
-    public void OnTurnStarts() { }
-
-
     public List<Floor> GetAttackableNodes(Floor root, int Range)
     {
         List<Floor> neighbours = new List<Floor>();

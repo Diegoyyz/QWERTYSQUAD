@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
     public void TurnStart()
     {
         current = orderedUnits[TurnIndex];
-        current.turnStart();
+        current.turnStarts();
     }
     private void Update()
     {
@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
     public void TurnEnd()
     {
          TurnIndex++;
-        current.turnEnd();   
+        current.turnEnds();   
         orderedUnits = arrangeUnitsBySpeed();
         if (TurnIndex >orderedUnits.Count()-1)
         {

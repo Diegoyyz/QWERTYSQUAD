@@ -5,38 +5,30 @@ using UnityEngine;
 public class EnemyAttackState : EnemyState
 {
     List<Floor> nodes;
-    float nextDamageEvent ;
+    float nextFire;
     public EnemyAttackState(EnemyController character)
     {
         actor = character;
     }
     public override void Tick()
     {
-        if (actor.ActionsLeft>0&&!actor.isAttacking)
+        if (Time.time > nextFire && actor.ActionsLeft > 0 && !actor.isAttacking)
         {
-            if (Time.time >= nextDamageEvent)
-            {
-                nextDamageEvent = Time.time + actor.attackRate;
-                actor.AttackTarget = nodes.First().tile.Ocupant;
-                actor.body.transform.LookAt(actor.AttackTarget.transform);
-                actor.Attack();
-            }
-            else
-            {
-                nextDamageEvent = Time.time + actor.attackRate;
-            }
+            nextFire = Time.time + actor.attackRate;
+            actor.AttackTarget = nodes.First().tile.Ocupant;
+            actor.body.transform.LookAt(actor.AttackTarget.transform);
+            actor.Attack();
         }
-        else
+        else if (actor.ActionsLeft <= 0)
         {
-            actor.turnEnd();
+            actor.changeState(3);
         }
-        
     }
     public override void OnStateEnter()
     {
+        nextFire = 0.0f;
         nodes = actor.GetAttackableNodes(actor.CurrentNode, actor.AttackRange);
     }
-
     public override void OnStateExit()
     {
         actor.AttackTarget = null;

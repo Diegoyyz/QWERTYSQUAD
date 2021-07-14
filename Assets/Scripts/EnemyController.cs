@@ -17,11 +17,11 @@ public class EnemyController : Entity
             currentState.OnStateEnter();
         }
     }
-    public override void turnEnd()
+    public override void turnEnds()
     {
         SetState(new EnemyIdleState(this));
     }
-    public override void turnStart()
+    public override void turnStarts()
     {
         SetState(new EnemySelectedState(this));
         ResetStats();

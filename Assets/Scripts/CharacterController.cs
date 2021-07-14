@@ -23,13 +23,13 @@ public class CharacterController : Entity
         
         SetState(new CharacterStateIdle(this));
     }
-    public override void turnEnd()
+    public override void turnEnds()
     {
         controllerOff();
         
        SetState(new CharacterStateIdle(this));
     }
-    public override void turnStart()
+    public override void turnStarts()
     {
         controllerOn();
         SetState(new CharacterStateSelected(this));
