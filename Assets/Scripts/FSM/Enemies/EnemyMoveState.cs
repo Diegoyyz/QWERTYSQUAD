@@ -28,7 +28,7 @@ public class EnemyMoveState : EnemyState
     public override void OnStateEnter()
     {
         var tiles = GameObject.FindObjectsOfType<Floor>().ToList();
-        target = tiles.OrderBy(x=>GetDistance(actor.CurrentNode,x)).First(x=>x.tile.IsOcupied&&x.tile.Ocupant != actor);
+        target = tiles.OrderBy(x=>GetDistance(actor.CurrentNode,x)).Last(x=>x.tile.IsOcupied&&x.tile.Ocupant != actor);
         if (target!=null)
         {
             FindPath(actor.CurrentNode, target);

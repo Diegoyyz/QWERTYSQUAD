@@ -26,6 +26,11 @@ public class EnemyController : Entity
         SetState(new EnemySelectedState(this));
         ResetStats();
     }
+    public override void Attack()
+    {
+        isAttacking = true;
+        base.Attack();
+    }
     public void changeState(int estado)
     {
         switch (estado)

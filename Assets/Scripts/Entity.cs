@@ -29,7 +29,9 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected Floor _targetNode;
     [SerializeField]
-    protected int _attackRange;  
+    protected int _attackRange;
+    [SerializeField]
+    public float attackRate;
     protected bool _isAttackable = false;
     public Animator anim;
     public GameObject body;
@@ -40,6 +42,8 @@ public class Entity : MonoBehaviour
     public Teams team;
     [SerializeField]
     protected Entity attackTarget;
+    public bool isAttacking;
+
 
     public delegate void onTurnEnds();
     public event onTurnEnds onTurnEndsEvent;
@@ -145,9 +149,9 @@ public class Entity : MonoBehaviour
         anim.SetBool("Walk Forward", true);
         StartCoroutine(moveTo(transform, path));        
     }   
-    public void Attack()
+    public virtual void Attack()
     {
-        StartCoroutine("DelayAttackFeedback");       
+        StartCoroutine("DelayAttackFeedback");        
     }
     public void TakeDmg(int dmg)
     {
@@ -168,6 +172,7 @@ public class Entity : MonoBehaviour
     }
     IEnumerator DelayAttackFeedback()
     {
+        isAttacking= true;
         yield return new WaitForSecondsRealtime(1f);
         if (attackTarget != null)
         {
@@ -175,6 +180,7 @@ public class Entity : MonoBehaviour
             attackTarget.TakeDmg(attackDmg);
         }
         ActionsLeft--;
+        isAttacking = false;
     }
 
     IEnumerator DelayGetAttackedFeedback()

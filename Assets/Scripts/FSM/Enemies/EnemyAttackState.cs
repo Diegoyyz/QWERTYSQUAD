@@ -4,27 +4,41 @@ using System.Linq;
 using UnityEngine;
 public class EnemyAttackState : EnemyState
 {
+    List<Floor> nodes;
+    float nextDamageEvent ;
     public EnemyAttackState(EnemyController character)
     {
         actor = character;
     }
     public override void Tick()
     {
-       
+        if (actor.ActionsLeft>0&&!actor.isAttacking)
+        {
+            if (Time.time >= nextDamageEvent)
+            {
+                nextDamageEvent = Time.time + actor.attackRate;
+                actor.AttackTarget = nodes.First().tile.Ocupant;
+                actor.body.transform.LookAt(actor.AttackTarget.transform);
+                actor.Attack();
+            }
+            else
+            {
+                nextDamageEvent = Time.time + actor.attackRate;
+            }
+        }
+        else
+        {
+            actor.turnEnd();
+        }
+        
     }
     public override void OnStateEnter()
     {
-        var nodes = actor.GetAttackableNodes(actor.CurrentNode,actor.AttackRange);
-        if (nodes.Count>0&&actor.ActionsLeft>0)
-        {
-            actor.AttackTarget = nodes.First().tile.Ocupant;
-            actor.body.transform.LookAt(actor.AttackTarget.transform);
-            actor.Attack();           
-        }       
-    }  
+        nodes = actor.GetAttackableNodes(actor.CurrentNode, actor.AttackRange);
+    }
+
     public override void OnStateExit()
     {
         actor.AttackTarget = null;
     }
-
 }
