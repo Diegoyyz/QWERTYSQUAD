@@ -3264,7 +3264,7 @@ MonoBehaviour:
   _currentHP: 0
   _maxHP: 20
   _maxActions: 10
-  _actionsLeft: 0
+  _actionsLeft: 5
   isDead: 0
   _currentNode: {fileID: 0}
   _targetNode: {fileID: 0}

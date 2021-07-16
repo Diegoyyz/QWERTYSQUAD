@@ -159,7 +159,7 @@ public class Entity : MonoBehaviour
             isDead = true;
             CurrentNode.ResetFloor();
             onDeathEvent(this);
-            Destroy(this.gameObject, 2);
+            Destroy(this.gameObject, 1);
         }
     }
     IEnumerator DelayAttackFeedback()
