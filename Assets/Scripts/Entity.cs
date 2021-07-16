@@ -169,9 +169,9 @@ public class Entity : MonoBehaviour
         if (attackTarget != null)
         {
             anim.SetTrigger("PunchTrigger");
+            ActionsLeft--;
             attackTarget.TakeDmg(attackDmg);
         }
-        ActionsLeft--;
         isAttacking = false;
     }
 

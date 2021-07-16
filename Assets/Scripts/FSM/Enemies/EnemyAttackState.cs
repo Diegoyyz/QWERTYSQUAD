@@ -12,16 +12,23 @@ public class EnemyAttackState : EnemyState
     }
     public override void Tick()
     {
-        if (Time.time > nextFire && actor.ActionsLeft > 0 && !actor.isAttacking)
+        if (Time.time>nextFire&&actor.ActionsLeft>0&&!actor.isAttacking)
         {
             nextFire = Time.time + actor.attackRate;
             actor.AttackTarget = nodes.First().tile.Ocupant;
-            actor.body.transform.LookAt(actor.AttackTarget.transform);
-            actor.Attack();
+            if (actor.AttackTarget!= null)
+            {
+                actor.body.transform.LookAt(actor.AttackTarget.transform);
+                actor.Attack();
+            }
+            else
+            {
+                actor.changeState(0);
+            }
         }
         else if (actor.ActionsLeft <= 0)
         {
-            actor.changeState(3);
+            actor.changeState(2);
         }
     }
     public override void OnStateEnter()
