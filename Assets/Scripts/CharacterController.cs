@@ -9,8 +9,7 @@ using System.Collections.Generic;
 public class CharacterController : Entity
 {
     [SerializeField]
-    protected GameObject _canvas;
-   
+    protected GameObject _canvas;   
     public Button okMove;
     protected bool okMoveActive = true;
     public Button okAttack;
@@ -19,20 +18,14 @@ public class CharacterController : Entity
     {
         toggleOkMove();
         toggleOkAttack();
-        controllerOff();
-        
+        controllerOff();        
         SetState(new CharacterStateIdle(this));
     }
-    public override void turnEnds()
+    public override void TurnStart()
     {
-        controllerOff();
-        
-       SetState(new CharacterStateIdle(this));
-    }
-    public override void turnStarts()
-    {
+        base.TurnStart();
+        changeState(3);
         controllerOn();
-        SetState(new CharacterStateSelected(this));
     }
     public override void SetState(CharacterState state)
     {

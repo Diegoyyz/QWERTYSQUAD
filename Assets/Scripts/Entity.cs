@@ -8,7 +8,7 @@ public class Entity : MonoBehaviour
 {
     //stats
     [SerializeField]
-    protected int _speed;   
+    protected int _speed;
     [SerializeField]
     public int attackDmg;
     [SerializeField]
@@ -18,7 +18,7 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected int _maxActions;
     [SerializeField]
-    protected int _actionsLeft;  
+    protected int _actionsLeft;
     [SerializeField]
     protected FSMState currentState;
     protected bool controllerActive = true;
@@ -38,26 +38,28 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected Image HealtBar;
     public bool onTheMoove;
-    public enum Teams {Red,Blue,green};
+    public enum Teams { Red, Blue, green };
     public Teams team;
     [SerializeField]
     protected Entity attackTarget;
-    public bool isAttacking;    
+    public bool isAttacking;
     public delegate void OnDeath(Entity body);
     public event OnDeath onDeathEvent;
-    public delegate void OnTurnEnds();
-    public event OnTurnEnds onTurnEndsEvent;
     public delegate void OnTurnStarts();
     public event OnTurnStarts onTurnStartsEvent;
 
+    public delegate void OnTurnEnds();
+    public event OnTurnEnds onTurnEndsEvent;
 
-    public virtual void turnEnds()
+    private void Start()
     {
-        onTurnEndsEvent();
+        _currentHP = _maxHP;
+        onTurnStartsEvent += () => { };
+        onTurnEndsEvent += () => { };
     }
-    public virtual void turnStarts()
+    public virtual void TurnStart()
     {
-        onTurnStartsEvent();
+        ActionsLeft = _maxActions;
     }
     public List<Floor> GetAttackableNodes(Floor root, int Range)
     {
@@ -80,7 +82,7 @@ public class Entity : MonoBehaviour
         }
         return neighbours;
     }
-    
+
     public int AttackRange
     {
         get { return _attackRange; }
@@ -112,8 +114,8 @@ public class Entity : MonoBehaviour
             {
                 attackTarget = value;
             };
-        } 
-    }   
+        }
+    }
     public bool IsAttackable
     {
         get { return _isAttackable; }
@@ -124,7 +126,7 @@ public class Entity : MonoBehaviour
                 _isAttackable = value;
             };
         }
-    }   
+    }
     public int ActionsLeft
     {
         get { return _actionsLeft; }
@@ -139,21 +141,21 @@ public class Entity : MonoBehaviour
     public virtual void MoveToTarget(List<Floor> path)
     {
         anim.SetBool("Walk Forward", true);
-        StartCoroutine(moveTo(transform, path));        
-    }   
+        StartCoroutine(moveTo(transform, path));
+    }
     public virtual void Attack()
     {
-        StartCoroutine("DelayAttackFeedback");        
+        StartCoroutine("DelayAttackFeedback");
     }
     public void TakeDmg(int dmg)
     {
         StartCoroutine("DelayGetAttackedFeedback");
-        _currentHP-=dmg;        
+        _currentHP -= dmg;
         if (HealtBar != null)
         {
             HealtBar.fillAmount = HealtPorcentage();
         }
-        if (_currentHP<=0)
+        if (_currentHP <= 0)
         {
             anim.SetBool("isDead", true);
             isDead = true;
@@ -164,7 +166,7 @@ public class Entity : MonoBehaviour
     }
     IEnumerator DelayAttackFeedback()
     {
-        isAttacking= true;
+        isAttacking = true;
         yield return new WaitForSecondsRealtime(1f);
         if (attackTarget != null)
         {
@@ -173,6 +175,10 @@ public class Entity : MonoBehaviour
             attackTarget.TakeDmg(attackDmg);
         }
         isAttacking = false;
+        if (ActionsLeft <= 0)
+        {
+            onTurnEndsEvent();
+        }
     }
 
     IEnumerator DelayGetAttackedFeedback()
@@ -196,28 +202,26 @@ public class Entity : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.tag == "Floor")
-        {                     
+        {
             _currentTile.unselected();
             _currentTile.IsOcupied = false;
         }
     }
     public void ResetStats()
     {
-       _actionsLeft = _maxActions;
-        _currentHP = _maxHP;
+        _actionsLeft = _maxActions;
     }
     private void Update()
     {
-        if (currentState !=null)
+        if (currentState != null)
         {
             currentState.Tick();
-        }       
+        }
     }
     public float HealtPorcentage()
     {
-        return _currentHP /_maxHP;
+        return _currentHP / _maxHP;
     }
-    
     public Floor TargetNode
     {
         get { return _targetNode; }
@@ -256,34 +260,37 @@ public class Entity : MonoBehaviour
     private IEnumerator moveTo(Transform transform, List<Floor> vectors)
     {
         onTheMoove = true;
-        if (vectors.Count == 0 )
+        if (vectors.Count == 0)
             yield break;
         Vector3 start = new Vector3(vectors[0].transform.position.x,
                                     transform.position.y,
                                     vectors[0].transform.position.z);
         for (int i = 1; i < vectors.Count; i++)
         {
-            if (ActionsLeft>0)
-            {           
-            Vector3 end = new Vector3(vectors[i].transform.position.x,
-                                    transform.position.y,
-                                    vectors[i].transform.position.z);
-            float t = 0f;
-            body.transform.LookAt(new Vector3(vectors[i].transform.position.x,
-                                    transform.position.y,
-                                    vectors[i].transform.position.z));
-            while (t < 1f)
+            if (ActionsLeft > 0)
             {
-                t += Time.deltaTime;
-                transform.position = Vector3.Lerp(start, end, Mathf.SmoothStep(0, 1, t));
-                yield return null;
-            }
-            ActionsLeft--;
-            start = end;
+                Vector3 end = new Vector3(vectors[i].transform.position.x,
+                                        transform.position.y,
+                                        vectors[i].transform.position.z);
+                float t = 0f;
+                body.transform.LookAt(new Vector3(vectors[i].transform.position.x,
+                                        transform.position.y,
+                                        vectors[i].transform.position.z));
+                while (t < 1f)
+                {
+                    t += Time.deltaTime;
+                    transform.position = Vector3.Lerp(start, end, Mathf.SmoothStep(0, 1, t));
+                    yield return null;
+                }
+                ActionsLeft--;                
+                start = end;
+                if (ActionsLeft <= 0)
+                {
+                    onTurnEndsEvent();
+                }
             }
         }
         anim.SetBool("Walk Forward", false);
         onTheMoove = false;
-
     }
 }

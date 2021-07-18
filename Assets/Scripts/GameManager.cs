@@ -8,11 +8,11 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
-    List<Entity>  Units;
+    List<Entity> Units;
     [SerializeField]
     List<Entity> orderedUnits;
     [SerializeField]
-    List<Entity> playerUnits= new List<Entity>();
+    List<Entity> playerUnits = new List<Entity>();
     [SerializeField]
     List<Entity> iAUnits = new List<Entity>();
 
@@ -47,11 +47,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         TurnIndex = 0;
-        Units = FindObjectsOfType<Entity>().ToList();      
-        
+        Units = FindObjectsOfType<Entity>().ToList();
         foreach (var item in Units)
         {
             item.onDeathEvent += deleteEntity;
+            item.onTurnEndsEvent += TurnEnd;
+           // item.TurnStart += TurnEnd;
             if (item.team == Entity.Teams.Blue)
             {
                 playerUnits.Add(item);
@@ -59,9 +60,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 iAUnits.Add(item);
-            }
-            item.onTurnEndsEvent += TurnEnd;
-            item.onTurnStartsEvent += TurnStart;         
+            }                
         }
         orderedUnits = arrangeUnitsBySpeed();
         Waiting = true;
@@ -71,6 +70,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1f);
         Waiting = false;
+        selecUnit();
         TurnStart();
     }
     public void RemoveFromList()
@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
     public void TurnStart()
     {
         current = orderedUnits[TurnIndex];
-        current.turnStarts();
+        
     }
     private void Update()
     {
@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
         }
         else if (playerUnits.Count <= 0)
         {
-            Debug.Log("Perdiste Reynolds");
+           Debug.Log("Perdiste Reynolds");
         }
     }
     void selecUnit()
@@ -118,18 +118,17 @@ public class GameManager : MonoBehaviour
         {
             TurnIndex++;
         }
-        current = orderedUnits[TurnIndex];        
+        current = orderedUnits[TurnIndex];
+        current.TurnStart();
     }
     public void TurnEnd()
     {
          TurnIndex++;
-        current.turnEnds();   
         orderedUnits = arrangeUnitsBySpeed();
         if (TurnIndex >orderedUnits.Count()-1)
         {
             TurnIndex = 0;
         }
         selecUnit();
-        TurnStart();
     }
 }

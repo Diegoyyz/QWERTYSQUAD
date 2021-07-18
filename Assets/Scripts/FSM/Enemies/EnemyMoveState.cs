@@ -23,7 +23,10 @@ public class EnemyMoveState : EnemyState
         {
             actor.changeState(1);
         }
-        else if (actor.ActionsLeft == 0) actor.turnEnds();
+        else if (actor.ActionsLeft == 0) {
+           // actor.turnEnds();
+        }
+
     }
     public override void OnStateEnter()
     {
