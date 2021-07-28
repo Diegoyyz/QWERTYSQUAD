@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class EnemyController : Entity
 {
     public void SetState(EnemyState state)
@@ -43,4 +42,3 @@ public class EnemyController : Entity
         }
     }
 }
-

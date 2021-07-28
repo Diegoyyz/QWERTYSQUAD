@@ -47,7 +47,6 @@ public class Entity : MonoBehaviour
     public event OnDeath onDeathEvent;
     public delegate void OnTurnStarts();
     public event OnTurnStarts onTurnStartsEvent;
-
     public delegate void OnTurnEnds();
     public event OnTurnEnds onTurnEndsEvent;
 
@@ -82,7 +81,6 @@ public class Entity : MonoBehaviour
         }
         return neighbours;
     }
-
     public int AttackRange
     {
         get { return _attackRange; }
@@ -180,7 +178,6 @@ public class Entity : MonoBehaviour
             onTurnEndsEvent();
         }
     }
-
     IEnumerator DelayGetAttackedFeedback()
     {
         yield return new WaitForSecondsRealtime(.5f);

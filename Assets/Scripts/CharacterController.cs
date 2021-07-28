@@ -4,8 +4,6 @@ using System.Collections;
 using System.Linq;
 using UnityEngine.UI;
 using System.Collections.Generic;
-
-
 public class CharacterController : Entity
 {
     [SerializeField]
@@ -94,5 +92,4 @@ public class CharacterController : Entity
             okAttack.gameObject.SetActive(okAttackActive);
         }
     }     
-
 }

@@ -26,7 +26,6 @@ public class EnemyMoveState : EnemyState
         else if (actor.ActionsLeft == 0) {
            // actor.turnEnds();
         }
-
     }
     public override void OnStateEnter()
     {
@@ -51,8 +50,7 @@ public class EnemyMoveState : EnemyState
         if (path != null)
         {
             foreach (var item in path)
-            {
-                
+            {                
                     item.MakeFloorPath();                
             }
         }

@@ -15,15 +15,14 @@ public class GameManager : MonoBehaviour
     List<Entity> playerUnits = new List<Entity>();
     [SerializeField]
     List<Entity> iAUnits = new List<Entity>();
-
-
+    [SerializeField]
+    CameraRig Cam;
     Entity current;
     [SerializeField]
     int TurnIndex;
     [SerializeField]
     Text actionsLeftTxt;
     bool Waiting;
-
     public void deleteEntity(Entity toDelete)
     {
         orderedUnits.Remove(toDelete);
@@ -84,7 +83,7 @@ public class GameManager : MonoBehaviour
     public void TurnStart()
     {
         current = orderedUnits[TurnIndex];
-        
+        Cam._follow = current.transform;
     }
     private void Update()
     {
@@ -105,11 +104,11 @@ public class GameManager : MonoBehaviour
         }
         if (iAUnits.Count <=0)
         {
-            Debug.Log("Ganaste fierita");
+          //  Debug.Log("Ganaste fierita");
         }
         else if (playerUnits.Count <= 0)
         {
-           Debug.Log("Perdiste Reynolds");
+          // Debug.Log("Perdiste Reynolds");
         }
     }
     void selecUnit()
@@ -119,6 +118,7 @@ public class GameManager : MonoBehaviour
             TurnIndex++;
         }
         current = orderedUnits[TurnIndex];
+        Cam._follow = current.transform;
         current.TurnStart();
     }
     public void TurnEnd()
