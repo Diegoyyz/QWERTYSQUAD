@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
         {
             item.onDeathEvent += deleteEntity;
             item.onTurnEndsEvent += TurnEnd;
-           // item.TurnStart += TurnEnd;
             if (item.team == Entity.Teams.Blue)
             {
                 playerUnits.Add(item);
