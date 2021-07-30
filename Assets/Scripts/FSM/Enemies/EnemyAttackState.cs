@@ -23,12 +23,12 @@ public class EnemyAttackState : EnemyState
             }
             else
             {
-                actor.changeState(0);
+                actor.changeState(2);
             }
         }
         else if (actor.ActionsLeft <= 0)
         {
-            actor.changeState(2);
+            actor.changeState(0);
         }
     }
     public override void OnStateEnter()

@@ -21,7 +21,7 @@ public class EnemyMoveState : EnemyState
     {
         if (actor.GetAttackableNodes(actor.CurrentNode, actor.AttackRange).Count > 0 && actor.ActionsLeft > 0)
         {
-            actor.changeState(1);
+            actor.changeState(3);
         }
         else if (actor.ActionsLeft == 0) {
            // actor.turnEnds();

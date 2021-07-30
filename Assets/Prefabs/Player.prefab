@@ -130,21 +130,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01246ace8156ec146908888543a0779f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
-  attackDmg: 25
+  _speed: 3
+  attackDmg: 5
   _currentHP: 100
-  _maxHP: 0
+  _maxHP: 100
   _maxActions: 3
   _actionsLeft: 0
   isDead: 0
   _currentNode: {fileID: 0}
   _targetNode: {fileID: 0}
   _attackRange: 1
+  attackRate: 0
   anim: {fileID: 2965798413987695102}
   body: {fileID: 2965798413997063058}
   HealtBar: {fileID: 3010434458859401998}
   onTheMoove: 0
-  team: 0
+  team: 1
+  attackTarget: {fileID: 0}
+  isAttacking: 0
   _canvas: {fileID: 282798863}
   okMove: {fileID: 5240932750691243257}
   okAttack: {fileID: 5240932751012363663}
@@ -887,6 +890,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 645803955}
+    - target: {fileID: 8178974351432704147, guid: aa473819aebc3de44879b306a0b585f6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8178974351432704149, guid: aa473819aebc3de44879b306a0b585f6, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -911,6 +918,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 645803955}
+    - target: {fileID: 8178974352004909264, guid: aa473819aebc3de44879b306a0b585f6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8178974352004909266, guid: aa473819aebc3de44879b306a0b585f6, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -919,6 +930,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 645803955}
+    - target: {fileID: 8178974352153031796, guid: aa473819aebc3de44879b306a0b585f6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8178974352153031798, guid: aa473819aebc3de44879b306a0b585f6, type: 3}
       propertyPath: m_Layer
       value: 3

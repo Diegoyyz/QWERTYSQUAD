@@ -59,6 +59,7 @@ public class Entity : MonoBehaviour
     public virtual void TurnStart()
     {
         ActionsLeft = _maxActions;
+
     }
     public List<Floor> GetAttackableNodes(Floor root, int Range)
     {
@@ -173,6 +174,7 @@ public class Entity : MonoBehaviour
             attackTarget.TakeDmg(attackDmg);
         }
         isAttacking = false;
+        yield return new WaitForSecondsRealtime(1f);
         if (ActionsLeft <= 0)
         {
             onTurnEndsEvent();

@@ -42,17 +42,21 @@ public class CharacterController : Entity
     {
         switch (estado)
         {
+            //0 idle
+            //1 selected
+            //2 move
+            //3 attack
             case 0:
-                SetState(new CharacterStateAttack(this));
-                break;
-            case 1:
-                SetState(new CharacterStateMove(this));
-                break;
-            case 2:
                 SetState(new CharacterStateIdle(this));
                 break;
-            case 3:
+            case 1:
                 SetState(new CharacterStateSelected(this));
+                break;
+            case 2:
+                SetState(new CharacterStateMove(this));
+                break;
+            case 3:
+                SetState(new CharacterStateAttack(this));
                 break;  
         }
     }

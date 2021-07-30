@@ -19,7 +19,7 @@ public class EnemyController : Entity
     public override void TurnStart()
     {
         base.TurnStart();
-        changeState(0);
+        changeState(2);
     }
     public override void Attack()
     {
@@ -28,17 +28,25 @@ public class EnemyController : Entity
     }
     public void changeState(int estado)
     {
+        //0 idle
+        //1 selected
+        //2 move
+        //3 attack
         switch (estado)
         {
             case 0:
-                SetState(new EnemyMoveState(this));
+                SetState(new EnemyIdleState(this));
                 break;
             case 1:
-                SetState(new EnemyAttackState(this));
+                SetState(new EnemySelectedState(this));
                 break;
             case 2:
-                SetState(new EnemySelectedState(this));
-                break;            
+                SetState(new EnemyMoveState(this));
+                break;
+            case 3:
+                SetState(new EnemyAttackState(this));
+                break;
+
         }
     }
 }
