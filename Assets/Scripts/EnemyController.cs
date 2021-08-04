@@ -26,7 +26,7 @@ public class EnemyController : Entity
         isAttacking = true;
         base.Attack();
     }
-    public void changeState(int estado)
+    public override void changeState(int estado)
     {
         //0 idle
         //1 selected

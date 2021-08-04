@@ -22,7 +22,7 @@ public class CharacterController : Entity
     public override void TurnStart()
     {
         base.TurnStart();
-        changeState(3);
+        changeState(1);
         controllerOn();
     }
     public override void SetState(CharacterState state)
@@ -38,7 +38,7 @@ public class CharacterController : Entity
             currentState.OnStateEnter();
         }
     }    
-    public void changeState(int estado)
+    public override void changeState(int estado)
     {
         switch (estado)
         {

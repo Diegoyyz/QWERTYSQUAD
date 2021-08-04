@@ -232,6 +232,7 @@ public class Entity : MonoBehaviour
             };
         }
     }
+    public virtual void changeState(int estado) { }
     public virtual void SetState(CharacterState state)
     {
         if (currentState != null)
@@ -286,6 +287,10 @@ public class Entity : MonoBehaviour
                 if (ActionsLeft <= 0)
                 {
                     onTurnEndsEvent();
+                }
+                else if (ActionsLeft > 0)
+                {
+                    changeState(1);
                 }
             }
         }
