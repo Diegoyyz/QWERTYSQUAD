@@ -220,6 +220,8 @@ PlayableDirector:
     value: {fileID: 1774819838}
   - key: {fileID: 813023205883390414, guid: 34061de87ad548743a22175c7ddc181c, type: 2}
     value: {fileID: 999167054}
+  - key: {fileID: 4404969319454840605, guid: 34061de87ad548743a22175c7ddc181c, type: 2}
+    value: {fileID: 313415635}
   m_ExposedReferences:
     m_References:
     - 2a34df37bbf4d7b4cbeb4470334a2068: {fileID: 1325365676}
@@ -325,6 +327,7 @@ RectTransform:
   - {fileID: 428183670}
   - {fileID: 1774819842}
   - {fileID: 999167058}
+  - {fileID: 313415637}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -333,6 +336,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &313415635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 313415637}
+  - component: {fileID: 313415636}
+  m_Layer: 5
+  m_Name: SceneLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &313415636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313415635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c47285c8669e4e4b933e7b839d54f20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!224 &313415637
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313415635}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 248162372}
+  m_RootOrder: 30
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &328404606
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +402,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &328404607
 Animator:
   serializedVersion: 3
@@ -425,7 +476,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 320, y: -50}
+  m_AnchoredPosition: {x: -206, y: -50}
   m_SizeDelta: {x: 719, y: 879}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &357057183
@@ -541,7 +592,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &387754869
 Animator:
   serializedVersion: 3
@@ -636,7 +687,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &428183667
 Animator:
   serializedVersion: 3
@@ -731,7 +782,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &445108847
 Animator:
   serializedVersion: 3
@@ -826,7 +877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &474344375
 Animator:
   serializedVersion: 3
@@ -921,7 +972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &528376392
 Animator:
   serializedVersion: 3
@@ -1176,14 +1227,14 @@ RectTransform:
   m_GameObject: {fileID: 731486583}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1875305, y: 0.94113964, z: 0.6934486}
+  m_LocalScale: {x: 1.674418, y: 1.3270068, z: 0.9777625}
   m_Children: []
   m_Father: {fileID: 248162372}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 429, y: -293}
+  m_AnchoredPosition: {x: 246, y: -200}
   m_SizeDelta: {x: 683, y: 479}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &821203734
@@ -1204,7 +1255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &821203735
 Animator:
   serializedVersion: 3
@@ -1510,7 +1561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &999167055
 Animator:
   serializedVersion: 3
@@ -1767,7 +1818,7 @@ RectTransform:
   m_GameObject: {fileID: 1155129138}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.7417482, y: 1.3803674, z: 1.0170794}
+  m_LocalScale: {x: 1.4979035, y: 1.1187885, z: 0.87468827}
   m_Children: []
   m_Father: {fileID: 248162372}
   m_RootOrder: 8
@@ -1775,7 +1826,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -22}
-  m_SizeDelta: {x: 1103, y: 683}
+  m_SizeDelta: {x: 1083, y: 406}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1174821980
 GameObject:
@@ -1985,7 +2036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1344281419
 Animator:
   serializedVersion: 3
@@ -2415,7 +2466,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1672435578
 Animator:
   serializedVersion: 3
@@ -2584,7 +2635,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -22}
+  m_AnchoredPosition: {x: -4, y: -22}
   m_SizeDelta: {x: 1103, y: 683}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1690962878
@@ -2638,8 +2689,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Dare only to believe in yourselves and in your inward parts! \r\nThey
-    whom does not believe in themself always lies."
+  m_Text: "El que no cree en s\xED mismo siempre miente."
 --- !u!222 &1690962880
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2685,7 +2735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1774819839
 Animator:
   serializedVersion: 3
@@ -2875,7 +2925,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1853615302
 Animator:
   serializedVersion: 3
@@ -3255,7 +3305,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &2102793888
 Animator:
   serializedVersion: 3

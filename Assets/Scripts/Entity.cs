@@ -179,6 +179,7 @@ public class Entity : MonoBehaviour
         {
             onTurnEndsEvent();
         }
+        else changeState(1);
     }
     IEnumerator DelayGetAttackedFeedback()
     {
