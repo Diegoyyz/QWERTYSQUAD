@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Text actionsLeftTxt;
     bool Waiting;
+    [SerializeField]
+    List<Floor> tiles;
+
     public void deleteEntity(Entity toDelete)
     {
         orderedUnits.Remove(toDelete);
@@ -45,6 +48,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        tiles = FindObjectsOfType<Floor>().ToList();
         TurnIndex = 0;
         Units = FindObjectsOfType<Entity>().ToList();
         foreach (var item in Units)

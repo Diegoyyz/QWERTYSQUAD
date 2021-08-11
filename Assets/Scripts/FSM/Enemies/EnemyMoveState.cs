@@ -7,8 +7,8 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 public class EnemyMoveState : EnemyState
-{    
-    List<Floor> path= new List<Floor>();
+{
+    List<Floor> path = new List<Floor>();
     List<Floor> partialpath;
     List<Floor> WalkeableNodes = new List<Floor>();
     bool speedRested;
@@ -22,16 +22,13 @@ public class EnemyMoveState : EnemyState
         if (actor.GetAttackableNodes(actor.CurrentNode, actor.AttackRange).Count > 0 && actor.ActionsLeft > 0)
         {
             actor.changeState(3);
-        }
-        else if (actor.ActionsLeft == 0) {
-           // actor.turnEnds();
-        }
+        }        
     }
     public override void OnStateEnter()
     {
         var tiles = GameObject.FindObjectsOfType<Floor>().ToList();
-        target = tiles.OrderBy(x=>GetDistance(actor.CurrentNode,x)).Last(x=>x.tile.IsOcupied&&x.tile.Ocupant != actor);
-        if (target!=null)
+        target = tiles.OrderBy(x => GetDistance(actor.CurrentNode, x)).Last(x => x.tile.IsOcupied && x.tile.Ocupant != actor);
+        if (target != null)
         {
             FindPath(actor.CurrentNode, target);
         }
@@ -50,15 +47,15 @@ public class EnemyMoveState : EnemyState
         if (path != null)
         {
             foreach (var item in path)
-            {                
-                    item.MakeFloorPath();                
+            {
+                item.MakeFloorPath();
             }
         }
         while (currentNode != startNode)
         {
             rPath.Add(currentNode);
             currentNode = currentNode.parent;
-                currentNode.MakeFloorWalkeable();
+            currentNode.MakeFloorWalkeable();
         }
         rPath.Add(actor.CurrentNode);
         rPath.Reverse();
@@ -109,21 +106,21 @@ public class EnemyMoveState : EnemyState
     }
     public override void OnStateExit()
     {
-       
-    }   
+
+    }
     public void Descendants(Floor root, int Actions, Action<Floor> getTargetCallback)
     {
         WalkeableNodes.Add(root);
         var start = root;
         int speedLeft = Actions;
-        while (speedLeft > 0)
+        if (speedLeft < 1)
+            return;
+        speedLeft--;
+        foreach (var item in start.getNeighbours())
         {
-            speedLeft--;
-            foreach (var item in start.getNeighbours())
-            {
-                Descendants(item, speedLeft, getTargetCallback);
-            }
+            Descendants(item, speedLeft, getTargetCallback);
         }
+
     }
     static int GetDistance(Floor nodeA, Floor nodeB)
     {

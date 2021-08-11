@@ -59,7 +59,6 @@ public class Entity : MonoBehaviour
     public virtual void TurnStart()
     {
         ActionsLeft = _maxActions;
-
     }
     public List<Floor> GetAttackableNodes(Floor root, int Range)
     {
@@ -287,6 +286,7 @@ public class Entity : MonoBehaviour
                 start = end;
                 if (ActionsLeft <= 0)
                 {
+                    Debug.Log("termina2");
                     onTurnEndsEvent();
                 }
                 else if (ActionsLeft > 0)

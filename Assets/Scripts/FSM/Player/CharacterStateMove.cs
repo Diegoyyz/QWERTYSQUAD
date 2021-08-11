@@ -116,13 +116,14 @@ public class CharacterStateMove : CharacterState
             }
         }
     }
-    public void Descendants(Floor root, int Actions, Action<Floor> getTargetCallback)
+    public void Descendants(Floor root, int Speed, Action<Floor> getTargetCallback)
     {
         WalkeableNodes.Add(root);
         var start = root;
-        int speedLeft = Actions;
-        while (speedLeft > 0)
-        {
+        int speedLeft = Speed;
+        if (speedLeft < 1)        
+            return;
+            Debug.Log("falopa");
             speedLeft--;
             foreach (var item in start.getNeighbours())
             {
@@ -138,8 +139,9 @@ public class CharacterStateMove : CharacterState
                 //add callback to selection
                 item.GetComponent<Button>().onClick.AddListener(delegate { getTargetCallback(item); });
             }
-        }
-    }
+        
+    }  
+
     static int GetDistance(Floor nodeA, Floor nodeB)
     {
         if (nodeA!= null && nodeB != null)
