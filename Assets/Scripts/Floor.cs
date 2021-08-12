@@ -13,6 +13,8 @@ public class Floor : MonoBehaviour
     private float distance;
     public delegate void makeWalkeable();
     public event makeWalkeable OnMakeWalkeable;
+    public delegate void makeUnWalkeable();
+    public event makeWalkeable OnMakeUnWalkeable;
     public delegate void resetFloor();
     public event makeGoal OnMakeGoal;
     public delegate void makeGoal();
@@ -23,8 +25,7 @@ public class Floor : MonoBehaviour
     public event makeAttackable onMakeAttackable;
     public delegate void nullSelection();
     public event nullSelection onDeselect;
-    public delegate void isOcupied();
-    public event isOcupied onIsOcupied;
+
     public bool walkable;
     public Floor parent;
     [SerializeField]
@@ -36,8 +37,13 @@ public class Floor : MonoBehaviour
             return gCost + hCost;
         }
     }       
+    public void togleWalkeable()
+    {
+        walkable =!walkable;
+    }
     private void Awake()
     {
+        tile.OnTogleWalkeable += togleWalkeable;
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.forward, out hit))
         {
@@ -64,20 +70,18 @@ public class Floor : MonoBehaviour
     {
         OnResetFloor();
         tile.IsOcupied = false;
-    }
-    public void ResetOcupied()
-    {
-        onIsOcupied();
-    }
+    }    
     public void MakeFloorGoal()
     {
         OnMakeGoal();
-        walkable = true;
     }
     public void MakeFloorWalkeable()
     {
-        OnMakeWalkeable();
         walkable = true;
+    }
+    public void MakeFloorUnWalkeable()
+    {
+        OnMakeUnWalkeable();      
     }
     public void MakeFloorPath()
     {

@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var item in Units)
         {
-            item.onDeathEvent -= deleteEntity;
+            item.OnDeathEvent -= deleteEntity;
         }
     }
     private void Start()
@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviour
         Units = FindObjectsOfType<Entity>().ToList();
         foreach (var item in Units)
         {
-            item.onDeathEvent += deleteEntity;
-            item.onTurnEndsEvent += TurnEnd;
+            item.OnDeathEvent += deleteEntity;
+            item.OnTurnEndsEvent += TurnEnd;
             if (item.team == Entity.Teams.Blue)
             {
                 playerUnits.Add(item);

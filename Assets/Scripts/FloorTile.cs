@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine;
 public class FloorTile : MonoBehaviour
 {
-    public BoxCollider center;
+    public Transform center;
     [SerializeField]
     private int _cost;
     [SerializeField]
@@ -16,6 +16,8 @@ public class FloorTile : MonoBehaviour
     [SerializeField]
     Entity _ocupant;
     public bool _ocupied;
+    public delegate void TogleWalkeable();
+    public event TogleWalkeable OnTogleWalkeable;
     void deselect()
     {
         _ocupant = null;
@@ -55,26 +57,19 @@ public class FloorTile : MonoBehaviour
     }   
     private void OnEnable()
     {
-        _floorNode.OnMakeWalkeable += Walkeable;
         _floorNode.OnResetFloor += unselected;
         _floorNode.OnMakePath += selected;
         _floorNode.OnMakeGoal += goal;
-        _floorNode.onMakeAttackable += ocupied;
-        _floorNode.onIsOcupied += isCurrent;
     }
     private void OnDisable()
     {
-        _floorNode.OnMakeWalkeable -= Walkeable;
         _floorNode.OnResetFloor -= unselected;
         _floorNode.OnMakePath -= selected;
         _floorNode.OnMakeGoal -= goal;
-        _floorNode.onMakeAttackable -= ocupied;
-        _floorNode.onIsOcupied -= isCurrent;
-
     }
     void Awake()
     {
-        center = GetComponentInChildren<BoxCollider>();
+        center = GetComponentInChildren<Transform>();
         _floorNode = GetComponentInChildren<Floor>();
         Indicator = GetComponentInChildren<Button>();
     }  
@@ -82,7 +77,8 @@ public class FloorTile : MonoBehaviour
     {
         if (collision.gameObject.tag == "Entity")
         {
-            Ocupant = collision.collider.GetComponent<Entity>(); 
+            Ocupant = collision.collider.GetComponent<Entity>();
+            OnTogleWalkeable();
         }
     }
     private void OnCollisionExit(Collision collision)
@@ -91,7 +87,9 @@ public class FloorTile : MonoBehaviour
         {
             unselected();
             deselect();
-        }        
+            OnTogleWalkeable();
+            Debug.Log("sale");
+        }
     }
     public Floor FloorNode
     {
@@ -121,15 +119,9 @@ public class FloorTile : MonoBehaviour
         {
             case States.Current:
                 isCurrent();
-                break;
-            case States.Walkeable:
-                Walkeable();
-                break;
+                break;            
             case States.Ocupied:
                 goal();
-                break;
-            case States.Goal:
-                ocupied();
                 break;
             case States.Selected:
                 selected();
@@ -139,11 +131,7 @@ public class FloorTile : MonoBehaviour
                 break;
         }
     }
-    public void Walkeable()
-    {
-        Indicator.image.color = Color.green;
-        currentState = States.Walkeable;
-    }
+   
     public void isCurrent()
     {
         Indicator.image.color = Color.yellow;
@@ -154,12 +142,7 @@ public class FloorTile : MonoBehaviour
     {
         Indicator.image.color = Color.white;
         currentState = States.UnSelected;
-    }
-    public void ocupied()
-    {
-        Indicator.image.color = Color.red;
-        currentState = States.Ocupied;
-    }
+    }   
     public void goal()
     {
         Indicator.image.color = Color.magenta;

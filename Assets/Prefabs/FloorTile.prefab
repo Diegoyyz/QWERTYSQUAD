@@ -222,6 +222,8 @@ MonoBehaviour:
   _floorNode: {fileID: 0}
   Indicator: {fileID: 0}
   okButton: {fileID: 0}
+  _ocupant: {fileID: 0}
+  _ocupied: 0
 --- !u!65 &9062659447285618905
 BoxCollider:
   m_ObjectHideFlags: 0

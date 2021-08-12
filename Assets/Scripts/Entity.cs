@@ -44,17 +44,17 @@ public class Entity : MonoBehaviour
     protected Entity attackTarget;
     public bool isAttacking;
     public delegate void OnDeath(Entity body);
-    public event OnDeath onDeathEvent;
+    public event OnDeath OnDeathEvent;
     public delegate void OnTurnStarts();
-    public event OnTurnStarts onTurnStartsEvent;
+    public event OnTurnStarts OnTurnStartsEvent;
     public delegate void OnTurnEnds();
-    public event OnTurnEnds onTurnEndsEvent;
-
+    public event OnTurnEnds OnTurnEndsEvent;
+  
     private void Start()
     {
         _currentHP = _maxHP;
-        onTurnStartsEvent += () => { };
-        onTurnEndsEvent += () => { };
+        OnTurnStartsEvent += () => { };
+        OnTurnEndsEvent += () => { };
     }
     public virtual void TurnStart()
     {
@@ -158,7 +158,7 @@ public class Entity : MonoBehaviour
             anim.SetBool("isDead", true);
             isDead = true;
             CurrentNode.ResetFloor();
-            onDeathEvent(this);
+            OnDeathEvent(this);
             Destroy(this.gameObject, 1);
         }
     }
@@ -176,7 +176,7 @@ public class Entity : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
         if (ActionsLeft <= 0)
         {
-            onTurnEndsEvent();
+            OnTurnEndsEvent();
         }
         else changeState(1);
     }
@@ -286,8 +286,7 @@ public class Entity : MonoBehaviour
                 start = end;
                 if (ActionsLeft <= 0)
                 {
-                    Debug.Log("termina2");
-                    onTurnEndsEvent();
+                    OnTurnEndsEvent();
                 }
                 else if (ActionsLeft > 0)
                 {

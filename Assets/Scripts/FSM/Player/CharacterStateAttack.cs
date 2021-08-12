@@ -41,11 +41,7 @@ public class CharacterStateAttack : CharacterState
             if (!item.tile.IsOcupied)
             {
                 item.ResetFloor();
-            }
-            if (item.tile.IsOcupied)
-            {
-                item.ResetOcupied();
-            }
+            }            
         }
     }   
 }
