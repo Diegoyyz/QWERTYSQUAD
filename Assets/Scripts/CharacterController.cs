@@ -25,6 +25,11 @@ public class CharacterController : Entity
         changeState(1);
         controllerOn();
     }
+    public override void TurnEnds()
+    {
+        controllerOff();
+    }
+
     public override void SetState(CharacterState state)
     {
         if (currentState != null)

@@ -25,7 +25,6 @@ public class Floor : MonoBehaviour
     public event makeAttackable onMakeAttackable;
     public delegate void nullSelection();
     public event nullSelection onDeselect;
-
     public bool walkable;
     public Floor parent;
     [SerializeField]

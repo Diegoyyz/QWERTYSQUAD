@@ -33,7 +33,7 @@ public class EnemyMoveState : EnemyState
             FindPath(actor.CurrentNode, target);
         }
         var toSkip = actor.ActionsLeft - path.Count();
-        path.Remove(path.Last());
+        path.Remove(path.First());
         foreach (var item in path)
         {
             item.ResetFloor();

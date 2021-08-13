@@ -57,15 +57,19 @@ public class FloorTile : MonoBehaviour
     }   
     private void OnEnable()
     {
-        _floorNode.OnResetFloor += unselected;
-        _floorNode.OnMakePath += selected;
-        _floorNode.OnMakeGoal += goal;
+        _floorNode.OnResetFloor += Unselected;
+        _floorNode.OnMakePath += Selected;
+        _floorNode.OnMakeGoal += Goal;
+        _floorNode.onMakeAttackable += Attackable;
+
     }
     private void OnDisable()
     {
-        _floorNode.OnResetFloor -= unselected;
-        _floorNode.OnMakePath -= selected;
-        _floorNode.OnMakeGoal -= goal;
+        _floorNode.OnResetFloor -= Unselected;
+        _floorNode.OnMakePath -= Selected;
+        _floorNode.OnMakeGoal -= Goal;
+        _floorNode.onMakeAttackable -= Attackable;
+
     }
     void Awake()
     {
@@ -84,7 +88,7 @@ public class FloorTile : MonoBehaviour
     {
         if (collision.gameObject.tag == "Entity")
         {
-            unselected();
+            Unselected();
             deselect();
             OnTogleWalkeable();
         }
@@ -116,13 +120,13 @@ public class FloorTile : MonoBehaviour
         switch (currentState)
         {
             case States.Current:
-                isCurrent();
+                IsCurrent();
                 break;            
             case States.Ocupied:
-                goal();
+                Goal();
                 break;
             case States.Selected:
-                selected();
+                Selected();
                 break;
             case States.Idle:
                 Idle();
@@ -130,25 +134,29 @@ public class FloorTile : MonoBehaviour
         }
     }
    
-    public void isCurrent()
+    public void IsCurrent()
     {
         Indicator.image.color = Color.yellow;
         IsOcupied = true;
         currentState = States.Current;
         OnTogleWalkeable();
     }
-    public void unselected()
+    public void Attackable()
+    {
+        Indicator.image.color = Color.red;
+        currentState = States.Goal;
+    }
+    public void Unselected()
     {
         Indicator.image.color = Color.white;
-        OnTogleWalkeable();
         currentState = States.UnSelected;
     }   
-    public void goal()
+    public void Goal()
     {
         Indicator.image.color = Color.magenta;
         currentState = States.Ocupied;
     }
-    public void selected()
+    public void Selected()
     {
         Indicator.image.color = Color.blue;
         currentState = States.Selected;

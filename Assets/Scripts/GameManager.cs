@@ -126,12 +126,14 @@ public class GameManager : MonoBehaviour
     }
     public void TurnEnd()
     {
+        current.TurnEnds();
          TurnIndex++;
         orderedUnits = arrangeUnitsBySpeed();
         if (TurnIndex >orderedUnits.Count()-1)
         {
             TurnIndex = 0;
         }
+        
         selecUnit();
     }
 }

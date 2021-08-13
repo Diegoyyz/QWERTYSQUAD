@@ -60,6 +60,9 @@ public class Entity : MonoBehaviour
     {
         ActionsLeft = _maxActions;
     }
+    public virtual void TurnEnds()
+    {
+    }
     public List<Floor> GetAttackableNodes(Floor root, int Range)
     {
         List<Floor> neighbours = new List<Floor>();
@@ -194,7 +197,7 @@ public class Entity : MonoBehaviour
             if (_currentTile != null)
             {
                 CurrentNode = _currentTile._floorNode;
-                _currentTile.isCurrent();
+                _currentTile.IsCurrent();
             }
         }
     }
@@ -202,7 +205,7 @@ public class Entity : MonoBehaviour
     {
         if (collision.gameObject.tag == "Floor")
         {
-            _currentTile.unselected();
+            _currentTile.Unselected();
             _currentTile.IsOcupied = false;
         }
     }

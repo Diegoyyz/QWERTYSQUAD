@@ -123,7 +123,6 @@ public class CharacterStateMove : CharacterState
         int speedLeft = Speed;
         if (speedLeft < 1)        
             return;
-            Debug.Log("falopa");
             speedLeft--;
             foreach (var item in start.getNeighbours())
             {
