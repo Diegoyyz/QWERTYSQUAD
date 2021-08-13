@@ -78,7 +78,6 @@ public class FloorTile : MonoBehaviour
         if (collision.gameObject.tag == "Entity")
         {
             Ocupant = collision.collider.GetComponent<Entity>();
-            OnTogleWalkeable();
         }
     }
     private void OnCollisionExit(Collision collision)
@@ -88,7 +87,6 @@ public class FloorTile : MonoBehaviour
             unselected();
             deselect();
             OnTogleWalkeable();
-            Debug.Log("sale");
         }
     }
     public Floor FloorNode
@@ -137,10 +135,12 @@ public class FloorTile : MonoBehaviour
         Indicator.image.color = Color.yellow;
         IsOcupied = true;
         currentState = States.Current;
+        OnTogleWalkeable();
     }
     public void unselected()
     {
         Indicator.image.color = Color.white;
+        OnTogleWalkeable();
         currentState = States.UnSelected;
     }   
     public void goal()

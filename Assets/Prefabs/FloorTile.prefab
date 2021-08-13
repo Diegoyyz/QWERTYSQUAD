@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 9062659447371735634}
   - component: {fileID: 1481712839}
   m_Layer: 3
-  m_Name: FloorButton
+  m_Name: Button2
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -178,11 +178,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469b8c353ebb2cc41bdb374667a12e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 4
+  _speed: 6
   attackDmg: 15
   _currentHP: 0
   _maxHP: 20
-  _maxActions: 1
+  _maxActions: 4
   _actionsLeft: 5
   isDead: 0
   _currentNode: {fileID: 0}
