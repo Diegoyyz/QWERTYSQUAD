@@ -32,7 +32,7 @@ public class CharacterStateAttack : CharacterState
     public override void OnStateEnter()
     {
         actor.GetAttackableNodes(actor.CurrentNode, actor.AttackRange);
-        actor.controllerOff();
+        actor.ToggleController();
     }
     public override void OnStateExit()
     {

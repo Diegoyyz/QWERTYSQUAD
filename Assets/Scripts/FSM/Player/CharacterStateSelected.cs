@@ -16,10 +16,7 @@ public class CharacterStateSelected : CharacterState
     // Start is called before the first frame update
     public override void Tick()
     {
-        if (actor.ActionsLeft > 0 && !actor.onTheMoove)
-        {
-            actor.controllerOn();
-        }
+        
     }
     public override void OnStateExit()
     {

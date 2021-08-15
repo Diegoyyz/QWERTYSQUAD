@@ -16,18 +16,18 @@ public class CharacterController : Entity
     {
         toggleOkMove();
         toggleOkAttack();
-        controllerOff();        
+        ToggleController();
         SetState(new CharacterStateIdle(this));
     }
     public override void TurnStart()
     {
         base.TurnStart();
+        ToggleController();
         changeState(1);
-        controllerOn();
     }
     public override void TurnEnds()
     {
-        controllerOff();
+        ToggleController();
     }
 
     public override void SetState(CharacterState state)
@@ -69,23 +69,15 @@ public class CharacterController : Entity
     {
         base.MoveToTarget(path);      
     }
-    public void controllerOn()
+    public void ToggleController()
     {
         if (_canvas != null)
         {
-            controllerActive = true;
-            _canvas.SetActive(true);
+            controllerActive = !controllerActive;
+            _canvas.gameObject.SetActive(controllerActive);
         }
     }
-    public void controllerOff()
-    {
-        if (_canvas != null)
-        {
-            controllerActive = false;
-            _canvas.SetActive(false);
-        }
-    }
-    public void toggleOkMove()
+     public void toggleOkMove()
     {
         if (okMove != null)
         {

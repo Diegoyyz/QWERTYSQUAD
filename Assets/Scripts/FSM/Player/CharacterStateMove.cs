@@ -18,7 +18,7 @@ public class CharacterStateMove : CharacterState
     }
     public override void OnStateEnter()
     {        
-        actor.controllerOff();
+        actor.ToggleController();
         speedRested = false;
         Descendants(actor.CurrentNode,actor.ActionsLeft, GetTargetNode);       
     }
@@ -137,10 +137,8 @@ public class CharacterStateMove : CharacterState
                 item.GetComponent<EventTrigger>().triggers.Add(entry);
                 //add callback to selection
                 item.GetComponent<Button>().onClick.AddListener(delegate { getTargetCallback(item); });
-            }
-        
+            }       
     }  
-
     static int GetDistance(Floor nodeA, Floor nodeB)
     {
         if (nodeA!= null && nodeB != null)
