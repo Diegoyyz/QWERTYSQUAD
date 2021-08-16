@@ -19,10 +19,7 @@ public class EnemyMoveState : EnemyState
     }
     public override void Tick()
     {
-        if (actor.GetAttackableNodes(actor.CurrentNode, actor.AttackRange).Count > 0 && actor.ActionsLeft > 0)
-        {
-            actor.changeState(3);
-        }        
+       
     }
     public override void OnStateEnter()
     {
