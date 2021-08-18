@@ -10,24 +10,24 @@ public class CharacterStateMove : CharacterState
 {
     List<Floor> path;
     List<Floor> WalkeableNodes = new List<Floor>();
-    
-    bool speedRested;
-    public CharacterStateMove( CharacterController character)
+    int currentWaypoint;
+    float rotSpeed;
+    float speed = 5;
+    float wpRadius = 0.1f;
+    public CharacterStateMove(CharacterController character)
     {
-        actor = character;        
+        actor = character;
     }
     public override void OnStateEnter()
-    {        
+    {
         actor.ToggleController();
-        speedRested = false;
-        Descendants(actor.CurrentNode,actor.ActionsLeft, GetTargetNode);       
+        currentWaypoint = 0;
+        Descendants(actor.CurrentNode, actor.ActionsLeft, GetTargetNode);
+
     }
     public override void OnStateExit()
     {
-        if (path != null)
-        {
-            actor.MoveToTarget(path);
-        }
+        actor.anim.SetBool("Walk Forward", false);
         foreach (var item in WalkeableNodes)
         {
             if (!item.tile.IsOcupied)
@@ -37,12 +37,36 @@ public class CharacterStateMove : CharacterState
         }
     }
     public override void Tick()
-    {       
-        if (actor.CurrentNode != actor.TargetNode)
+    {
+        if (path != null)
         {
-            FindPath(actor.CurrentNode,actor.TargetNode);  
-        }      
-    }   
+            actor.anim.SetBool("Walk Forward", true);
+            if (Vector3.Distance(actor.transform.position, path[currentWaypoint].transform.position) < wpRadius)           
+                currentWaypoint++;
+            if (currentWaypoint>path.Count()-1)
+            {
+                if (actor.ActionsLeft>0)
+                {
+                    actor.changeState(1);
+                }
+                else
+                {
+                    actor.TurnEnds();
+                }
+            }  else
+            {
+                var moveto = new Vector3(path[currentWaypoint].tile.center.transform.position.x,
+                                            path[currentWaypoint].tile.center.transform.position.y+1.904536f,
+                                             path[currentWaypoint].tile.center.transform.position.z);
+                actor.transform.position = Vector3.MoveTowards(actor.transform.position,
+                    moveto, Time.deltaTime * speed);
+            }
+        }
+        else
+        {
+            FindPath(actor.CurrentNode, actor.TargetNode);
+        }
+    }
     private void RetracePath(Floor startNode, Floor endNode)
     {
         List<Floor> rPath = new List<Floor>();
@@ -70,7 +94,7 @@ public class CharacterStateMove : CharacterState
         endNode.MakeFloorGoal();
         actor.okMove.transform.position = new Vector3(endNode.transform.position.x, actor.okMove.transform.position.y, endNode.transform.position.z);
         actor.okMove.gameObject.SetActive(true);
-        rPath.Reverse();       
+        rPath.Reverse();
         path = rPath;
     }
     void FindPath(Floor start, Floor target)
@@ -88,14 +112,14 @@ public class CharacterStateMove : CharacterState
                 if (openSet[i].fCost < node.fCost || openSet[i].fCost == node.fCost)
                 {
                     if (openSet[i].hCost < node.hCost)
-                        node = openSet[i]; 
+                        node = openSet[i];
                 }
             }
             openSet.Remove(node);
             closedSet.Add(node);
             if (node == targetNode)
             {
-                RetracePath(startNode, targetNode);               
+                RetracePath(startNode, targetNode);
                 return;
             }
             foreach (Floor item in node.getNeighbours())
@@ -110,9 +134,9 @@ public class CharacterStateMove : CharacterState
                     item.gCost = newCostToNeighbour;
                     item.hCost = GetDistance(item, targetNode);
                     item.parent = node;
-                    if (!openSet.Contains(item)&& !item.tile.IsOcupied)
+                    if (!openSet.Contains(item) && !item.tile.IsOcupied)
                         openSet.Add(item);
-                }               
+                }
             }
         }
     }
@@ -121,38 +145,38 @@ public class CharacterStateMove : CharacterState
         WalkeableNodes.Add(root);
         var start = root;
         int speedLeft = Speed;
-        if (speedLeft < 1)        
+        if (speedLeft < 1)
             return;
-            speedLeft--;
-            foreach (var item in start.getNeighbours())
+        speedLeft--;
+        foreach (var item in start.getNeighbours())
+        {
+            Descendants(item, speedLeft, getTargetCallback);
+            if (!item.tile.IsOcupied)
             {
-                Descendants(item,speedLeft, getTargetCallback);
-                if (!item.tile.IsOcupied)
-                {
-                    item.MakeFloorPath();
-                }
-                //start pathfinding on button sellect
-                EventTrigger.Entry entry = new EventTrigger.Entry();
-                entry.eventID = EventTriggerType.PointerEnter;
-                item.GetComponent<EventTrigger>().triggers.Add(entry);
-                //add callback to selection
-                item.GetComponent<Button>().onClick.AddListener(delegate { getTargetCallback(item); });
-            }       
-    }  
+                item.MakeFloorPath();
+            }
+            //start pathfinding on button sellect
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerEnter;
+            item.GetComponent<EventTrigger>().triggers.Add(entry);
+            //add callback to selection
+            item.GetComponent<Button>().onClick.AddListener(delegate { getTargetCallback(item); });
+        }
+    }
     static int GetDistance(Floor nodeA, Floor nodeB)
     {
-        if (nodeA!= null && nodeB != null)
-        {       
-        int dstX = (int)Mathf.Abs(nodeA.transform.position.x - nodeB.transform.position.x);
-        int dstY = (int)Mathf.Abs(nodeA.transform.position.x - nodeA.transform.position.y);
-        if (dstX > dstY)
-            return 14 * dstY + 10 * (dstX - dstY);
-        return 14 * dstX + 10 * (dstY - dstX);
+        if (nodeA != null && nodeB != null)
+        {
+            int dstX = (int)Mathf.Abs(nodeA.transform.position.x - nodeB.transform.position.x);
+            int dstY = (int)Mathf.Abs(nodeA.transform.position.x - nodeA.transform.position.y);
+            if (dstX > dstY)
+                return 14 * dstY + 10 * (dstX - dstY);
+            return 14 * dstX + 10 * (dstY - dstX);
         }
         return 0;
     }
     void GetTargetNode(Floor target)
     {
         actor.TargetNode = target;
-    }   
+    }
 }

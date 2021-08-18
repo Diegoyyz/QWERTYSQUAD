@@ -20,10 +20,11 @@ public class CharacterStateSelected : CharacterState
     }
     public override void OnStateExit()
     {
+       actor.ToggleController();
 
     }
     public override void OnStateEnter()
     {
-        
+        actor.ToggleController();
     }
 }

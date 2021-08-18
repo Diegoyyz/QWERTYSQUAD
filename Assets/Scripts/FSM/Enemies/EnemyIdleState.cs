@@ -11,16 +11,11 @@ public class EnemyIdleState : EnemyState
     }
     public override void Tick()
     {
-        if (actor.CurrentNode.getNeighbours().Where(x =>
-                                  x.tile.IsOcupied &&
-                                  x.tile.Ocupant.team != actor.team).Count() > 0)
-        {
-            actor.changeState(3);
-        }
     }
     public override void OnStateEnter()
     {
-        
+        base.OnStateEnter();
+        actor.ResetStats();
     }
     public override void OnStateExit()
     {

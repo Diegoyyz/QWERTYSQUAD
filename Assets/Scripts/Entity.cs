@@ -49,8 +49,8 @@ public class Entity : MonoBehaviour
     public event OnTurnStarts OnTurnStartsEvent;
     public delegate void OnTurnEnds();
     public event OnTurnEnds OnTurnEndsEvent;
-  
-    private void Start()
+    public List<Floor> path;
+    private void Start() 
     {
         _currentHP = _maxHP;
         OnTurnStartsEvent += () => { };
@@ -59,6 +59,7 @@ public class Entity : MonoBehaviour
     public virtual void TurnStart()
     {
         ActionsLeft = _maxActions;
+        changeState(1);
     }
     public virtual void TurnEnds()
     {
@@ -139,10 +140,10 @@ public class Entity : MonoBehaviour
             };
         }
     }
-    public virtual void MoveToTarget(List<Floor> path)
+    public virtual void MoveToTarget()
     {
         anim.SetBool("Walk Forward", true);
-        StartCoroutine(moveTo(transform, path));
+        StartCoroutine(moveTo());
     }
     public virtual void Attack()
     {
@@ -217,7 +218,7 @@ public class Entity : MonoBehaviour
     {
         if (currentState != null)
         {
-            currentState.Tick();
+            currentState.Tick();            
         }
     }
     public float HealtPorcentage()
@@ -260,25 +261,25 @@ public class Entity : MonoBehaviour
             };
         }
     }
-    private IEnumerator moveTo(Transform transform, List<Floor> vectors)
+    private IEnumerator moveTo()
     {
         onTheMoove = true;
-        if (vectors.Count == 0)
+        if (path.Count == 0)
             yield break;
-        Vector3 start = new Vector3(vectors[0].transform.position.x,
+        Vector3 start = new Vector3(path[0].transform.position.x,
                                     transform.position.y,
-                                    vectors[0].transform.position.z);
-        for (int i = 1; i < vectors.Count; i++)
+                                    path[0].transform.position.z);
+        for (int i = 1; i < path.Count; i++)
         {
             if (ActionsLeft > 0)
             {
-                Vector3 end = new Vector3(vectors[i].transform.position.x,
+                Vector3 end = new Vector3(path[i].transform.position.x,
                                         transform.position.y,
-                                        vectors[i].transform.position.z);
+                                        path[i].transform.position.z);
                 float t = 0f;
-                body.transform.LookAt(new Vector3(vectors[i].transform.position.x,
+                body.transform.LookAt(new Vector3(path[i].transform.position.x,
                                         transform.position.y,
-                                        vectors[i].transform.position.z));
+                                        path[i].transform.position.z));
                 while (t < 1f)
                 {
                     t += Time.deltaTime;
@@ -286,15 +287,7 @@ public class Entity : MonoBehaviour
                     yield return null;
                 }
                 ActionsLeft--;                
-                start = end;
-                if (ActionsLeft <= 0)
-                {
-                    OnTurnEndsEvent();
-                }
-                else if (ActionsLeft > 0)
-                {
-                    changeState(1);
-                }
+                start = end;               
             }
         }
         anim.SetBool("Walk Forward", false);

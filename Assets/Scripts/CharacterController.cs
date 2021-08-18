@@ -18,18 +18,7 @@ public class CharacterController : Entity
         toggleOkAttack();
         ToggleController();
         SetState(new CharacterStateIdle(this));
-    }
-    public override void TurnStart()
-    {
-        base.TurnStart();
-        ToggleController();
-        changeState(1);
-    }
-    public override void TurnEnds()
-    {
-        ToggleController();
-    }
-
+    }  
     public override void SetState(CharacterState state)
     {
         if (currentState != null)
@@ -65,9 +54,9 @@ public class CharacterController : Entity
                 break;  
         }
     }
-    public override void MoveToTarget(List<Floor> path)
+    public override void MoveToTarget()
     {
-        base.MoveToTarget(path);      
+        MoveToTarget();    
     }
     public void ToggleController()
     {

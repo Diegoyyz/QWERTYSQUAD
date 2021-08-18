@@ -11,12 +11,10 @@ public class EnemySelectedState : EnemyState
     public override void OnStateEnter()
     {
         base.OnStateEnter();
+        actor.ResetStats();
     }
     public override void Tick()
     {
-        if (true)
-        {
-            actor.changeState(0);
-        }
+       
     }
 }

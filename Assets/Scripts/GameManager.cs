@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
         {
             TurnIndex = 0;
         }
-        
+        current.changeState(0);
         selecUnit();
     }
 }

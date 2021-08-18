@@ -15,12 +15,7 @@ public class EnemyController : Entity
         {
             currentState.OnStateEnter();
         }
-    }
-    public override void TurnStart()
-    {
-        base.TurnStart();
-        changeState(2);
-    }
+    }   
     public override void Attack()
     {
         isAttacking = true;
