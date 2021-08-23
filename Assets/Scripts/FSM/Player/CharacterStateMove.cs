@@ -9,21 +9,14 @@ using UnityEngine;
 public class CharacterStateMove : CharacterState
 {
     List<Floor> path;
-    List<Floor> WalkeableNodes = new List<Floor>();
-    int currentWaypoint;
-    float rotSpeed;
-    float speed = 5;
-    float wpRadius = 0.1f;
+    List<Floor> WalkeableNodes = new List<Floor>();   
     public CharacterStateMove(CharacterController character)
     {
         actor = character;
     }
     public override void OnStateEnter()
     {
-        actor.ToggleController();
-        currentWaypoint = 0;
         Descendants(actor.CurrentNode, actor.ActionsLeft, GetTargetNode);
-
     }
     public override void OnStateExit()
     {
@@ -38,33 +31,24 @@ public class CharacterStateMove : CharacterState
     }
     public override void Tick()
     {
-        if (path != null)
+        if (path != null&& !actor.onTheMoove)
         {
-            actor.anim.SetBool("Walk Forward", true);
-            if (Vector3.Distance(actor.transform.position, path[currentWaypoint].transform.position) < wpRadius)           
-                currentWaypoint++;
-            if (currentWaypoint>path.Count()-1)
-            {
-                if (actor.ActionsLeft>0)
-                {
-                    actor.changeState(1);
-                }
-                else
-                {
-                    actor.TurnEnds();
-                }
-            }  else
-            {
-                var moveto = new Vector3(path[currentWaypoint].tile.center.transform.position.x,
-                                            path[currentWaypoint].tile.center.transform.position.y+1.904536f,
-                                             path[currentWaypoint].tile.center.transform.position.z);
-                actor.transform.position = Vector3.MoveTowards(actor.transform.position,
-                    moveto, Time.deltaTime * speed);
-            }
+            actor.MoveToTargetNode(path);
         }
         else
         {
             FindPath(actor.CurrentNode, actor.TargetNode);
+        }
+        if (actor.onTheMoove&&actor.CurrentNode==actor.TargetNode)
+        {
+            if (actor.ActionsLeft>0)
+            {
+                actor.changeState(1);
+            }
+            else if (actor.ActionsLeft <= 0)
+            {
+                actor.changeState(0);
+            }
         }
     }
     private void RetracePath(Floor startNode, Floor endNode)
@@ -91,9 +75,7 @@ public class CharacterStateMove : CharacterState
             }
         }
         rPath.Add(actor.CurrentNode);
-        endNode.MakeFloorGoal();
-        actor.okMove.transform.position = new Vector3(endNode.transform.position.x, actor.okMove.transform.position.y, endNode.transform.position.z);
-        actor.okMove.gameObject.SetActive(true);
+        endNode.MakeFloorGoal();       
         rPath.Reverse();
         path = rPath;
     }

@@ -11,6 +11,7 @@ public class CharacterStateIdle : CharacterState
     }
     public override void OnStateEnter()
     {
+        actor.TurnEnds();
         base.OnStateEnter();
         actor.ResetStats();
     }

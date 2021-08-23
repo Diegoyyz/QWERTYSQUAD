@@ -7,14 +7,11 @@ using System.Collections.Generic;
 public class CharacterController : Entity
 {
     [SerializeField]
-    protected GameObject _canvas;   
-    public Button okMove;
-    protected bool okMoveActive = true;
+    protected GameObject _canvas;     
     public Button okAttack;
     protected bool okAttackActive = true;
      void OnEnable()
     {
-        toggleOkMove();
         toggleOkAttack();
         ToggleController();
         SetState(new CharacterStateIdle(this));
@@ -54,9 +51,11 @@ public class CharacterController : Entity
                 break;  
         }
     }
-    public override void MoveToTarget()
+    public void MoveToTargetNode(List<Floor> path)
     {
-        MoveToTarget();    
+        this.path = path;
+        anim.SetBool("Walk Forward", true);
+        StartCoroutine(moveTo());       
     }
     public void ToggleController()
     {
@@ -64,14 +63,6 @@ public class CharacterController : Entity
         {
             controllerActive = !controllerActive;
             _canvas.gameObject.SetActive(controllerActive);
-        }
-    }
-     public void toggleOkMove()
-    {
-        if (okMove != null)
-        {
-            okMoveActive = !okMoveActive;
-            okMove.gameObject.SetActive(okMoveActive);
         }
     }
     public void toggleOkAttack()

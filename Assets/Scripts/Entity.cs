@@ -140,7 +140,7 @@ public class Entity : MonoBehaviour
             };
         }
     }
-    public virtual void MoveToTarget()
+    public virtual void MoveToTargetNode()
     {
         anim.SetBool("Walk Forward", true);
         StartCoroutine(moveTo());
@@ -261,7 +261,7 @@ public class Entity : MonoBehaviour
             };
         }
     }
-    private IEnumerator moveTo()
+    protected IEnumerator moveTo()
     {
         onTheMoove = true;
         if (path.Count == 0)
@@ -290,7 +290,7 @@ public class Entity : MonoBehaviour
                 start = end;               
             }
         }
-        anim.SetBool("Walk Forward", false);
+        anim.SetBool("Walk Forward", false);      
         onTheMoove = false;
     }
 }

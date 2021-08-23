@@ -36,7 +36,7 @@ public class EnemyMoveState : EnemyState
             item.ResetFloor();
         }
         actor.path = path;
-        actor.MoveToTarget();
+        actor.MoveToTargetNode();
     }
     private void RetracePath(Floor startNode, Floor endNode)
     {
