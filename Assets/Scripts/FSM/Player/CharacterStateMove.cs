@@ -20,7 +20,6 @@ public class CharacterStateMove : CharacterState
     }
     public override void OnStateExit()
     {
-        actor.anim.SetBool("Walk Forward", false);
         foreach (var item in WalkeableNodes)
         {
             if (!item.tile.IsOcupied)
@@ -33,14 +32,16 @@ public class CharacterStateMove : CharacterState
     {
         if (path != null&& !actor.onTheMoove)
         {
+            actor.anim.SetBool("Walk Forward", false);
             actor.MoveToTargetNode(path);
         }
         else
         {
             FindPath(actor.CurrentNode, actor.TargetNode);
         }
-        if (actor.onTheMoove&&actor.CurrentNode==actor.TargetNode)
+        if (!actor.onTheMoove&&actor.CurrentNode==actor.TargetNode)
         {
+            actor.anim.SetBool("Walk Forward", false);
             if (actor.ActionsLeft>0)
             {
                 actor.changeState(1);
@@ -50,6 +51,7 @@ public class CharacterStateMove : CharacterState
                 actor.changeState(0);
             }
         }
+       
     }
     private void RetracePath(Floor startNode, Floor endNode)
     {

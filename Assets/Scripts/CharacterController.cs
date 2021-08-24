@@ -55,7 +55,7 @@ public class CharacterController : Entity
     {
         this.path = path;
         anim.SetBool("Walk Forward", true);
-        StartCoroutine(moveTo());       
+        StartCoroutine(MoveTo());       
     }
     public void ToggleController()
     {

@@ -143,7 +143,7 @@ public class Entity : MonoBehaviour
     public virtual void MoveToTargetNode()
     {
         anim.SetBool("Walk Forward", true);
-        StartCoroutine(moveTo());
+        StartCoroutine(MoveTo());
     }
     public virtual void Attack()
     {
@@ -261,7 +261,7 @@ public class Entity : MonoBehaviour
             };
         }
     }
-    protected IEnumerator moveTo()
+    protected IEnumerator MoveTo()
     {
         onTheMoove = true;
         if (path.Count == 0)
@@ -290,7 +290,6 @@ public class Entity : MonoBehaviour
                 start = end;               
             }
         }
-        anim.SetBool("Walk Forward", false);      
         onTheMoove = false;
     }
 }
