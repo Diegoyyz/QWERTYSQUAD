@@ -9,7 +9,7 @@ using UnityEngine;
 public class CharacterStateMove : CharacterState
 {
     List<Floor> path;
-    List<Floor> WalkeableNodes = new List<Floor>();   
+    private List<Floor> WalkeableNodes = new List<Floor>();
     public CharacterStateMove(CharacterController character)
     {
         actor = character;
@@ -22,15 +22,12 @@ public class CharacterStateMove : CharacterState
     {
         foreach (var item in WalkeableNodes)
         {
-            if (!item.tile.IsOcupied)
-            {
-                item.ResetFloor();
-            }
+            item.ResetFloor();
         }
     }
     public override void Tick()
     {
-        if (path != null&& !actor.onTheMoove)
+        if (path != null && !actor.onTheMoove)
         {
             actor.anim.SetBool("Walk Forward", false);
             actor.MoveToTargetNode(path);
@@ -39,10 +36,10 @@ public class CharacterStateMove : CharacterState
         {
             FindPath(actor.CurrentNode, actor.TargetNode);
         }
-        if (!actor.onTheMoove&&actor.CurrentNode==actor.TargetNode)
+        if (!actor.onTheMoove && actor.CurrentNode == actor.TargetNode)
         {
             actor.anim.SetBool("Walk Forward", false);
-            if (actor.ActionsLeft>0)
+            if (actor.ActionsLeft > 0)
             {
                 actor.changeState(1);
             }
@@ -51,7 +48,7 @@ public class CharacterStateMove : CharacterState
                 actor.changeState(0);
             }
         }
-       
+
     }
     private void RetracePath(Floor startNode, Floor endNode)
     {
@@ -63,7 +60,7 @@ public class CharacterStateMove : CharacterState
             {
                 if (!item.tile.IsOcupied)
                 {
-                    item.MakeFloorPath();
+                    item.MakeFloorWalkeable();
                 }
             }
         }
@@ -77,7 +74,6 @@ public class CharacterStateMove : CharacterState
             }
         }
         rPath.Add(actor.CurrentNode);
-        endNode.MakeFloorGoal();       
         rPath.Reverse();
         path = rPath;
     }
@@ -137,7 +133,7 @@ public class CharacterStateMove : CharacterState
             Descendants(item, speedLeft, getTargetCallback);
             if (!item.tile.IsOcupied)
             {
-                item.MakeFloorPath();
+                item.MakeFloorWalkeable();
             }
             //start pathfinding on button sellect
             EventTrigger.Entry entry = new EventTrigger.Entry();

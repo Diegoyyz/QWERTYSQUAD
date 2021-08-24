@@ -46,7 +46,7 @@ public class EnemyMoveState : EnemyState
         {
             foreach (var item in path)
             {
-                item.MakeFloorPath();
+                item.MakeFloorWalkeable();
             }
         }
         while (currentNode != startNode)

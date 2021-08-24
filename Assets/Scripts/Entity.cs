@@ -198,7 +198,7 @@ public class Entity : MonoBehaviour
             if (_currentTile != null)
             {
                 CurrentNode = _currentTile._floorNode;
-                _currentTile.IsCurrent();
+                _currentTile.Ocupied();
             }
         }
     }
@@ -206,7 +206,7 @@ public class Entity : MonoBehaviour
     {
         if (collision.gameObject.tag == "Floor")
         {
-            _currentTile.Unselected();
+            _currentTile.Empty();
             _currentTile.IsOcupied = false;
         }
     }

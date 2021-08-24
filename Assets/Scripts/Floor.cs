@@ -13,18 +13,13 @@ public class Floor : MonoBehaviour
     private float distance;
     public delegate void makeWalkeable();
     public event makeWalkeable OnMakeWalkeable;
+    public delegate void makeOcupied();
+    public event makeWalkeable OnMakeOcupied;
     public delegate void makeUnWalkeable();
     public event makeWalkeable OnMakeUnWalkeable;
-    public delegate void resetFloor();
-    public event makeGoal OnMakeGoal;
-    public delegate void makeGoal();
-    public event resetFloor OnResetFloor;
-    public delegate void makePAth();
-    public event makeWalkeable OnMakePath;
     public delegate void makeAttackable();
     public event makeAttackable onMakeAttackable;
-    public delegate void nullSelection();
-    public event nullSelection onDeselect;
+
     public bool walkable;
     public Floor parent;
     [SerializeField]
@@ -67,25 +62,18 @@ public class Floor : MonoBehaviour
     }
     public void ResetFloor()
     {
-        OnResetFloor();
         tile.IsOcupied = false;
-    }    
-    public void MakeFloorGoal()
-    {
-        OnMakeGoal();
     }
     public void MakeFloorWalkeable()
     {
         walkable = true;
+        OnMakeWalkeable();
     }
     public void MakeFloorUnWalkeable()
     {
         OnMakeUnWalkeable();      
     }
-    public void MakeFloorPath()
-    {
-        OnMakePath();
-    }
+
     public List<Floor> getNeighbours()
     {
         return neighbours;

@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   center: {fileID: 0}
   _cost: 1
-  currentState: 0
+  currentState: 1
   _floorNode: {fileID: 0}
   Indicator: {fileID: 0}
   okButton: {fileID: 0}
